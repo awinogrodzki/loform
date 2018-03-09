@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@loform/react@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@loform/react/-/react-0.0.2.tgz#4949c50d49c2fed0af044100da705af232ae6753"
+  dependencies:
+    classnames "^2.2.5"
+    lodash-es "^4.17.4"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+
 "@storybook/addon-actions@^3.3.0-alpha.1", "@storybook/addon-actions@^3.3.15":
   version "3.3.15"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.3.15.tgz#2831e52947dc258208dd17804b479f7acc62d859"

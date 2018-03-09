@@ -1,6 +1,6 @@
 {
   "name": "@loform/react",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "loform is light, easy to use and extendable form validation library written in TypeScript.",
   "main": "dist/index.js",
   "scripts": {
@@ -17,6 +17,7 @@
   "author": "Amadeusz Winogrodzki <amadeusz.winogrodzki@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@loform/react": "^0.0.2",
     "classnames": "^2.2.5",
     "lodash-es": "^4.17.4",
     "react": "^16.2.0",
@@ -99,5 +100,5 @@
   "pre-commit": [
     "lint",
     "test"
-  ]
+  ]-
 }
