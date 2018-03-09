@@ -162,14 +162,14 @@ class FormInput extends React.Component<FormInputProps> {
       </div>
     );
   }
-};
+}
 
 export const FormInputDecorator = function <T>(
-  Component: React.ComponentClass<T> | React.StatelessComponent<T>
+  Component: React.ComponentClass<T> | React.StatelessComponent<T>,
 ) {
   return (props: FormInputInterface & T) => (
     <FormInput {...props}>
-      {(inputProps) => <Component {...inputProps} />}
+      {inputProps => <Component {...inputProps} />}
     </FormInput>
   );
 };

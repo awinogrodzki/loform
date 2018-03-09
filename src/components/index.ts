@@ -3,5 +3,5 @@ export { default as Label } from './Label';
 export {
   default as FormInput,
   FormInputDecorator,
-} from './FormInput'
+} from './FormInput';
 export * from './inputs';
