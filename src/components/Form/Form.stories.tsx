@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Form from './Form';
 import {
   TextInput,
   PasswordInput,
   SelectInput,
   RadioInput,
   Label,
-} from 'components';
+  Form,
+} from '@loform/react';
 import { TextInput as InputWithoutHOC } from 'components/inputs/TextInput';
 
 class Toggle extends React.Component {

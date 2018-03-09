@@ -2,10 +2,11 @@
 # yarn lockfile v1
 
 
-"@loform/react@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@loform/react/-/react-0.0.2.tgz#4949c50d49c2fed0af044100da705af232ae6753"
+"@loform/react@^0.0.2", "@loform/react@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@loform/react/-/react-0.1.1.tgz#e568978e1fa7d34034da80aa1dc804e56458d99b"
   dependencies:
+    "@loform/react" "^0.0.2"
     classnames "^2.2.5"
     lodash-es "^4.17.4"
     react "^16.2.0"
