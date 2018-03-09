@@ -8,7 +8,7 @@ import {
   RadioInput,
   Label,
   Form,
-} from '@loform/react';
+} from 'components';
 import { TextInput as InputWithoutHOC } from 'components/inputs/TextInput';
 
 class Toggle extends React.Component {
