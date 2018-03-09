@@ -9,18 +9,18 @@
     "build": "NODE_ENV=production webpack --bail --config webpack.config.js --progress",
     "lint": "tslint -c tslint.json --exclude 'src/translations/*' 'src/**/*.ts?(x)'",
     "lint:fix": "tslint -c tslint.json --fix --exclude 'src/translations/*'  'src/**/*.ts?(x)'",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:watch:coverage": "jest --watch --coverage",
+    "test": "jest ./src",
+    "test:watch": "jest ./src --watch",
+    "test:watch:coverage": "jest ./src --watch --coverage",
     "release": "standard-version",
     "storybook": "start-storybook -p 6006"
   },
   "author": "Amadeusz Winogrodzki <amadeusz.winogrodzki@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@loform/react": "^0.1.1",
+    "@types/lodash": "^4.14.104",
     "classnames": "^2.2.5",
-    "lodash-es": "^4.17.4",
+    "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
@@ -30,7 +30,6 @@
     "@types/classnames": "^2.2.2",
     "@types/enzyme": "^3.1.4",
     "@types/jest": "^21.1.1",
-    "@types/lodash-es": "^4.17.0",
     "@types/node": "^9.4.7",
     "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3",
@@ -82,20 +81,18 @@
       "/node_modules/"
     ],
     "transform": {
-      "^.+\\.(j|t)sx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
     "mapCoverage": true,
     "moduleFileExtensions": [
       "ts",
       "tsx",
+      "js",
       "json"
     ],
     "setupFiles": [
       "<rootDir>/test/setup.ts"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!lodash-es/.*)"
     ]
   },
   "pre-commit": [
