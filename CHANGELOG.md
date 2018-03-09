@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/awinogrodzki/loform/compare/v0.1.1...v0.1.2) (2018-03-09)
+
+
+### Bug Fixes
+
+* typescript definition files ([dd1a7a2](https://github.com/awinogrodzki/loform/commit/dd1a7a2))
+
+
+
 <a name="0.1.1"></a>
 ## 0.1.1 (2018-03-09)
 
