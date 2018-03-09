@@ -29,6 +29,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Props
   * id: string
   * name: string
+  * value?: string
   * placeholder?: string
   * className?: string
   * onChange?: (value: string) => any
@@ -41,6 +42,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Props
   * id: string
   * name: string
+  * value?: string
   * placeholder?: string
   * className?: string
   * onChange?: (value: string) => any
@@ -53,6 +55,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Props
   * id: string
   * name: string
+  * value?: string
   * className?: string
   * onChange?: (value: string) => any
   * label?: string
@@ -64,6 +67,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Props
   * id: string
   * name: string
+  * value?: string
   * options?: [Option](#option)[]
   * className?: string
   * onChange?: (value: string) => any
@@ -76,6 +80,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Props
   * id: string
   * name: string
+  * value?: string
   * options?: [Option](#option)[]
   * className?: string
   * onChange?: (value: string) => any
@@ -158,9 +163,50 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ### Examples
 
   #### Basic form (JavaScript)
-  ```
+  ```javascript
   import React from 'react';
-  import
+  import {
+    Form,
+    TextInput,
+    PasswordInput,
+    emailValidator,
+  } from '@loform/react';
+
+  const LoginForm = () => (
+    <Form
+      className="form"
+      onSubmit={values => console.log(values)}
+    >
+      {({
+        inputProps,
+        submit,
+      }) => (
+        <>
+          <TextInput
+            {...inputProps}
+            className="emailInput"
+            id="email"
+            name="email"
+            value="example@email.com"
+            placeholder="Enter email address"
+            validators={[
+              emailValidator('Value is not a valid email address'),
+            ]}
+            required
+            requiredMessage="Email is required."
+          />
+          <PasswordInput
+            {...inputProps}
+            id="password"
+            name="password"
+            required
+            requiredMessage="Password is required."
+          />
+          <button onClick={() => submit()}>Submit form</button>
+        </>
+      )}
+    </Form>
+  );
   ```
 
 
