@@ -10,6 +10,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: '[name].js',
+    libraryTarget: 'umd',
   },
   devtool: 'source-map',
   externals: [nodeExternals()],
