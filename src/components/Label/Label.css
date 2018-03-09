@@ -1,0 +1,26 @@
+.container {
+    display: block;
+    font-size: 14px;
+    color: rgb(53, 53, 53);
+    padding: 0 5px;
+
+    @media only screen and (max-width: 720px) {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    @media only screen and (min-width: 721px) {
+        width: 33%;
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    &.isRequired {
+        &::after {
+            display: inline-block;
+            margin-left: 4px;
+            content: '*';
+            color: rgb(255, 40, 106);
+        }
+    }
+}

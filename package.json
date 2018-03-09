@@ -1,0 +1,103 @@
+{
+  "name": "@loform/react",
+  "version": "0.0.2",
+  "description": "loform is light, easy to use and extendable form validation library written in TypeScript.",
+  "main": "dist/index.js",
+  "scripts": {
+    "stats": "NODE_ENV=production webpack --bail --config webpack.config.js --json > stats.json",
+    "build": "NODE_ENV=production webpack --bail --config webpack.config.js --progress",
+    "lint": "tslint -c tslint.json --exclude 'src/translations/*' 'src/**/*.ts?(x)'",
+    "lint:fix": "tslint -c tslint.json --fix --exclude 'src/translations/*'  'src/**/*.ts?(x)'",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:watch:coverage": "jest --watch --coverage",
+    "release": "standard-version",
+    "storybook": "start-storybook -p 6006"
+  },
+  "author": "Amadeusz Winogrodzki <amadeusz.winogrodzki@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "lodash-es": "^4.17.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.3.0-alpha.1",
+    "@storybook/react": "^3.3.0-alpha.1",
+    "@types/classnames": "^2.2.2",
+    "@types/enzyme": "^3.1.4",
+    "@types/jest": "^21.1.1",
+    "@types/lodash-es": "^4.17.0",
+    "@types/node": "^9.4.7",
+    "@types/react": "^16.0.31",
+    "@types/react-dom": "^16.0.3",
+    "@types/storybook__addon-actions": "^3.0.1",
+    "@types/storybook__react": "^3.0.3",
+    "css-loader": "^0.28.4",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.0.0",
+    "file-loader": "^1.1.5",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^11.0.0",
+    "postcss-loader": "^2.0.6",
+    "pre-commit": "^1.2.2",
+    "react-test-renderer": "^16.0.0",
+    "source-map-loader": "^0.2.1",
+    "standard-version": "^4.2.0",
+    "style-loader": "^0.19.0",
+    "ts-jest": "^21.1.2",
+    "ts-loader": "^3.3.0",
+    "tslint": "^5.6.0",
+    "tslint-config-airbnb": "^5.2.1",
+    "tslint-react": "^3.2.0",
+    "typescript": "^2.6.2",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.6.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "engines": {
+    "node": ">=8.1.0",
+    "npm": ">=5.2.0"
+  },
+  "jest": {
+    "modulePaths": [
+      "node_modules",
+      "src"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/mocks/fileMock.ts",
+      "\\.css$": "identity-obj-proxy"
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transform": {
+      "^.+\\.(j|t)sx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+    "mapCoverage": true,
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "json"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/setup.ts"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!lodash-es/.*)"
+    ]
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
+}

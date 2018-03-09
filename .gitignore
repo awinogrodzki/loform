@@ -1,0 +1,9 @@
+node_modules
+coverage
+jest
+.DS_Store
+.idea
+npm-debug.log
+yarn-error.log
+dist
+stats.json
