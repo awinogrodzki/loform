@@ -230,7 +230,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   );
   ```
 
-  ### Custom input
+  #### Custom input
   ```javascript
   import React from 'react';
   import { FormInputDecorator } from '@loform/react';
