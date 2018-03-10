@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
   entry: {
@@ -30,11 +31,13 @@ const config = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: [
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'postcss-loader'
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+            'postcss-loader',
+          ],
+        }),
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -50,6 +53,9 @@ const config = {
       },
     ]
   },
+  plugins: [
+    new ExtractTextPlugin('styles.css', { allChunks: true }),
+  ],
 };
 
 module.exports = config;

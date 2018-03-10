@@ -175,6 +175,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ### Examples
 
   #### Basic form (JavaScript)
+
+  *Note that in order to import styles from javascript you need to have appropriate loader (eg. [postcss-loader for Webpack](https://github.com/postcss/postcss-loader))*
+
   ```javascript
   import React from 'react';
   import {
@@ -183,6 +186,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
     PasswordInput,
     emailValidator,
   } from '@loform/react';
+  import '@loform/react/dist/style.css';
 
   const LoginForm = () => (
     <Form
