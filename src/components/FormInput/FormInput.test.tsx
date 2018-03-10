@@ -58,4 +58,54 @@ describe('FormInput', () => {
       value: 'newValue',
     });
   });
+
+  it('should display label if provided', () => {
+    const wrapper = shallow(
+      <FormInput
+        {...mockDescriptor}
+        label="Test field"
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+      >
+        {({
+          onChange,
+        }) => <div/>}
+      </FormInput>,
+    );
+
+    expect(wrapper.find('Label')).toHaveLength(1);
+
+    wrapper.setProps({ label: undefined });
+
+    expect(wrapper.find('Label')).toHaveLength(0);
+  });
+
+  it('should display errors if input is invalid', () => {
+    let change: (value: string) => any;
+    (formService.getErrorsFromInput as jest.Mock)
+      .mockImplementation(() => [
+        'Message 1',
+        'Message 2',
+        'Message 3',
+      ]);
+    const wrapper = shallow(
+      <FormInput
+        {...mockDescriptor}
+        label="Test field"
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+      >
+        {({
+          onChange,
+        }) => {
+          change = onChange;
+
+          return <div/>;
+        }}
+      </FormInput>,
+    );
+
+    change('any value');
+    expect(wrapper.update().find('.error')).toHaveLength(3);
+  });
 });
