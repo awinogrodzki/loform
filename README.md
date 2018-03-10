@@ -12,7 +12,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   *Project requires React and ReactDOM in version 16.2.0 and up*
 
-  Formula for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
+  loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
 
   Go straight to [Examples](#examples)
 

@@ -20,7 +20,7 @@ export interface FormInputProps extends FormInputInterface {
   children: <T>(inputProps: InputInterface & T) => React.ReactElement<any>;
 }
 
-class FormInput extends React.Component<FormInputProps> {
+export class FormInput extends React.Component<FormInputProps> {
   static defaultProps: Partial<FormInputProps> = {
     value: '',
     validators: [],
