@@ -175,7 +175,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * removeUpdateListener(callback: () => any)
 
 
-  ### Examples (JSX)
+  ### Examples
+  
+  *All examples are in JavaScript*
 
   #### Basic form
 
