@@ -189,7 +189,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
     PasswordInput,
     emailValidator,
   } from '@loform/react';
-  import '@loform/react/dist/style.css';
+  import '@loform/react/dist/styles.css';
 
   const LoginForm = () => (
     <Form
