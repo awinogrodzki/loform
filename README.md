@@ -276,6 +276,12 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
             {...inputProps}
             id="switch" // id prop is required and should be unique value.
             name="switch" // name prop is required and should be unique value.
+            validators={[
+              {
+                errorMessage: 'Switch should be off to submit',
+                validate: value => value === 'off',
+              },
+            ]}
             value="on"
           />
           <button onClick={() => submit()}>Submit form</button>
