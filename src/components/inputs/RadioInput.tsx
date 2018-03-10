@@ -24,6 +24,7 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
             name={inputName}
             value={option.value}
             checked={checked}
+            onClick={() => !option.disabled && onChange(option.value)}
           />
           <label
             onClick={() => !option.disabled && onChange(option.value)}

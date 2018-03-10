@@ -37,6 +37,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * formEventEmitter?: [FormEventEmitter](#formeventemitter)
 
   ### Inputs
+
+  *Note that in each input id and name props are required and need to be unique in order to properly identify inputs and map them to values*
+
   #### TextInput
   ##### Props
   * id: string
@@ -172,9 +175,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * removeUpdateListener(callback: () => any)
 
 
-  ### Examples
+  ### Examples (JSX)
 
-  #### Basic form (JavaScript)
+  #### Basic form
 
   *Note that in order to import styles from javascript you need to have appropriate loader (eg. [postcss-loader for Webpack](https://github.com/postcss/postcss-loader))*
 
@@ -225,6 +228,62 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   );
   ```
 
+  ### Custom input
+  ```javascript
+  import React from 'react';
+  import { FormInputDecorator } from 'components';
+
+  const ON = 'on';
+  const OFF = 'off';
+
+  export const SwitchInput = ({
+    onChange,
+    value,
+  }) => (
+    <div className="switchInput">
+      <input
+        type="radio"
+        value={ON}
+        checked={value === ON}
+        onChange={() => onChange(ON)}
+      />
+      <input
+        type="radio"
+        value={OFF}
+        checked={value === OFF}
+        onChange={() => onChange(OFF)}
+      />
+    </div>
+  );
+
+  export default FormInputDecorator(SwitchInput);
+  ```
+
+  Usage:
+
+  ```javascript
+  const LoginForm = () => (
+    <Form
+      className="form"
+      onSubmit={values => console.log(values)}
+    >
+      {({
+        inputProps,
+        submit,
+      }) => (
+        <>
+          <SwitchInput
+            {...inputProps}
+            id="switch" // id prop is required and should be unique value.
+            name="switch" // name prop is required and should be unique value.
+            value="on"
+          />
+          <button onClick={() => submit()}>Submit form</button>
+        </>
+      )}
+    </Form>
+  );
+  ```
 
 ## Development ###
 -------------------
