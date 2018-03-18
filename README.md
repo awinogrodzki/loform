@@ -28,6 +28,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
 
   ### Components
+
+
   #### Form
   ##### Props
   * className?: string
@@ -37,6 +39,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * formEventEmitter?: [FormEventEmitter](#formeventemitter)
 
   ### Inputs
+
 
   *Note that in each input id and name props are required and need to be unique in order to properly identify inputs and map them to values*
 
@@ -152,6 +155,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
 
   ### Services
+
+
   #### FormService
   FormService is used internally in order to handle inputs, validation and other tasks.
   For more advanced use can be injected to [Form](#form) through formService prop.
@@ -176,7 +181,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 
   ### Examples
-  
+
+
   *All examples are in JavaScript*
 
   #### Basic form
