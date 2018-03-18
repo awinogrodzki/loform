@@ -1,6 +1,6 @@
 {
   "name": "@loform/react",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "loform is light, easy to use and extendable form validation library written in TypeScript.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

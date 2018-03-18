@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/awinogrodzki/loform/compare/v0.1.6...v0.2.0) (2018-03-18)
+
+
+### Bug Fixes
+
+* removed unused svg-react-loader ([0f36238](https://github.com/awinogrodzki/loform/commit/0f36238))
+
+
+### Features
+
+* updated error and label styles ([0115708](https://github.com/awinogrodzki/loform/commit/0115708))
+
+
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/awinogrodzki/loform/compare/v0.1.5...v0.1.6) (2018-03-10)
 
