@@ -28,10 +28,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.inline.svg$/,
-        use: 'svg-react-loader',
-      },
-      {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader?limit=10000&mimetype=application/font-woff'
       },
@@ -40,7 +36,7 @@ module.exports = {
         loader: 'file-loader'
       },
       {
-        test: /^(?!.*\.inline).*\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader'
       },
     ],
