@@ -101,11 +101,15 @@ export class FormInput extends React.Component<FormInputProps> {
   }
 
   renderErrors(errors: string[]) {
-    return errors.map((error, index) => (
-      <div title={error} key={index} className={styles.error}>
-        <span>{error}</span>
+    return (
+      <div className={styles.errors}>
+        {errors.map((error, index) => (
+          <div title={error} key={index} className={styles.error}>
+            <span>{error}</span>
+          </div>
+        ))}
       </div>
-    ));
+    );
   }
 
   render() {
