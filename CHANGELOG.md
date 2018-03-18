@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="0.2.0"></a>
-# [0.2.0](https://github.com/awinogrodzki/loform/compare/v0.1.6...v0.2.0) (2018-03-18)
+## [0.2.0](https://github.com/awinogrodzki/loform/compare/v0.1.6...v0.2.0) (2018-03-18)
 
 
 ### Bug Fixes
@@ -20,12 +20,12 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/awinogrodzki/loform/compare/v0.1.5...v0.1.6) (2018-03-10)
 
-
+*Readme updates*
 
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/awinogrodzki/loform/compare/v0.1.4...v0.1.5) (2018-03-10)
 
-
+*Readme updates*
 
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/awinogrodzki/loform/compare/v0.1.3...v0.1.4) (2018-03-10)
