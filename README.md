@@ -211,23 +211,21 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
         <>
           <TextInput
             {...inputProps}
-            className="emailInput"
             id="email"
             name="email"
             value="example@email.com"
-            placeholder="Enter email address"
+            label="Email address"
             validators={[
               emailValidator('Value is not a valid email address'),
             ]}
             required
-            requiredMessage="Email is required."
           />
           <PasswordInput
             {...inputProps}
             id="password"
             name="password"
+            label="Password"
             required
-            requiredMessage="Password is required."
           />
           <button onClick={() => submit()}>Submit form</button>
         </>
