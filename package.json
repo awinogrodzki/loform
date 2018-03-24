@@ -13,7 +13,8 @@
     "test:watch": "jest ./src --watch",
     "test:watch:coverage": "jest ./src --watch --coverage",
     "release": "standard-version",
-    "storybook": "start-storybook -p 6006"
+    "storybook": "start-storybook -p 6006",
+    "prepublishOnly": "npm run build"
   },
   "author": "Amadeusz Winogrodzki <amadeusz.winogrodzki@gmail.com>",
   "repository": {
