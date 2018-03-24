@@ -39,6 +39,7 @@ storiesOf('Form', module)
     <Form onSubmit={action('onSubmit')}>
       {({
         inputProps,
+        submit,
       }) =>
         <>
           <TextInput
@@ -86,6 +87,7 @@ storiesOf('Form', module)
               { value: 'EN', label: 'en' },
             ]}
           />
+          <button onClick={() => submit()}>Submit</button>
         </>
       }
     </Form>
