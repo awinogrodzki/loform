@@ -18,6 +18,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 
   ### Instalation
+  ---------------
+
+
   #### npm
   ```
   npm install @loform/react --save
@@ -29,6 +32,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 
   ### Usage
+  ---------
 
 
   *All examples are in JavaScript*
@@ -145,6 +149,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
 
   ### Components
+  --------------
 
 
   #### Form
@@ -157,6 +162,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 
   ### Inputs
+  ----------
 
 
   *Note that in each input id and name props are required and need to be unique in order to properly identify inputs and map them to values*
@@ -226,6 +232,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * validators?: [Validator](#validator)[]
 
   ### Types
+  ---------
+
+
   #### Option
   ```
   {
@@ -273,6 +282,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
 
   ### Services
+  ------------
 
 
   #### FormService
@@ -300,6 +310,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 ## Development ###
 -------------------
+
 
 Project is written in TypeScript and compiled to JavaScript using Webpack.
 
