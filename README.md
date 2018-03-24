@@ -308,9 +308,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * removeUpdateListener(callback: () => any)
 
 
-## Development ###
--------------------
-
+## Development
 
 Project is written in TypeScript and compiled to JavaScript using Webpack.
 
