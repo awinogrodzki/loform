@@ -1,3 +1,5 @@
+@import 'resources/styles/variables';
+
 .errors {
 
 }
@@ -22,6 +24,7 @@
 }
 
 .container {
+    font-family: var(--default-font-family);
     flex: 1;
 }
 
@@ -38,6 +41,7 @@
 }
 
 .input {
+    color: var(--color-black);
     box-sizing: border-box;
     width: 100%;
     display: block;
@@ -57,5 +61,5 @@ textarea.input {
 }
 
 .label {
-
+    color: var(--color-black);
 }

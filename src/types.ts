@@ -2,7 +2,7 @@ import FormService from 'services/FormService';
 import FormEventEmitter from 'services/FormEventEmitter';
 
 export interface InputInterface {
-  id: string;
+  id?: string;
   className?: string;
   name: string;
   placeholder?: string;

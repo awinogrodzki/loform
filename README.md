@@ -14,7 +14,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
 
-  Go straight to [Examples](#examples)
+  Go straight to [Docs](#components)
 
 
   ### Instalation
@@ -27,6 +27,126 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   yarn add @loform/react
   ```
 
+
+  ### Usage
+
+
+  *All examples are in JavaScript*
+
+  #### Basic form
+
+  *Note that in order to import styles from javascript you need to have appropriate loader (eg. [postcss-loader for Webpack](https://github.com/postcss/postcss-loader))*
+
+  ```javascript
+  import React from 'react';
+  import {
+    Form,
+    TextInput,
+    PasswordInput,
+    emailValidator,
+  } from '@loform/react';
+  import '@loform/react/dist/styles.css';
+
+  const LoginForm = () => (
+    <Form
+      className="form"
+      onSubmit={values => console.log(values)}
+    >
+      {({
+        inputProps,
+        submit,
+      }) => (
+        <>
+          <TextInput
+            {...inputProps}
+            className="emailInput"
+            id="email"
+            name="email"
+            value="example@email.com"
+            placeholder="Enter email address"
+            validators={[
+              emailValidator('Value is not a valid email address'),
+            ]}
+            required
+            requiredMessage="Email is required."
+          />
+          <PasswordInput
+            {...inputProps}
+            id="password"
+            name="password"
+            required
+            requiredMessage="Password is required."
+          />
+          <button onClick={() => submit()}>Submit form</button>
+        </>
+      )}
+    </Form>
+  );
+  ```
+
+  #### Custom input
+  ```javascript
+  import React from 'react';
+  import { FormInputDecorator } from '@loform/react';
+
+  const ON = 'on';
+  const OFF = 'off';
+
+  export const SwitchInput = ({
+    onChange,
+    value,
+  }) => (
+    <div className="switchInput">
+      <input
+        type="radio"
+        value={ON}
+        checked={value === ON}
+        onChange={() => onChange(ON)}
+      />
+      <input
+        type="radio"
+        value={OFF}
+        checked={value === OFF}
+        onChange={() => onChange(OFF)}
+      />
+    </div>
+  );
+
+  export default FormInputDecorator(SwitchInput);
+  ```
+
+  Usage:
+
+  ```javascript
+  const LoginForm = () => (
+    <Form
+      className="form"
+      onSubmit={values => console.log(values)}
+    >
+      {({
+        inputProps,
+        submit,
+      }) => (
+        <>
+          <SwitchInput
+            {...inputProps}
+            id="switch" // id prop is required and should be unique value.
+            name="switch" // name prop is required and should be unique value.
+            validators={[
+              {
+                errorMessage: 'Switch should be off to submit',
+                validate: value => value === 'off',
+              },
+            ]}
+            value="on"
+          />
+          <button onClick={() => submit()}>Submit form</button>
+        </>
+      )}
+    </Form>
+  );
+  ```
+
   ### Components
 
 
@@ -37,6 +157,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * onError?: (errors: [FormErrors](#formerrors)) => any
   * formService?: [FormService](#formservice)
   * formEventEmitter?: [FormEventEmitter](#formeventemitter)
+
 
   ### Inputs
 
@@ -179,125 +300,6 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * addUpdateListener(callback: () => any)
   * removeUpdateListener(callback: () => any)
 
-
-  ### Examples
-
-
-  *All examples are in JavaScript*
-
-  #### Basic form
-
-  *Note that in order to import styles from javascript you need to have appropriate loader (eg. [postcss-loader for Webpack](https://github.com/postcss/postcss-loader))*
-
-  ```javascript
-  import React from 'react';
-  import {
-    Form,
-    TextInput,
-    PasswordInput,
-    emailValidator,
-  } from '@loform/react';
-  import '@loform/react/dist/styles.css';
-
-  const LoginForm = () => (
-    <Form
-      className="form"
-      onSubmit={values => console.log(values)}
-    >
-      {({
-        inputProps,
-        submit,
-      }) => (
-        <>
-          <TextInput
-            {...inputProps}
-            className="emailInput"
-            id="email"
-            name="email"
-            value="example@email.com"
-            placeholder="Enter email address"
-            validators={[
-              emailValidator('Value is not a valid email address'),
-            ]}
-            required
-            requiredMessage="Email is required."
-          />
-          <PasswordInput
-            {...inputProps}
-            id="password"
-            name="password"
-            required
-            requiredMessage="Password is required."
-          />
-          <button onClick={() => submit()}>Submit form</button>
-        </>
-      )}
-    </Form>
-  );
-  ```
-
-  #### Custom input
-  ```javascript
-  import React from 'react';
-  import { FormInputDecorator } from '@loform/react';
-
-  const ON = 'on';
-  const OFF = 'off';
-
-  export const SwitchInput = ({
-    onChange,
-    value,
-  }) => (
-    <div className="switchInput">
-      <input
-        type="radio"
-        value={ON}
-        checked={value === ON}
-        onChange={() => onChange(ON)}
-      />
-      <input
-        type="radio"
-        value={OFF}
-        checked={value === OFF}
-        onChange={() => onChange(OFF)}
-      />
-    </div>
-  );
-
-  export default FormInputDecorator(SwitchInput);
-  ```
-
-  Usage:
-
-  ```javascript
-  const LoginForm = () => (
-    <Form
-      className="form"
-      onSubmit={values => console.log(values)}
-    >
-      {({
-        inputProps,
-        submit,
-      }) => (
-        <>
-          <SwitchInput
-            {...inputProps}
-            id="switch" // id prop is required and should be unique value.
-            name="switch" // name prop is required and should be unique value.
-            validators={[
-              {
-                errorMessage: 'Switch should be off to submit',
-                validate: value => value === 'off',
-              },
-            ]}
-            value="on"
-          />
-          <button onClick={() => submit()}>Submit form</button>
-        </>
-      )}
-    </Form>
-  );
-  ```
 
 ## Development ###
 -------------------

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { FormInputDecorator } from 'components';
 import { RadioInputInterface, FormInputInterface } from 'types';
 
+const styles = require('./RadioInput.css');
+
 const RadioInput: React.SFC<RadioInputInterface> = ({
   id,
   name,
@@ -16,11 +18,12 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
       const checked = value !== undefined && value === option.value;
 
       return (
-        <div key={inputId}>
+        <div className={styles.container} key={inputId}>
           <input
             id={inputId}
             disabled={option.disabled}
             type="radio"
+            className={styles.input}
             name={inputName}
             value={option.value}
             checked={checked}
