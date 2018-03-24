@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/awinogrodzki/loform/compare/v0.2.0...v0.3.0) (2018-03-24)
+
+
+### Features
+
+* changed input id prop to optional ([08761bb](https://github.com/awinogrodzki/loform/commit/08761bb))
+
+
+
 <a name="0.2.0"></a>
 ## [0.2.0](https://github.com/awinogrodzki/loform/compare/v0.1.6...v0.2.0) (2018-03-18)
 
