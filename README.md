@@ -60,7 +60,6 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
           <TextInput
             {...inputProps}
             className="emailInput"
-            id="email"
             name="email"
             value="example@email.com"
             placeholder="Enter email address"
@@ -72,7 +71,6 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
           />
           <PasswordInput
             {...inputProps}
-            id="password"
             name="password"
             required
             requiredMessage="Password is required."
@@ -130,8 +128,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
         <>
           <SwitchInput
             {...inputProps}
-            id="switch" // id prop is required and should be unique value.
-            name="switch" // name prop is required and should be unique value.
+            name="switch"
             validators={[
               {
                 errorMessage: 'Switch should be off to submit',
@@ -166,7 +163,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### TextInput
   ##### Props
-  * id: string
+  * id?: string
   * name: string
   * value?: string
   * placeholder?: string
@@ -179,7 +176,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### PasswordInput
   ##### Props
-  * id: string
+  * id?: string
   * name: string
   * value?: string
   * placeholder?: string
@@ -192,7 +189,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### TextAreaInput
   ##### Props
-  * id: string
+  * id?: string
   * name: string
   * value?: string
   * className?: string
@@ -204,7 +201,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### SelectInput
   ##### Props
-  * id: string
+  * id?: string
   * name: string
   * value?: string
   * options?: [Option](#option)[]
@@ -217,7 +214,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### RadioInput
   ##### Props
-  * id: string
+  * id?: string
   * name: string
   * value?: string
   * options?: [Option](#option)[]
