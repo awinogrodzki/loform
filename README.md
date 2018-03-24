@@ -248,7 +248,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
   {
     errorMessage: string;
-    validate: (value: string, formValues: FormValues);
+    validate: (value: string, formValues: FormValues): boolean;
   }
   ```
 
