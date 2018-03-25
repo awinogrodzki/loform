@@ -246,7 +246,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
 
   #### Validator
-  Validator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return *true* if input is successfully validated and *false* otherwise.
+  Validator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return *true* if input is successfully validated and *false* if otherwise.
   ```
   {
     errorMessage: string;
