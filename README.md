@@ -168,8 +168,6 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ----------
 
 
-  *Note that in each input id and name props are required and need to be unique in order to properly identify inputs and map them to values*
-
   #### TextInput
   ##### Props
   * id?: string
