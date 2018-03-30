@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { FormInputDecorator } from 'components';
 import { RadioInputInterface, FormInputInterface } from 'types';
 
@@ -8,6 +9,8 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
   id,
   name,
   value,
+  containerClassName,
+  className,
   onChange,
   options,
 }) => (
@@ -18,12 +21,12 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
       const checked = value !== undefined && value === option.value;
 
       return (
-        <div className={styles.container} key={inputId}>
+        <div className={classNames(styles.container, containerClassName)} key={inputId}>
           <input
             id={inputId}
             disabled={option.disabled}
             type="radio"
-            className={styles.input}
+            className={classNames(styles.input, className)}
             name={inputName}
             value={option.value}
             checked={checked}

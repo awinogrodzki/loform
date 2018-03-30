@@ -14,7 +14,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
 
-  See Examples in Storybook [here](https://awinogrodzki.github.io/loform/)
+  See **Examples** in Storybook [here](https://awinogrodzki.github.io/loform/)
 
 
   Go straight to [Docs](#components)
@@ -227,6 +227,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * name: string
   * value?: string
   * options?: [Option](#option)[]
+  * containerClassName?: string
   * className?: string
   * onChange?: (value: string) => any
   * label?: string

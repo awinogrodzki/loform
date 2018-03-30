@@ -32,6 +32,7 @@ export interface SelectInputInterface extends InputInterface {
 }
 
 export interface RadioInputInterface extends InputInterface {
+  containerClassName?: string;
   options?: Option[];
 }
 
