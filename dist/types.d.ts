@@ -27,6 +27,7 @@ export interface SelectInputInterface extends InputInterface {
     options?: Option[];
 }
 export interface RadioInputInterface extends InputInterface {
+    containerClassName?: string;
     options?: Option[];
 }
 export interface InputValidatorInterface {
