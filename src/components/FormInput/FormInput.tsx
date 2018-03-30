@@ -28,20 +28,21 @@ export class FormInput extends React.Component<FormInputProps> {
   };
 
   public state: {
-    id: string;
     value?: string;
     hasErrors: boolean;
     errors: string[];
   } = {
-    id: this.props.id || uuid(),
     value: this.props.value,
     hasErrors: false,
     errors: [],
   };
 
+  private id: string;
+
   constructor(props: FormInputProps) {
     super(props);
 
+    this.id = props.id || uuid();
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
@@ -55,7 +56,7 @@ export class FormInput extends React.Component<FormInputProps> {
   getDescriptorFromProps(value: string): InputDescriptorInterface {
     return {
       value,
-      id: this.props.id,
+      id: this.id,
       label: this.props.label,
       name: this.props.name,
       required: this.props.required,
@@ -70,7 +71,7 @@ export class FormInput extends React.Component<FormInputProps> {
   }
 
   componentWillUnmount() {
-    this.props.formService.unregisterInputById(this.props.id);
+    this.props.formService.unregisterInputById(this.id);
     this.props.formEventEmitter.removeSubmitListener(this.onFormSubmit);
   }
 
@@ -140,7 +141,7 @@ export class FormInput extends React.Component<FormInputProps> {
           {
             label &&
             <Label
-              htmlFor={this.state.id}
+              htmlFor={this.id}
               className={styles.label}
               required={required}
             >
@@ -153,7 +154,7 @@ export class FormInput extends React.Component<FormInputProps> {
               name,
               disabled,
               placeholder,
-              id: this.state.id,
+              id: this.id,
               className: classNames(
                 className,
                 styles.input,

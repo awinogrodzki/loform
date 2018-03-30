@@ -7,11 +7,11 @@ export interface FormInputProps extends FormInputInterface {
 export declare class FormInput extends React.Component<FormInputProps> {
     static defaultProps: Partial<FormInputProps>;
     state: {
-        id: string;
         value?: string;
         hasErrors: boolean;
         errors: string[];
     };
+    private id;
     constructor(props: FormInputProps);
     componentWillReceiveProps(nextProps: FormInputProps): void;
     getDescriptorFromProps(value: string): InputDescriptorInterface;
