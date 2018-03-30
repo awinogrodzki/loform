@@ -13,7 +13,7 @@ loform is light, easy to use and extendable form validation library written in T
   - [Types](#types)
   - [Services](#services)
 * [Development](#development)
-* [Contributing][#contributing]
+* [Contributing](#contributing)
 
 
 It can be used with TypeScript (definition files included) and pure JavaScript.
