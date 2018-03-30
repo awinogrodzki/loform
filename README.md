@@ -6,12 +6,12 @@ loform is light, easy to use and extendable form validation library written in T
 
 ## Table of Contents ##
 * [React](#react)
-** [Installation](#installation)
-** [Usage](#usage)
-** [Components](#components)
-** [Inputs](#inputs)
-** [Types](#types)
-** [Services](#services)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Components](#components)
+  - [Inputs](#inputs)
+  - [Types](#types)
+  - [Services](#services)
 * [Development](#development)
 * [Contributing][#contributing]
 
