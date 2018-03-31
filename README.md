@@ -19,7 +19,7 @@ loform is light, easy to use and extendable form validation library written in T
 It can be used with TypeScript (definition files included) and pure JavaScript.
 
 
-## React
+## React ##
 
   *Project requires React and ReactDOM in version 16.2.0 and up*
 
@@ -31,27 +31,27 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   Go straight to [Docs](#components)
 
 
-  ### Installation
-  ---------------
+  ### Installation ###
+  --------------------
 
 
-  #### npm
+  #### npm ####
   ```
   npm install @loform/react --save
   ```
-  #### yarn
+  #### yarn ####
   ```
   yarn add @loform/react
   ```
 
 
-  ### Usage
-  ---------
+  ### Usage ###
+  -------------
 
 
   *All examples are in JavaScript*
 
-  #### Basic form
+  #### Basic form ####
 
   *Note that in order to import styles from javascript you need to have appropriate loader (eg. [postcss-loader for Webpack](https://github.com/postcss/postcss-loader))*
 
@@ -100,7 +100,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   );
   ```
 
-  #### Custom input
+  #### Custom input ####
   ```javascript
   import React from 'react';
   import { FormInputDecorator } from '@loform/react';
@@ -162,12 +162,12 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   );
   ```
 
-  ### Components
-  --------------
+  ### Components ###
+  ------------------
 
 
-  #### Form
-  ##### Props
+  #### Form ####
+  ##### Props #####
   * className?: string
   * onSubmit: (formValues: [FormValues](#formvalues)) => any
   * onError?: (errors: [FormErrors](#formerrors)) => any
@@ -175,12 +175,12 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * formEventEmitter?: [FormEventEmitter](#formeventemitter)
 
 
-  ### Inputs
-  ----------
+  ### Inputs ###
+  --------------
 
 
-  #### TextInput
-  ##### Props
+  #### TextInput ####
+  ##### Props #####
   * id?: string
   * name: string
   * value?: string
@@ -192,8 +192,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * requiredMessage?: string
   * validators?: [Validator](#validator)[]
 
-  #### PasswordInput
-  ##### Props
+  #### PasswordInput ####
+  ##### Props #####
   * id?: string
   * name: string
   * value?: string
@@ -205,8 +205,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * requiredMessage?: string
   * validators?: [Validator](#validator)[]
 
-  #### TextAreaInput
-  ##### Props
+  #### TextAreaInput ####
+  ##### Props #####
   * id?: string
   * name: string
   * value?: string
@@ -217,8 +217,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * requiredMessage?: string
   * validators?: [Validator](#validator)[]
 
-  #### SelectInput
-  ##### Props
+  #### SelectInput ####
+  ##### Props #####
   * id?: string
   * name: string
   * value?: string
@@ -230,8 +230,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * requiredMessage?: string
   * validators?: [Validator](#validator)[]
 
-  #### RadioInput
-  ##### Props
+  #### RadioInput ####
+  ##### Props #####
   * id?: string
   * name: string
   * value?: string
@@ -244,11 +244,11 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * requiredMessage?: string
   * validators?: [Validator](#validator)[]
 
-  ### Types
-  ---------
+  ### Types ###
+  -------------
 
 
-  #### Option
+  #### Option ####
   ```
   {
     label: string;
@@ -257,7 +257,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   }
   ```
 
-  #### Validator
+  #### Validator ####
   Validator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return *true* if input is successfully validated and *false* if otherwise.
   ```
   {
@@ -266,7 +266,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   }
   ```
 
-  #### FormValues
+  #### FormValues ####
   FormValues is an object representing all of the current form values. Example:
   ```
   {
@@ -281,7 +281,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   }
   ```
 
-  #### FormErrors
+  #### FormErrors ####
   FormErrors is an object representing invalid inputs with error messages. Example:
   ```
   {
@@ -295,23 +295,23 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   }
   ```
 
-  ### Services
-  ------------
+  ### Services ###
+  ----------------
 
 
-  #### FormService
+  #### FormService ####
   FormService is used internally in order to handle inputs, validation and other tasks.
   For more advanced use can be injected to [Form](#form) through formService prop.
 
-  ##### Methods
+  ##### Methods #####
   Documentation is in development. For FormService methods reference use TypeScript declaration files.
 
 
-  #### FormEventEmitter
+  #### FormEventEmitter ####
   FormEventEmitter is used internally to handle submit and update events.
   For more advanced use can be injected to [Form](#form) through formEventEmitter prop.
 
-  ##### Methods
+  ##### Methods #####
   Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
 
   * triggerSubmit(callback: () => any)
@@ -322,7 +322,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * removeUpdateListener(callback: () => any)
 
 
-## Development
+## Development ##
 
 Project is written in TypeScript and compiled to JavaScript using Webpack.
 
@@ -336,7 +336,7 @@ Exemplary components are rendered during development using [Storybook](https://g
 npm run storybook
 ```
 
-## Contributing
+## Contributing ##
 
 In order to contribute to loform you need to use [conventional commits](https://conventionalcommits.org/).
 
