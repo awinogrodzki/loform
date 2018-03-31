@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file. See [standa
 <a name="0.4.4"></a>
 ## [0.4.4](https://github.com/awinogrodzki/loform/compare/v0.4.3...v0.4.4) (2018-03-31)
 
-
+*Readme updates*
 
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/awinogrodzki/loform/compare/v0.4.2...v0.4.3) (2018-03-31)
