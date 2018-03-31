@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FormInputDecorator } from 'components';
-import { InputInterface, FormInputInterface } from 'types';
+import { FormInputDecorator } from '../../components';
+import { InputInterface, FormInputInterface } from '../../types';
 
 export const TextAreaInput: React.SFC<InputInterface> = ({
   id,

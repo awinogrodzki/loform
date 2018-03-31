@@ -4,10 +4,10 @@ import { FormInput } from './FormInput';
 import {
   FormService,
   FormEventEmitter,
-} from 'services';
-import { InputPropsInterface } from 'types';
+} from '../../services';
+import { InputPropsInterface } from '../../types';
 
-jest.mock('services');
+jest.mock('../../services');
 
 const mockValidators = [
   { errorMessage: 'mock error message', validate: () => true },

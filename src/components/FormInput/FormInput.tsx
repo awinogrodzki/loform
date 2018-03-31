@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import * as uuid from 'uuid/v4';
-import Label from 'components/Label';
+import Label from '../../components/Label';
 import {
   FormService,
   FormEventEmitter,
-} from 'services';
+} from '../../services';
 import {
   InputInterface,
   InputDescriptorInterface,
@@ -13,7 +13,7 @@ import {
   FormValuesInterface,
   InputValidatorInterface,
   FormInputInterface,
-} from 'types';
+} from '../../types';
 
 const styles = require('./FormInput.css');
 

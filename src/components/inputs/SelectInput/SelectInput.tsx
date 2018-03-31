@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { SelectInputInterface, FormInputInterface } from 'types';
-import { FormInputDecorator } from 'components';
+import { SelectInputInterface, FormInputInterface } from '../../../types';
+import { FormInputDecorator } from '../../../components';
 
 const styles = require('./SelectInput.css');
 

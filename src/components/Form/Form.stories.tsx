@@ -8,8 +8,8 @@ import {
   RadioInput,
   Label,
   Form,
-} from 'components';
-import { TextInput as InputWithoutHOC } from 'components/inputs/TextInput';
+} from '../../components';
+import { TextInput as InputWithoutHOC } from '../../components/inputs/TextInput';
 
 class Toggle extends React.Component {
   public state: {

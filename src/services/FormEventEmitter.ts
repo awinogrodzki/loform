@@ -4,7 +4,7 @@ import {
   FormValuesInterface,
   InputDescriptorInterface,
   FormValueType,
-} from 'types';
+} from '../types';
 
 export interface FormEventEmitterOptions {
   maxListeners?: number;

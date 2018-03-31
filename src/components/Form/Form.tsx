@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import FormService from 'services/FormService';
-import FormEventEmitter from 'services/FormEventEmitter';
+import FormService from '../../services/FormService';
+import FormEventEmitter from '../../services/FormEventEmitter';
 import {
   InputDescriptorInterface,
   RenderPropsInterface,
   FormValuesInterface,
   FormValueType,
   FormErrors,
-} from 'types';
+} from '../../types';
 
 const styles = require('./Form.css');
 

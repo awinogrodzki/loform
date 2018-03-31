@@ -1,4 +1,4 @@
-import { InputValidatorInterface } from 'types';
+import { InputValidatorInterface } from '../types';
 
 const phoneNumberValidator = (message: string): InputValidatorInterface => ({
   errorMessage: message,

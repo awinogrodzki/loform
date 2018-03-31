@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import * as React from 'react';
-import { InputInterface, InputDescriptorInterface, FormInputInterface } from 'types';
+import { InputInterface, InputDescriptorInterface, FormInputInterface } from '../../types';
 export interface FormInputProps extends FormInputInterface {
     children: <T>(inputProps: InputInterface & T) => React.ReactElement<any>;
 }

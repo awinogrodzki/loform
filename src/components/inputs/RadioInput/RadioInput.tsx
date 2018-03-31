@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { FormInputDecorator } from 'components';
-import { RadioInputInterface, FormInputInterface } from 'types';
+import { FormInputDecorator } from '../../../components';
+import { RadioInputInterface, FormInputInterface } from '../../../types';
 
 const styles = require('./RadioInput.css');
 

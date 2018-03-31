@@ -1,5 +1,5 @@
-import FormService from 'services/FormService';
-import FormEventEmitter from 'services/FormEventEmitter';
+import FormService from './services/FormService';
+import FormEventEmitter from './services/FormEventEmitter';
 export interface InputInterface {
     id?: string;
     className?: string;

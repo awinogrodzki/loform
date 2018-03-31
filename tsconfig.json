@@ -12,13 +12,7 @@
       "es2017",
       "dom"
     ],
-    "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "*": [
-        "./src/*"
-      ]
-    }
+    "jsx": "react"
   },
   "include": [
     "./src/**/*"

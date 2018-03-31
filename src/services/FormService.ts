@@ -1,11 +1,11 @@
-import { mergeWith, isArray, isObject } from 'utils';
+import { mergeWith, isArray, isObject } from '../utils';
 import {
   InputValidatorInterface,
   FormValuesInterface,
   InputDescriptorInterface,
   FormValueType,
   FormErrors,
-} from 'types';
+} from '../types';
 
 const mergeArrays = (objValue: any, srcValue: any) => {
   if (!objValue) {

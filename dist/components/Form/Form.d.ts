@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import * as React from 'react';
-import FormService from 'services/FormService';
-import FormEventEmitter from 'services/FormEventEmitter';
-import { RenderPropsInterface, FormValuesInterface, FormErrors } from 'types';
+import FormService from '../../services/FormService';
+import FormEventEmitter from '../../services/FormEventEmitter';
+import { RenderPropsInterface, FormValuesInterface, FormErrors } from '../../types';
 export interface FormInterface {
     className?: string;
     formService?: FormService;

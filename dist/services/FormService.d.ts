@@ -1,4 +1,4 @@
-import { FormValuesInterface, InputDescriptorInterface, FormValueType, FormErrors } from 'types';
+import { FormValuesInterface, InputDescriptorInterface, FormValueType, FormErrors } from '../types';
 declare class FormService {
     private inputs;
     registerInput(input: InputDescriptorInterface): void;
