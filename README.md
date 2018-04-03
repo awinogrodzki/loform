@@ -193,6 +193,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * value?: string
   * placeholder?: string
   * className?: string
+  * containerClass?: string
+  * inputContainerClass? string
   * onChange?: (value: string) => any
   * label?: string
   * required?: boolean
@@ -206,6 +208,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * value?: string
   * placeholder?: string
   * className?: string
+  * containerClass?: string
+  * inputContainerClass? string
   * onChange?: (value: string) => any
   * label?: string
   * required?: boolean
@@ -218,6 +222,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * name: string
   * value?: string
   * className?: string
+  * containerClass?: string
+  * inputContainerClass? string
   * onChange?: (value: string) => any
   * label?: string
   * required?: boolean
@@ -231,6 +237,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * value?: string
   * options?: [Option](#option)[]
   * className?: string
+  * containerClass?: string
+  * inputContainerClass? string
   * onChange?: (value: string) => any
   * label?: string
   * required?: boolean
@@ -243,8 +251,10 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * name: string
   * value?: string
   * options?: [Option](#option)[]
-  * containerClassName?: string
+  * containerClassName?: string (deprecated)
   * className?: string
+  * containerClass?: string
+  * inputContainerClass? string
   * hasErrors?: boolean
   * onChange?: (value: string) => any
   * label?: string
