@@ -108,4 +108,84 @@ describe('FormInput', () => {
     change('any value');
     expect(wrapper.update().find('.error')).toHaveLength(3);
   });
+
+  it('should pass has errors flag from props to input', () => {
+    const renderProps = jest.fn(() => <div/>);
+
+    const wrapper = shallow(
+      <FormInput
+        {...mockDescriptor}
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+      >
+        {renderProps}
+      </FormInput>,
+    );
+
+    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: false }));
+
+    wrapper.setProps({ hasErrors: true });
+
+    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: true }));
+  });
+
+  it('should give has errors prop a higher priority', () => {
+    let change: (value: string) => any;
+    (formService.getErrorsFromInput as jest.Mock)
+      .mockImplementation(() => [
+        'Message 1',
+        'Message 2',
+        'Message 3',
+      ]);
+    const renderProps = jest.fn(({
+      onChange,
+    }) => {
+      change = onChange;
+      return <div/>;
+    });
+
+    const wrapper = shallow(
+      <FormInput
+        {...mockDescriptor}
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+        hasErrors={false}
+      >
+        {renderProps}
+      </FormInput>,
+    );
+
+    change('any value');
+
+    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: false }));
+  });
+
+  it('should tell if input has errors', () => {
+    let change: (value: string) => any;
+    (formService.getErrorsFromInput as jest.Mock)
+      .mockImplementation(() => [
+        'Message 1',
+        'Message 2',
+        'Message 3',
+      ]);
+    const renderProps = jest.fn(({
+      onChange,
+    }) => {
+      change = onChange;
+      return <div/>;
+    });
+
+    const wrapper = shallow(
+      <FormInput
+        {...mockDescriptor}
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+      >
+        {renderProps}
+      </FormInput>,
+    );
+
+    change('any value');
+    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: true }));
+  });
 });

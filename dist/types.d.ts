@@ -8,6 +8,7 @@ export interface InputInterface {
     disabled?: boolean;
     value?: string;
     onChange?: (value: string) => any;
+    hasErrors?: boolean;
 }
 export interface FormInputInterface extends InputInterface {
     containerClass?: string;

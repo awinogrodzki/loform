@@ -118,6 +118,7 @@ export class FormInput extends React.Component<FormInputProps> {
 
   render() {
     const {
+      id: notUsedId,
       containerClass,
       formService,
       formEventEmitter,
@@ -132,8 +133,12 @@ export class FormInput extends React.Component<FormInputProps> {
       label,
       onChange,
       children,
+      hasErrors: hasErrorsFromProps,
       ...rest,
     } = this.props;
+
+    const hasErrors = hasErrorsFromProps !== undefined
+      ? hasErrorsFromProps  : this.state.hasErrors;
 
     return (
       <div className={classNames(styles.container, containerClass)}>
@@ -154,11 +159,12 @@ export class FormInput extends React.Component<FormInputProps> {
               name,
               disabled,
               placeholder,
+              hasErrors,
               id: this.id,
               className: classNames(
                 className,
                 styles.input,
-                { [styles.hasErrors]: this.state.hasErrors },
+                { [styles.hasErrors]: hasErrors },
               ),
               value: this.state.value,
               onChange: this.onInputChange,
