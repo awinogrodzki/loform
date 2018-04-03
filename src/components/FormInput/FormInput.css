@@ -5,7 +5,7 @@
 }
 
 .error {
-    color: rgb(255, 40, 106);
+    color: var(--color-error);
     font-size: 12px;
     font-style: italic;
     line-height: 1em;
@@ -52,7 +52,7 @@
     border-radius: 0px;
 
     &.hasErrors {
-        border: 1px solid rgb(255, 40, 106);
+        border-color: var(--color-error);
     }
 }
 

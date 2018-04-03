@@ -103,6 +103,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   #### Custom input ####
   ```javascript
   import React from 'react';
+  import classnames from 'classnames';
   import { FormInputDecorator } from '@loform/react';
 
   const ON = 'on';
@@ -110,9 +111,15 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   export const SwitchInput = ({
     onChange,
+    hasErrors,
     value,
   }) => (
-    <div className="switchInput">
+    <div
+      className={classnames(
+        'switchInput',
+        { 'switchInput__hasErrors': hasErrors },
+      )}
+    >
       <input
         type="radio"
         value={ON}
@@ -238,6 +245,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * options?: [Option](#option)[]
   * containerClassName?: string
   * className?: string
+  * hasErrors?: boolean
   * onChange?: (value: string) => any
   * label?: string
   * required?: boolean

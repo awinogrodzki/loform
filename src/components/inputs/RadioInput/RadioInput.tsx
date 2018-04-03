@@ -12,6 +12,7 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
   containerClassName,
   className,
   onChange,
+  hasErrors,
   options,
 }) => (
   <div>
@@ -21,7 +22,14 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
       const checked = value !== undefined && value === option.value;
 
       return (
-        <div className={classNames(styles.container, containerClassName)} key={inputId}>
+        <div
+          className={classNames(
+            styles.container,
+            containerClassName,
+            { [styles.hasErrors]: hasErrors },
+          )}
+          key={inputId}
+        >
           <input
             id={inputId}
             disabled={option.disabled}

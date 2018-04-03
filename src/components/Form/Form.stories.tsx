@@ -44,6 +44,7 @@ storiesOf('Form', module)
         <>
           <TextInput
             {...inputProps}
+            id="firstName"
             name="firstName"
             key="firstName"
             label="First name"
