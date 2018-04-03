@@ -12,6 +12,7 @@ export interface InputInterface {
 }
 export interface FormInputInterface extends InputInterface {
     containerClass?: string;
+    inputContainerClass?: string;
     formService: FormService;
     formEventEmitter: FormEventEmitter;
     validators?: InputValidatorInterface[];

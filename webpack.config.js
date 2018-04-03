@@ -14,7 +14,7 @@ const config = {
     libraryTarget: 'umd',
   },
   devtool: 'source-map',
-  externals: [nodeExternals({ whitelist: ['classnames'] })],
+  externals: [nodeExternals({ whitelist: ['classnames','uuid'] })],
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: [
