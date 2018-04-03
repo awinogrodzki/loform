@@ -120,6 +120,7 @@ export class FormInput extends React.Component<FormInputProps> {
     const {
       id: notUsedId,
       containerClass,
+      inputContainerClass,
       formService,
       formEventEmitter,
       className,
@@ -142,7 +143,7 @@ export class FormInput extends React.Component<FormInputProps> {
 
     return (
       <div className={classNames(styles.container, containerClass)}>
-        <div className={styles.inputContainer}>
+        <div className={classNames(styles.inputContainer, inputContainerClass)}>
           {
             label &&
             <Label
