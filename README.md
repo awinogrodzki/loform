@@ -332,8 +332,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Methods #####
   Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
 
-  * triggerSubmit(callback: () => any)
-  * triggerUpdate(callback: () => any)
+  * triggerSubmit()
+  * triggerUpdate()
   * addSubmitListener(callback: () => any)
   * removeSubmitListener(callback: () => any)
   * addUpdateListener(callback: () => any)
