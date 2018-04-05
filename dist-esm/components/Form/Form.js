@@ -23,7 +23,6 @@ var Form = /** @class */ (function (_super) {
             ? props.formService : (new FormService());
         _this.renderProps = {
             inputProps: {
-                containerClass: styles.input,
                 formService: _this.formService,
                 formEventEmitter: _this.formEventEmitter,
             },

@@ -91,18 +91,19 @@ var FormInput = /** @class */ (function (_super) {
         }
     };
     FormInput.prototype.renderErrors = function (errors) {
-        return (React.createElement("div", { className: styles.errors }, errors.map(function (error, index) { return (React.createElement("div", { title: error, key: index, className: styles.error },
+        var _this = this;
+        return (React.createElement("div", { className: classNames(styles.errors, this.props.errorContainerClass) }, errors.map(function (error, index) { return (React.createElement("div", { title: error, key: index, className: classNames(styles.error, _this.props.errorClass) },
             React.createElement("span", null, error))); })));
     };
     FormInput.prototype.render = function () {
-        var _a = this.props, notUsedId = _a.id, containerClass = _a.containerClass, inputContainerClass = _a.inputContainerClass, formService = _a.formService, formEventEmitter = _a.formEventEmitter, className = _a.className, placeholder = _a.placeholder, name = _a.name, value = _a.value, disabled = _a.disabled, validators = _a.validators, required = _a.required, requiredMessage = _a.requiredMessage, label = _a.label, onChange = _a.onChange, children = _a.children, hasErrorsFromProps = _a.hasErrors, rest = __rest(_a, ["id", "containerClass", "inputContainerClass", "formService", "formEventEmitter", "className", "placeholder", "name", "value", "disabled", "validators", "required", "requiredMessage", "label", "onChange", "children", "hasErrors"]);
+        var _a = this.props, notUsedId = _a.id, containerClass = _a.containerClass, inputContainerClass = _a.inputContainerClass, inputWrapperClass = _a.inputWrapperClass, errorContainerClass = _a.errorContainerClass, errorClass = _a.errorClass, formService = _a.formService, formEventEmitter = _a.formEventEmitter, className = _a.className, placeholder = _a.placeholder, name = _a.name, value = _a.value, disabled = _a.disabled, validators = _a.validators, required = _a.required, requiredMessage = _a.requiredMessage, label = _a.label, onChange = _a.onChange, children = _a.children, hasErrorsFromProps = _a.hasErrors, rest = __rest(_a, ["id", "containerClass", "inputContainerClass", "inputWrapperClass", "errorContainerClass", "errorClass", "formService", "formEventEmitter", "className", "placeholder", "name", "value", "disabled", "validators", "required", "requiredMessage", "label", "onChange", "children", "hasErrors"]);
         var hasErrors = hasErrorsFromProps !== undefined
             ? hasErrorsFromProps : this.state.hasErrors;
         return (React.createElement("div", { className: classNames(styles.container, containerClass) },
             React.createElement("div", { className: classNames(styles.inputContainer, inputContainerClass) },
                 label &&
                     React.createElement(Label, { htmlFor: this.id, className: styles.label, required: required }, label),
-                React.createElement("div", { className: styles.inputWrapper },
+                React.createElement("div", { className: classNames(styles.inputWrapper, inputWrapperClass) },
                     this.renderErrors(this.state.errors),
                     this.props.children(__assign({ name: name,
                         disabled: disabled,

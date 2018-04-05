@@ -13,6 +13,9 @@ export interface InputInterface {
 export interface FormInputInterface extends InputInterface {
     containerClass?: string;
     inputContainerClass?: string;
+    inputWrapperClass?: string;
+    errorContainerClass?: string;
+    errorClass?: string;
     formService: FormService;
     formEventEmitter: FormEventEmitter;
     validators?: InputValidatorInterface[];
@@ -29,7 +32,6 @@ export interface SelectInputInterface extends InputInterface {
     options?: Option[];
 }
 export interface RadioInputInterface extends InputInterface {
-    radioInputContainerClass?: string;
     options?: Option[];
 }
 export interface InputValidatorInterface {
@@ -46,7 +48,6 @@ export interface InputDescriptorInterface {
     validators?: InputValidatorInterface[];
 }
 export interface InputPropsInterface {
-    containerClass: string;
     formService: FormService;
     formEventEmitter: FormEventEmitter;
 }
