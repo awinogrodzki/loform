@@ -6,8 +6,8 @@ export const TextAreaInput: React.SFC<InputInterface> = ({
   id,
   className,
   name,
-  onChange,
-  value = undefined,
+  onChange = () => {},
+  value,
 }) => (
   <textarea
     id={id}

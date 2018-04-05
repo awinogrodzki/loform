@@ -10,7 +10,7 @@ const SelectInput: React.SFC<SelectInputInterface> = ({
   className,
   name,
   value,
-  onChange,
+  onChange = () => {},
   options = [],
 }) => (
   <select

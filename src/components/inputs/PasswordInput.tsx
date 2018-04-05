@@ -7,7 +7,7 @@ export const PasswordInput: React.SFC<InputInterface> = ({
   className,
   name,
   placeholder,
-  onChange,
+  onChange = () => {},
   value = undefined,
 }) => (
   <input

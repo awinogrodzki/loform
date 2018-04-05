@@ -251,7 +251,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * name: string
   * value?: string
   * options?: [Option](#option)[]
-  * containerClassName?: string (deprecated)
+  * radioInputContainerClass?: string (old containerClassName prop)
   * className?: string
   * containerClass?: string
   * inputContainerClass? string

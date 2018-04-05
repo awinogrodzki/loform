@@ -45,14 +45,14 @@ describe('FormInput', () => {
         {({
           onChange,
         }) => {
-          change = onChange;
+          change = onChange!;
 
           return <div/>;
         }}
       </FormInput>,
     );
 
-    change('newValue');
+    change!('newValue');
     expect(formService.updateInput).toHaveBeenCalledWith({
       ...mockDescriptor,
       value: 'newValue',
@@ -98,14 +98,14 @@ describe('FormInput', () => {
         {({
           onChange,
         }) => {
-          change = onChange;
+          change = onChange!;
 
           return <div/>;
         }}
       </FormInput>,
     );
 
-    change('any value');
+    change!('any value');
     expect(wrapper.update().find('.error')).toHaveLength(3);
   });
 
@@ -155,7 +155,7 @@ describe('FormInput', () => {
       </FormInput>,
     );
 
-    change('any value');
+    change!('any value');
 
     expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: false }));
   });
@@ -185,7 +185,7 @@ describe('FormInput', () => {
       </FormInput>,
     );
 
-    change('any value');
+    change!('any value');
     expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: true }));
   });
 });

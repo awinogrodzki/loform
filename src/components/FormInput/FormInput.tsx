@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import * as uuid from 'uuid/v4';
-import Label from '../../components/Label';
+import Label from '../Label';
 import {
   FormService,
   FormEventEmitter,
@@ -28,11 +28,11 @@ export class FormInput extends React.Component<FormInputProps> {
   };
 
   public state: {
-    value?: string;
+    value: string;
     hasErrors: boolean;
     errors: string[];
   } = {
-    value: this.props.value,
+    value: this.props.value || '',
     hasErrors: false,
     errors: [],
   };
@@ -59,7 +59,7 @@ export class FormInput extends React.Component<FormInputProps> {
       id: this.id,
       label: this.props.label,
       name: this.props.name,
-      required: this.props.required,
+      required: this.props.required || false,
       requiredMessage: this.props.requiredMessage,
       validators: this.props.validators,
     };

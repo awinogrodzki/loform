@@ -9,11 +9,11 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
   id,
   name,
   value,
-  containerClassName,
+  radioInputContainerClass,
   className,
-  onChange,
+  onChange = () => {},
   hasErrors,
-  options,
+  options = [],
 }) => (
   <div>
     {options.map((option, index) => {
@@ -25,7 +25,7 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
         <div
           className={classNames(
             styles.container,
-            containerClassName,
+            radioInputContainerClass,
             { [styles.hasErrors]: hasErrors },
           )}
           key={inputId}
