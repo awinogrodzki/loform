@@ -106,9 +106,16 @@ export class FormInput extends React.Component<FormInputProps> {
 
   renderErrors(errors: string[]) {
     return (
-      <div className={styles.errors}>
+      <div className={classNames(styles.errors, this.props.errorContainerClass)}>
         {errors.map((error, index) => (
-          <div title={error} key={index} className={styles.error}>
+          <div
+            title={error}
+            key={index}
+            className={classNames(
+              styles.error,
+              this.props.errorClass,
+            )}
+          >
             <span>{error}</span>
           </div>
         ))}
@@ -121,6 +128,9 @@ export class FormInput extends React.Component<FormInputProps> {
       id: notUsedId,
       containerClass,
       inputContainerClass,
+      inputWrapperClass,
+      errorContainerClass,
+      errorClass,
       formService,
       formEventEmitter,
       className,
@@ -154,7 +164,7 @@ export class FormInput extends React.Component<FormInputProps> {
               {label}
             </Label>
           }
-          <div className={styles.inputWrapper}>
+          <div className={classNames(styles.inputWrapper, inputWrapperClass)}>
             {this.renderErrors(this.state.errors)}
             {this.props.children({
               name,

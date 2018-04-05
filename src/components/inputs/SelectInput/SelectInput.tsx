@@ -10,12 +10,14 @@ const SelectInput: React.SFC<SelectInputInterface> = ({
   className,
   name,
   value,
+  disabled,
   onChange = () => {},
   options = [],
 }) => (
   <select
     id={id}
     name={name}
+    disabled={disabled}
     className={classNames(className, styles.input)}
     value={value}
     onChange={e => onChange(e.target.value)}

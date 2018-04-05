@@ -8,8 +8,15 @@ loform is light, easy to use and extendable form validation library written in T
 * [React](#react)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Basic form](#basic-form)
+    - [Custom input](#custom-input)
   - [Components](#components)
   - [Inputs](#inputs)
+    - [TextInput](#textinput)
+    - [PasswordInput](#passwordinput)
+    - [TextAreaInput](#textareainput)
+    - [SelectInput](#selectinput)
+    - [RadioInput](#radioinput)
   - [Types](#types)
   - [Services](#services)
 * [Development](#development)
@@ -101,6 +108,18 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ```
 
   #### Custom input ####
+  In order for input to work, you need to wrap it with **FormInputDecorator** HOC
+
+  ##### Props passed by FormInputDecorator HOC #####
+  * id: string
+  * name: string
+  * hasErrors: boolean
+  * value: string
+  * onChange: (value: string) => any
+  * disabled?: boolean
+  * placeholder?: string
+  * ...rest *all other props given to the HOC will be passed down to your component (eg. options in SelectInput)*
+
   ```javascript
   import React from 'react';
   import classnames from 'classnames';
@@ -185,65 +204,62 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ### Inputs ###
   --------------
 
+  #### FormInput ####
+  All inputs extend functionality provided by FormInput component. Checkout [here](#custom-input) how to create custom input with [FormInputDecorator](#custom-input).
+
+  ##### Props #####
+  * containerClass?: string
+  * inputContainerClass?: string
+  * inputWrapperClass?: string
+  * errorContainerClass?: string
+  * errorClass?: string
+  * label?: string
+  * required?: boolean
+  * requiredMessage?: string
+  * validators?: [Validator](#validator)[]
 
   #### TextInput ####
   ##### Props #####
   * id?: string
   * name: string
   * value?: string
+  * disabled?: boolean
   * placeholder?: string
   * className?: string
-  * containerClass?: string
-  * inputContainerClass? string
   * onChange?: (value: string) => any
-  * label?: string
-  * required?: boolean
-  * requiredMessage?: string
-  * validators?: [Validator](#validator)[]
+  * [Props from FormInput component](#forminput)
 
   #### PasswordInput ####
   ##### Props #####
   * id?: string
   * name: string
   * value?: string
+  * disabled?: boolean
   * placeholder?: string
   * className?: string
-  * containerClass?: string
-  * inputContainerClass? string
   * onChange?: (value: string) => any
-  * label?: string
-  * required?: boolean
-  * requiredMessage?: string
-  * validators?: [Validator](#validator)[]
+  * [Props from FormInput component](#forminput)
 
   #### TextAreaInput ####
   ##### Props #####
   * id?: string
   * name: string
   * value?: string
+  * disabled?: boolean
   * className?: string
-  * containerClass?: string
-  * inputContainerClass? string
   * onChange?: (value: string) => any
-  * label?: string
-  * required?: boolean
-  * requiredMessage?: string
-  * validators?: [Validator](#validator)[]
+  * [Props from FormInput component](#forminput)
 
   #### SelectInput ####
   ##### Props #####
   * id?: string
   * name: string
   * value?: string
+  * disabled?: boolean
   * options?: [Option](#option)[]
   * className?: string
-  * containerClass?: string
-  * inputContainerClass? string
   * onChange?: (value: string) => any
-  * label?: string
-  * required?: boolean
-  * requiredMessage?: string
-  * validators?: [Validator](#validator)[]
+  * [Props from FormInput component](#forminput)
 
   #### RadioInput ####
   ##### Props #####
@@ -251,16 +267,9 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * name: string
   * value?: string
   * options?: [Option](#option)[]
-  * radioInputContainerClass?: string (old containerClassName prop)
   * className?: string
-  * containerClass?: string
-  * inputContainerClass? string
-  * hasErrors?: boolean
   * onChange?: (value: string) => any
-  * label?: string
-  * required?: boolean
-  * requiredMessage?: string
-  * validators?: [Validator](#validator)[]
+  * [Props from FormInput component](#forminput)
 
   ### Types ###
   -------------

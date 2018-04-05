@@ -26,6 +26,13 @@
 .container {
     font-family: var(--default-font-family);
     flex: 1;
+    display: flex;
+    margin: 20px 0;
+    align-items: center;
+
+    @media only screen and (max-width: 720px) {
+        flex-wrap: wrap;
+    }
 }
 
 .inputContainer {

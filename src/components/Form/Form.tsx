@@ -35,7 +35,6 @@ class Form extends React.Component<FormInterface> {
       ? props.formService : (new FormService());
     this.renderProps = {
       inputProps: {
-        containerClass: styles.input,
         formService: this.formService,
         formEventEmitter: this.formEventEmitter,
       },

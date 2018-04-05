@@ -6,12 +6,14 @@ export const TextInput: React.SFC<InputInterface> = ({
   id,
   className,
   name,
+  disabled,
   placeholder,
   onChange = () => {},
   value,
 }) => (
   <input
     id={id}
+    disabled={disabled}
     onChange={e => onChange(e.target.value)}
     className={className}
     name={name}

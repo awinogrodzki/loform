@@ -4,6 +4,7 @@ import { InputInterface, FormInputInterface } from '../../types';
 
 export const PasswordInput: React.SFC<InputInterface> = ({
   id,
+  disabled,
   className,
   name,
   placeholder,
@@ -12,6 +13,7 @@ export const PasswordInput: React.SFC<InputInterface> = ({
 }) => (
   <input
     id={id}
+    disabled={disabled}
     onChange={e => onChange(e.target.value)}
     className={className}
     name={name}
