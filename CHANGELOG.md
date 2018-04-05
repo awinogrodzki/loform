@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/awinogrodzki/loform/compare/v1.0.0...v1.0.1) (2018-04-05)
+
+
+### Bug Fixes
+
+* removed dist packages from repository; removed esm modules ([eb473a8](https://github.com/awinogrodzki/loform/commit/eb473a8))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/awinogrodzki/loform/compare/v0.5.2...v1.0.0) (2018-04-05)
 
