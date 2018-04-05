@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/awinogrodzki/loform/compare/v0.5.2...v1.0.0) (2018-04-05)
+
+
+### Bug Fixes
+
+* optimized build by using lodash-es modules ([84d2f34](https://github.com/awinogrodzki/loform/commit/84d2f34))
+
+
+### Chores
+
+* updated readme ([50df02a](https://github.com/awinogrodzki/loform/commit/50df02a))
+
+
+### BREAKING CHANGES
+
+* removed containerClassName prop from RadioInput component
+
+
+
 <a name="0.5.2"></a>
 ## [0.5.2](https://github.com/awinogrodzki/loform/compare/v0.5.1...v0.5.2) (2018-04-03)
 
