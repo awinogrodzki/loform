@@ -7,11 +7,6 @@ All notable changes to this project will be documented in this file. See [standa
 # [1.0.2](https://github.com/awinogrodzki/loform/compare/v0.5.2...v1.0.2) (2018-04-05)
 
 
-### Bug Fixes
-
-* optimized build by using lodash-es modules ([84d2f34](https://github.com/awinogrodzki/loform/commit/84d2f34))
-
-
 ### Chores
 
 * updated readme ([50df02a](https://github.com/awinogrodzki/loform/commit/50df02a))
