@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
 import * as uuid from 'uuid/v4';
 import Label from '../Label';
@@ -191,11 +192,40 @@ export class FormInput extends React.Component<FormInputProps> {
 export const FormInputDecorator = function <T>(
   Component: React.ComponentClass<T> | React.StatelessComponent<T>,
 ) {
-  return (props: FormInputInterface & T) => (
+  type ComposedInterface = FormInputInterface & T;
+
+  const ComposedComponent: React.SFC<ComposedInterface> = props => (
     <FormInput {...props}>
       {inputProps => <Component {...inputProps} />}
     </FormInput>
   );
+
+  ComposedComponent.propTypes = {
+    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    className: PropTypes.string,
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+    hasErrors: PropTypes.bool,
+    containerClass: PropTypes.string,
+    inputContainerClass: PropTypes.string,
+    inputWrapperClass: PropTypes.string,
+    errorContainerClass: PropTypes.string,
+    errorClass: PropTypes.string,
+    formService: PropTypes.instanceOf(FormService).isRequired,
+    formEventEmitter: PropTypes.instanceOf(FormEventEmitter).isRequired,
+    validators: PropTypes.arrayOf(PropTypes.shape({
+      errorMessage: PropTypes.string.isRequired,
+      validate: PropTypes.func.isRequired,
+    })),
+    required: PropTypes.bool,
+    requiredMessage: PropTypes.string,
+  } as any;
+
+  return ComposedComponent;
 };
 
 export default FormInput;

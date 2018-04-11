@@ -37,6 +37,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "lodash-es": "^4.17.8",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "uuid": "^3.2.1"
@@ -50,6 +51,7 @@
     "@types/jest": "^21.1.1",
     "@types/lodash-es": "^4.17.0",
     "@types/node": "^9.4.7",
+    "@types/prop-types": "^15.5.2",
     "@types/react": "^16.1.0",
     "@types/react-dom": "^16.0.4",
     "@types/storybook__addon-actions": "^3.0.1",
