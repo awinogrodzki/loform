@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
 import FormService from '../../services/FormService';
 import FormEventEmitter from '../../services/FormEventEmitter';
@@ -25,6 +26,15 @@ class Form extends React.Component<FormInterface> {
   private formEventEmitter: FormEventEmitter;
   private formService: FormService;
   private renderProps: RenderPropsInterface;
+
+  static propTypes = {
+    className: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired,
+    onError: PropTypes.func,
+    children: PropTypes.func.isRequired,
+    formService: PropTypes.instanceOf(FormService),
+    formEventEmitter: PropTypes.instanceOf(FormEventEmitter),
+  };
 
   constructor(props: FormInterface) {
     super(props);
