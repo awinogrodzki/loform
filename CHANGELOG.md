@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.6"></a>
+## [1.0.6](https://github.com/awinogrodzki/loform/compare/v1.0.5...v1.0.6) (2018-04-19)
+
+
+### Bug Fixes
+
+* **FormEventEmitter:** refactored form event emitter, added deprecation warning and updated docs ([745c0de](https://github.com/awinogrodzki/loform/commit/745c0de))
+
+
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/awinogrodzki/loform/compare/v1.0.4...v1.0.5) (2018-04-19)
 
