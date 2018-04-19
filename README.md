@@ -4,6 +4,9 @@
 
 loform is light, easy to use and extendable form validation library written in TypeScript. Currently available for React, but planned to support other popular UI libraries/frameworks (most of the logic is library-agnostic).
 
+#### Module size
+**16.8kb minified (4.4kb gzipped)**
+
 ## Table of Contents ##
 * [React](#react)
   - [Installation](#installation)

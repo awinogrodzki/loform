@@ -194,13 +194,13 @@ export const FormInputDecorator = function <T>(
 ) {
   type ComposedInterface = FormInputInterface & T;
 
-  const ComposedComponent: React.SFC<ComposedInterface> = props => (
+  const Input: React.SFC<ComposedInterface> = props => (
     <FormInput {...props}>
       {inputProps => <Component {...inputProps} />}
     </FormInput>
   );
 
-  ComposedComponent.propTypes = {
+  Input.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
@@ -225,7 +225,7 @@ export const FormInputDecorator = function <T>(
     requiredMessage: PropTypes.string,
   } as any;
 
-  return ComposedComponent;
+  return Input;
 };
 
 export default FormInput;
