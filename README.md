@@ -13,6 +13,7 @@ loform is light, easy to use and extendable form validation library written in T
   - [Usage](#usage)
     - [Basic form](#basic-form)
     - [Custom input](#custom-input)
+    - [Advanced form](#advanced-form)
   - [Components](#components)
   - [Inputs](#inputs)
     - [TextInput](#textinput)
@@ -191,6 +192,37 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   );
   ```
 
+
+  #### Advanced form ####
+  ```javascript
+  import { Form, TextInput, FormEventEmitter } from "@loform/react";
+  import "@loform/react/dist/styles.css";
+
+  const formEventEmitter = new FormEventEmitter();
+
+  const AddressForm = () => (
+    <Form
+      formEventEmitter={formEventEmitter}
+      onSubmit={values => console.log(values)}
+    >
+      {({ inputProps }) => (
+        <>
+          <TextInput name="name" label="Name" {...inputProps} required />
+          <TextInput name="street" label="Street" {...inputProps} required />
+          <TextInput name="city" label="City" {...inputProps} required />
+        </>
+      )}
+    </Form>
+  );
+
+  const OtherComponent = () => (
+    <div>
+      <AddressForm />
+      <button onClick={() => formEventEmitter.submit()}>Submit outside</button>
+    </div>
+  );
+  ```
+
   ### Components ###
   ------------------
 
@@ -352,6 +384,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   #### FormEventEmitter ####
   FormEventEmitter is used internally to handle submit and update events.
   For more advanced use can be injected to [Form](#form) through formEventEmitter prop.
+
+  See example usage of [FormEventEmitter](#advanced-form)
 
   ##### Methods #####
   Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
