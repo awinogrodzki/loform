@@ -188,4 +188,30 @@ describe('FormInput', () => {
     change!('any value');
     expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: true }));
   });
+
+  it('should update state value if prop value has changed', () => {
+    let change: (value: string) => any;
+    const renderProps = jest.fn(({
+      onChange,
+    }) => {
+      change = onChange;
+      return <div/>;
+    });
+
+    const wrapper = shallow(
+      <FormInput
+        {...mockDescriptor}
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+      >
+        {renderProps}
+      </FormInput>,
+    );
+
+    change!('any value');
+    expect(wrapper.state('value')).toBe('any value');
+
+    wrapper.setProps({ value: 'value from props' });
+    expect(wrapper.state('value')).toBe('value from props');
+  });
 });

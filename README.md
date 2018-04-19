@@ -325,6 +325,18 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   }
   ```
 
+  #### FormEvent ####
+  FormEvent is an enum that can contain two values: "submit" or "update".
+
+  If you are using TypeScript, you will need to use FormEvent.Submit or FormEvent.Update enum value.
+  ```javascript
+  import { FormEvent } from '@loform/react';
+  ```
+  and later in code:
+  ```javascript
+  formEventEmitter.addListener(FormEvent.Submit, callback);
+  ```
+
   ### Services ###
   ----------------
 
@@ -344,12 +356,12 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ##### Methods #####
   Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
 
-  * triggerSubmit()
-  * triggerUpdate()
-  * addSubmitListener(callback: () => any)
-  * removeSubmitListener(callback: () => any)
-  * addUpdateListener(callback: () => any)
-  * removeUpdateListener(callback: () => any)
+  * submit()
+  * update()
+  * addListener(event: FormEvent, callback: () => any)
+  * removeListener(event: FormEvent, callback: () => any)
+
+  Check [FormEvent](#formevent) type
 
 
 ## Development ##

@@ -6,6 +6,7 @@ import Label from '../Label';
 import {
   FormService,
   FormEventEmitter,
+  FormEvent,
 } from '../../services';
 import {
   InputInterface,
@@ -68,12 +69,12 @@ export class FormInput extends React.Component<FormInputProps> {
 
   componentDidMount() {
     this.props.formService.registerInput(this.getDescriptorFromProps(this.state.value));
-    this.props.formEventEmitter.addSubmitListener(this.onFormSubmit);
+    this.props.formEventEmitter.addListener(FormEvent.Submit, this.onFormSubmit);
   }
 
   componentWillUnmount() {
     this.props.formService.unregisterInputById(this.id);
-    this.props.formEventEmitter.removeSubmitListener(this.onFormSubmit);
+    this.props.formEventEmitter.removeListener(FormEvent.Submit, this.onFormSubmit);
   }
 
   onFormSubmit() {
@@ -96,7 +97,7 @@ export class FormInput extends React.Component<FormInputProps> {
   onInputChange(value: string) {
     const descriptor = this.getDescriptorFromProps(value);
     this.props.formService.updateInput(descriptor);
-    this.props.formEventEmitter.triggerUpdate();
+    this.props.formEventEmitter.update();
 
     this.validate(descriptor);
 

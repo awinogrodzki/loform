@@ -1,8 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
-import FormService from '../../services/FormService';
-import FormEventEmitter from '../../services/FormEventEmitter';
+import {
+  FormService,
+  FormEventEmitter,
+  FormEvent,
+} from '../../services';
 import {
   InputDescriptorInterface,
   RenderPropsInterface,
@@ -48,17 +51,17 @@ class Form extends React.Component<FormInterface> {
         formService: this.formService,
         formEventEmitter: this.formEventEmitter,
       },
-      submit: this.formEventEmitter.triggerSubmit.bind(this.formEventEmitter),
+      submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
     };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onSubmitEvent = this.onSubmitEvent.bind(this);
 
-    this.formEventEmitter.addSubmitListener(this.onSubmitEvent);
+    this.formEventEmitter.addListener(FormEvent.Submit, this.onSubmitEvent);
   }
 
   componentWillUnmount() {
-    this.formEventEmitter.removeSubmitListener(this.onSubmitEvent);
+    this.formEventEmitter.removeListener(FormEvent.Submit, this.onSubmitEvent);
   }
 
   submit() {
