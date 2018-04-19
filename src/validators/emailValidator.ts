@@ -2,7 +2,7 @@ import { InputValidatorInterface } from '../types';
 
 const emailValidator = (message: string): InputValidatorInterface => ({
   errorMessage: message,
-  validate: (value: string) => {
+  validate: (value: string, formValues: any) => {
     if (!value) {
       return true;
     }

@@ -63,11 +63,11 @@ class Form extends React.Component<FormInterface> {
 
   submit() {
     const values = this.formService.getValuesFromInputs();
+    const errors = this.formService.getErrors();
+    const isValid = Object.keys(errors).length === 0;
 
-    if (!this.formService.validateInputs()) {
-      const errors = this.formService.getErrors();
+    if (!isValid) {
       this.props.onError && this.props.onError(errors);
-
       return;
     }
 

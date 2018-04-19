@@ -65,7 +65,7 @@ class FormService {
     }
 
     validators.forEach((validator) => {
-      if (!validator.validate(value, {})) {
+      if (!validator.validate(value, this.getValuesFromInputs())) {
         errors = [...errors, validator.errorMessage];
       }
     });

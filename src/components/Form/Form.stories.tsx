@@ -10,6 +10,7 @@ import {
   Form,
 } from '../../components';
 import { TextInput as InputWithoutHOC } from '../../components/inputs/TextInput';
+import { emailValidator } from '../..';
 
 class Toggle extends React.Component {
   public state: {
@@ -115,6 +116,32 @@ storiesOf('Form', module)
               required
             />
           </Toggle>
+          <PasswordInput
+            {...inputProps}
+            name="password"
+            placeholder="Enter password"
+            required
+          />
+          <button onClick={() => submit()}>Login</button>
+        </>
+      }
+    </Form>
+  ))
+  .add('login form', () => (
+    <Form onSubmit={action('onSubmit')} onError={action('onError')}>
+      {({
+        inputProps,
+        submit,
+      }) =>
+        <>
+          <TextInput
+            {...inputProps}
+            name="email"
+            placeholder="Enter email address"
+            required
+            requiredMessage="Email is required."
+            validators={[emailValidator('Email address is incorrect.')]}
+          />
           <PasswordInput
             {...inputProps}
             name="password"
