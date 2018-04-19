@@ -195,8 +195,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### Advanced form ####
   ```javascript
-  import { Form, TextInput, FormEventEmitter } from "@loform/react";
-  import "@loform/react/dist/styles.css";
+  import { Form, TextInput, FormEventEmitter } from '@loform/react';
+  import '@loform/react/dist/styles.css';
 
   const formEventEmitter = new FormEventEmitter();
 
