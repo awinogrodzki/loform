@@ -195,14 +195,21 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### Advanced form ####
   ```javascript
-  import { Form, TextInput, FormEventEmitter } from '@loform/react';
+  import {
+    Form,
+    TextInput,
+    FormEventEmitter,
+    FormService,
+  } from '@loform/react';
   import '@loform/react/dist/styles.css';
 
   const formEventEmitter = new FormEventEmitter();
+  const formService = new FormService();
 
   const AddressForm = () => (
     <Form
       formEventEmitter={formEventEmitter}
+      formService={formService}
       onSubmit={values => console.log(values)}
     >
       {({ inputProps }) => (
@@ -221,6 +228,10 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
       <button onClick={() => formEventEmitter.submit()}>Submit outside</button>
     </div>
   );
+  ```
+  Later in code
+  ```javascript
+  const formValues = formService.getValuesFromInputs();
   ```
 
   ### Components ###
