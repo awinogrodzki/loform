@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/awinogrodzki/loform/compare/v1.0.6...v1.1.0) (2018-05-08)
+
+
+### Features
+
+* **FormInput:** updated styles and moved error messages under the input ([175cd8d](https://github.com/awinogrodzki/loform/commit/175cd8d))
+
+
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://github.com/awinogrodzki/loform/compare/v1.0.5...v1.0.6) (2018-04-19)
 
