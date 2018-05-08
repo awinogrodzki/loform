@@ -3,11 +3,7 @@ import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
 import * as uuid from 'uuid/v4';
 import Label from '../Label';
-import {
-  FormService,
-  FormEventEmitter,
-  FormEvent,
-} from '../../services';
+import { FormService, FormEventEmitter, FormEvent } from '../../services';
 import {
   InputInterface,
   InputDescriptorInterface,
@@ -68,13 +64,21 @@ export class FormInput extends React.Component<FormInputProps> {
   }
 
   componentDidMount() {
-    this.props.formService.registerInput(this.getDescriptorFromProps(this.state.value));
-    this.props.formEventEmitter.addListener(FormEvent.Submit, this.onFormSubmit);
+    this.props.formService.registerInput(
+      this.getDescriptorFromProps(this.state.value),
+    );
+    this.props.formEventEmitter.addListener(
+      FormEvent.Submit,
+      this.onFormSubmit,
+    );
   }
 
   componentWillUnmount() {
     this.props.formService.unregisterInputById(this.id);
-    this.props.formEventEmitter.removeListener(FormEvent.Submit, this.onFormSubmit);
+    this.props.formEventEmitter.removeListener(
+      FormEvent.Submit,
+      this.onFormSubmit,
+    );
   }
 
   onFormSubmit() {
@@ -108,15 +112,14 @@ export class FormInput extends React.Component<FormInputProps> {
 
   renderErrors(errors: string[]) {
     return (
-      <div className={classNames(styles.errors, this.props.errorContainerClass)}>
+      <div
+        className={classNames(styles.errors, this.props.errorContainerClass)}
+      >
         {errors.map((error, index) => (
           <div
             title={error}
             key={index}
-            className={classNames(
-              styles.error,
-              this.props.errorClass,
-            )}
+            className={classNames(styles.error, this.props.errorClass)}
           >
             <span>{error}</span>
           </div>
@@ -150,14 +153,15 @@ export class FormInput extends React.Component<FormInputProps> {
       ...rest,
     } = this.props;
 
-    const hasErrors = hasErrorsFromProps !== undefined
-      ? hasErrorsFromProps  : this.state.hasErrors;
+    const hasErrors =
+      hasErrorsFromProps !== undefined
+        ? hasErrorsFromProps
+        : this.state.hasErrors;
 
     return (
       <div className={classNames(styles.container, containerClass)}>
         <div className={classNames(styles.inputContainer, inputContainerClass)}>
-          {
-            label &&
+          {label && (
             <Label
               htmlFor={this.id}
               className={styles.label}
@@ -165,24 +169,22 @@ export class FormInput extends React.Component<FormInputProps> {
             >
               {label}
             </Label>
-          }
+          )}
           <div className={classNames(styles.inputWrapper, inputWrapperClass)}>
-            {this.renderErrors(this.state.errors)}
             {this.props.children({
               name,
               disabled,
               placeholder,
               hasErrors,
               id: this.id,
-              className: classNames(
-                className,
-                styles.input,
-                { [styles.hasErrors]: hasErrors },
-              ),
+              className: classNames(className, styles.input, {
+                [styles.hasErrors]: hasErrors,
+              }),
               value: this.state.value,
               onChange: this.onInputChange,
               ...rest,
             })}
+            {this.renderErrors(this.state.errors)}
           </div>
         </div>
       </div>
@@ -190,7 +192,7 @@ export class FormInput extends React.Component<FormInputProps> {
   }
 }
 
-export const FormInputDecorator = function <T>(
+export const FormInputDecorator = function<T>(
   Component: React.ComponentClass<T> | React.StatelessComponent<T>,
 ) {
   type ComposedInterface = FormInputInterface & T;
@@ -218,10 +220,12 @@ export const FormInputDecorator = function <T>(
     errorClass: PropTypes.string,
     formService: PropTypes.instanceOf(FormService).isRequired,
     formEventEmitter: PropTypes.instanceOf(FormEventEmitter).isRequired,
-    validators: PropTypes.arrayOf(PropTypes.shape({
-      errorMessage: PropTypes.string.isRequired,
-      validate: PropTypes.func.isRequired,
-    })),
+    validators: PropTypes.arrayOf(
+      PropTypes.shape({
+        errorMessage: PropTypes.string.isRequired,
+        validate: PropTypes.func.isRequired,
+      }),
+    ),
     required: PropTypes.bool,
     requiredMessage: PropTypes.string,
   } as any;

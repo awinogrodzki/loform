@@ -1,7 +1,6 @@
-@import '../../resources/styles/variables';
+@import "../../resources/styles/variables";
 
 .errors {
-
 }
 
 .error {
@@ -17,10 +16,6 @@
     box-sizing: border-box;
     max-width: 100%;
     text-overflow: ellipsis;
-
-    &:last-child {
-        margin-bottom: 5px;
-    }
 }
 
 .container {
