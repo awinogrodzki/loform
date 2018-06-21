@@ -1,8 +1,7 @@
-import { mergeWith, isArray, isObject } from '../utils';
+import { mergeWith, isArray } from '../utils';
 import {
-  InputValidatorInterface,
-  FormValuesInterface,
-  InputDescriptorInterface,
+  FormValues,
+  InputDescriptor,
   FormValueType,
   FormErrors,
 } from '../types';
@@ -18,13 +17,13 @@ const mergeArrays = (objValue: any, srcValue: any) => {
 };
 
 class FormService {
-  private inputs: Map<string, InputDescriptorInterface> = new Map();
+  private inputs: Map<string, InputDescriptor> = new Map();
 
-  registerInput(input: InputDescriptorInterface) {
+  registerInput(input: InputDescriptor) {
     this.inputs.set(input.id, input);
   }
 
-  updateInput(input: InputDescriptorInterface) {
+  updateInput(input: InputDescriptor) {
     this.inputs.set(input.id, input);
   }
 
@@ -57,7 +56,7 @@ class FormService {
     required,
     requiredMessage = null,
     validators = [],
-  }: InputDescriptorInterface): string[] {
+  }: InputDescriptor): string[] {
     let errors: string[] = [];
 
     if (required && !value) {
@@ -92,8 +91,8 @@ class FormService {
     return errors;
   }
 
-  getValuesFromInputs(): FormValuesInterface {
-    let values: FormValuesInterface = {};
+  getValuesFromInputs(): FormValues {
+    let values: FormValues = {};
 
     this.inputs.forEach((input) => {
       values = mergeWith(values, this.getInputValue(input), mergeArrays);
@@ -102,7 +101,7 @@ class FormService {
     return values;
   }
 
-  getInputValue(input: InputDescriptorInterface): FormValuesInterface {
+  getInputValue(input: InputDescriptor): FormValues {
     const regex = /\[(.*?)\]/g;
     const match = input.name.match(regex);
 
@@ -131,7 +130,7 @@ class FormService {
 
   getValueByMatch(
     match: string[],
-    input: InputDescriptorInterface,
+    input: InputDescriptor,
     index: number,
     currentValue: any,
   ): FormValueType {

@@ -7,12 +7,11 @@ import {
   FormEvent,
 } from '../../services';
 import {
-  InputDescriptorInterface,
-  RenderPropsInterface,
-  FormValuesInterface,
-  FormValueType,
+  RenderProps,
+  FormValues,
   FormErrors,
 } from '../../types';
+import { FormContext } from '../../context';
 
 const styles = require('./Form.css');
 
@@ -20,15 +19,15 @@ export interface FormInterface {
   className?: string;
   formService?: FormService;
   formEventEmitter?: FormEventEmitter;
-  onSubmit: (data: FormValuesInterface) => any;
+  onSubmit: (values: FormValues) => any;
   onError?: (errors: FormErrors) => any;
-  children: (renderProps: RenderPropsInterface) => React.ReactNode;
+  children: (renderProps: RenderProps) => React.ReactNode;
 }
 
 class Form extends React.Component<FormInterface> {
   private formEventEmitter: FormEventEmitter;
   private formService: FormService;
-  private renderProps: RenderPropsInterface;
+  private renderProps: RenderProps;
 
   static propTypes = {
     className: PropTypes.string,
@@ -47,10 +46,6 @@ class Form extends React.Component<FormInterface> {
     this.formService = props.formService
       ? props.formService : (new FormService());
     this.renderProps = {
-      inputProps: {
-        formService: this.formService,
-        formEventEmitter: this.formEventEmitter,
-      },
       submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
     };
 
@@ -92,7 +87,14 @@ class Form extends React.Component<FormInterface> {
         onSubmit={this.onFormSubmit}
         className={classNames(styles.container, this.props.className)}
       >
-        {this.props.children(this.renderProps)}
+        <FormContext.Provider
+          value={{
+            formEventEmitter: this.formEventEmitter,
+            formService: this.formService,
+          }}
+        >
+          {this.props.children(this.renderProps)}
+        </FormContext.Provider>
       </form>
     );
   }

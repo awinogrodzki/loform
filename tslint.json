@@ -11,7 +11,30 @@
     "jsx-no-lambda": false,
     "jsx-boolean-value": false,
     "import-name": false,
-    "align": false
+    "align": false,
+    "no-unused-variable": true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": {
+          "arrays": "always",
+          "exports": "always",
+          "functions": "always",
+          "imports": "always",
+          "objects": "always",
+          "typeLiterals": "always"
+        },
+        "singleline": {
+          "arrays": "never",
+          "exports": "never",
+          "functions": "never",
+          "imports": "never",
+          "objects": "never",
+          "typeLiterals": "never"
+        },
+        "esSpecCompliant": true
+      }
+    ]
   },
   "rulesDirectory": []
 }

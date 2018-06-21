@@ -1,7 +1,7 @@
 import FormService from './services/FormService';
 import FormEventEmitter from './services/FormEventEmitter';
 
-export interface InputInterface {
+export interface InputProps {
   id?: string;
   className?: string;
   name: string;
@@ -12,18 +12,22 @@ export interface InputInterface {
   hasErrors?: boolean;
 }
 
-export interface FormInputInterface extends InputInterface {
+export interface DecoratedInputProps extends InputProps {
   containerClass?: string;
   inputContainerClass?: string;
   inputWrapperClass?: string;
   errorContainerClass?: string;
   errorClass?: string;
-  formService: FormService;
-  formEventEmitter: FormEventEmitter;
-  validators?: InputValidatorInterface[];
+  validators?: InputValidator[];
   required?: boolean;
   requiredMessage?: string;
   label?: string;
+}
+
+export interface FormInputProps extends DecoratedInputProps {
+  formService: FormService;
+  formEventEmitter: FormEventEmitter;
+  children: <T>(inputProps: InputProps & T) => React.ReactElement<any>;
 }
 
 export interface Option {
@@ -32,42 +36,36 @@ export interface Option {
   disabled?: boolean;
 }
 
-export interface SelectInputInterface extends InputInterface {
+export interface SelectInputProps extends InputProps {
   options?: Option[];
 }
 
-export interface RadioInputInterface extends InputInterface {
+export interface RadioInputProps extends InputProps {
   options?: Option[];
 }
 
-export interface InputValidatorInterface {
+export interface InputValidator {
   errorMessage: string;
-  validate: (value: string, formValues: FormValuesInterface) => boolean;
+  validate: (value: string, formValues: FormValues) => boolean;
 }
 
-export interface InputDescriptorInterface {
+export interface InputDescriptor {
   id: string;
   label?: string;
   name: string;
   value: string;
   required: boolean;
   requiredMessage?: string;
-  validators?: InputValidatorInterface[];
+  validators?: InputValidator[];
 }
 
-export interface InputPropsInterface {
-  formService: FormService;
-  formEventEmitter: FormEventEmitter;
-}
-
-export interface RenderPropsInterface {
-  inputProps: InputPropsInterface;
+export interface RenderProps {
   submit: () => void;
 }
 
-export type FormValueType = string | string[] | FormValuesInterface;
+export type FormValueType = string | string[] | FormValues;
 
-export interface FormValuesInterface {
+export interface FormValues {
   [key: string]: FormValueType;
 }
 

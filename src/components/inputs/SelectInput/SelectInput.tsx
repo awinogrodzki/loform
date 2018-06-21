@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { SelectInputInterface, FormInputInterface } from '../../../types';
+import { SelectInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
 
 const styles = require('./SelectInput.css');
 
-const SelectInput: React.SFC<SelectInputInterface> = ({
+const SelectInput: React.SFC<SelectInputProps> = ({
   id,
   className,
   name,
@@ -28,4 +28,4 @@ const SelectInput: React.SFC<SelectInputInterface> = ({
   </select>
 );
 
-export default FormInputDecorator<SelectInputInterface>(SelectInput);
+export default FormInputDecorator<SelectInputProps>(SelectInput);

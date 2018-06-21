@@ -1,6 +1,6 @@
-import { InputValidatorInterface } from '../types';
+import { InputValidator } from '../types';
 
-const emailValidator = (message: string): InputValidatorInterface => ({
+const emailValidator = (message: string): InputValidator => ({
   errorMessage: message,
   validate: (value: string, formValues: any) => {
     if (!value) {

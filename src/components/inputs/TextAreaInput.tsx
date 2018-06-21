@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputInterface, FormInputInterface } from '../../types';
+import { InputProps } from '../../types';
 
-export const TextAreaInput: React.SFC<InputInterface> = ({
+export const TextAreaInput: React.SFC<InputProps> = ({
   id,
   className,
   name,
@@ -20,4 +20,4 @@ export const TextAreaInput: React.SFC<InputInterface> = ({
   />
 );
 
-export default FormInputDecorator<InputInterface>(TextAreaInput);
+export default FormInputDecorator<InputProps>(TextAreaInput);
