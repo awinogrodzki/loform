@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputInterface, FormInputInterface } from '../../types';
+import { InputProps } from '../../types';
 
-export const PasswordInput: React.SFC<InputInterface> = ({
+export const PasswordInput: React.SFC<InputProps> = ({
   id,
   disabled,
   className,
@@ -23,4 +23,4 @@ export const PasswordInput: React.SFC<InputInterface> = ({
   />
 );
 
-export default FormInputDecorator<InputInterface>(PasswordInput);
+export default FormInputDecorator<InputProps>(PasswordInput);

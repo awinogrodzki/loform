@@ -1,8 +1,7 @@
-import { mergeWith, isArray, isObject } from '../utils';
+import { mergeWith, isArray } from '../utils';
 import {
-  InputValidatorInterface,
-  FormValuesInterface,
-  InputDescriptorInterface,
+  FormValues,
+  InputDescriptor,
   FormValueType,
   FormErrors,
 } from '../types';
@@ -18,13 +17,13 @@ const mergeArrays = (objValue: any, srcValue: any) => {
 };
 
 class FormService {
-  private inputs: Map<string, InputDescriptorInterface> = new Map();
+  private inputs: Map<string, InputDescriptor> = new Map();
 
-  registerInput(input: InputDescriptorInterface) {
+  registerInput(input: InputDescriptor) {
     this.inputs.set(input.id, input);
   }
 
-  updateInput(input: InputDescriptorInterface) {
+  updateInput(input: InputDescriptor) {
     this.inputs.set(input.id, input);
   }
 
@@ -57,7 +56,7 @@ class FormService {
     required,
     requiredMessage = null,
     validators = [],
-  }: InputDescriptorInterface): string[] {
+  }: InputDescriptor): string[] {
     let errors: string[] = [];
 
     if (required && !value) {
@@ -85,15 +84,15 @@ class FormService {
           rootName = this.getInputRootName(input.name);
         } catch (e) {}
 
-        errors[rootName] = inputErrors;
+        errors[rootName] = [...(errors[rootName] || []), ...inputErrors];
       }
     });
 
     return errors;
   }
 
-  getValuesFromInputs(): FormValuesInterface {
-    let values: FormValuesInterface = {};
+  getValuesFromInputs(): FormValues {
+    let values: FormValues = {};
 
     this.inputs.forEach((input) => {
       values = mergeWith(values, this.getInputValue(input), mergeArrays);
@@ -102,7 +101,7 @@ class FormService {
     return values;
   }
 
-  getInputValue(input: InputDescriptorInterface): FormValuesInterface {
+  getInputValue(input: InputDescriptor): FormValues {
     const regex = /\[(.*?)\]/g;
     const match = input.name.match(regex);
 
@@ -131,7 +130,7 @@ class FormService {
 
   getValueByMatch(
     match: string[],
-    input: InputDescriptorInterface,
+    input: InputDescriptor,
     index: number,
     currentValue: any,
   ): FormValueType {
@@ -143,11 +142,13 @@ class FormService {
     const matchString = match[index];
     const isLastKey = match.length - 1 === index;
     const keyMatch = regex.exec(matchString);
-    const key = keyMatch && keyMatch[1] || null;
+    const key = (keyMatch && keyMatch[1]) || null;
     const nextIndex = index - 1;
 
     if (isLastKey && key) {
-      return this.getValueByMatch(match, input, nextIndex, { [key]: input.value });
+      return this.getValueByMatch(match, input, nextIndex, {
+        [key]: input.value,
+      });
     }
 
     if (isLastKey && !key) {
@@ -155,7 +156,9 @@ class FormService {
     }
 
     if (key) {
-      return this.getValueByMatch(match, input, nextIndex, { [key]: currentValue });
+      return this.getValueByMatch(match, input, nextIndex, {
+        [key]: currentValue,
+      });
     }
 
     return this.getValueByMatch(match, input, nextIndex, [currentValue]);

@@ -6,10 +6,8 @@ import {
   PasswordInput,
   SelectInput,
   RadioInput,
-  Label,
   Form,
 } from '../../components';
-import { TextInput as InputWithoutHOC } from '../../components/inputs/TextInput';
 import { emailValidator } from '../..';
 
 class Toggle extends React.Component {
@@ -31,20 +29,20 @@ class Toggle extends React.Component {
       );
     }
 
-    return <button onClick={() => this.setState({ show: !this.state.show })}>I have pin</button>;
+    return (
+      <button onClick={() => this.setState({ show: !this.state.show })}>
+        I have pin
+      </button>
+    );
   }
 }
 
 storiesOf('Form', module)
   .add('default', () => (
-    <Form onSubmit={action('onSubmit')}>
-      {({
-        inputProps,
-        submit,
-      }) =>
+    <Form onSubmit={action('onSubmit')} onError={action('onError')}>
+      {({ submit }) => (
         <>
           <TextInput
-            {...inputProps}
             id="firstName"
             name="firstName"
             key="firstName"
@@ -52,21 +50,18 @@ storiesOf('Form', module)
             required
           />
           <TextInput
-            {...inputProps}
             name="lastName"
             key="lastName"
             label="Last name"
             required
           />
           <PasswordInput
-            {...inputProps}
             name="password"
             key="password"
             label="Password"
             required
           />
           <SelectInput
-            {...inputProps}
             name="country"
             key="country"
             label="Country"
@@ -78,7 +73,6 @@ storiesOf('Form', module)
             ]}
           />
           <RadioInput
-            {...inputProps}
             name="language"
             key="language"
             label="Language"
@@ -91,51 +85,37 @@ storiesOf('Form', module)
           />
           <button onClick={() => submit()}>Submit</button>
         </>
-      }
+      )}
     </Form>
   ))
   .add('with toggle', () => (
-    <Form onSubmit={action('onSubmit')}>
-      {({
-        inputProps,
-        submit,
-      }) =>
+    <Form onSubmit={action('onSubmit')} onError={action('onError')}>
+      {({ submit }) => (
         <>
           <TextInput
-            {...inputProps}
             name="username"
             placeholder="Enter username"
             required
             requiredMessage="Username is required."
           />
           <Toggle>
-            <TextInput
-              {...inputProps}
-              name="pin"
-              placeholder="Pin code"
-              required
-            />
+            <TextInput name="pin" placeholder="Pin code" required />
           </Toggle>
           <PasswordInput
-            {...inputProps}
             name="password"
             placeholder="Enter password"
             required
           />
           <button onClick={() => submit()}>Login</button>
         </>
-      }
+      )}
     </Form>
   ))
   .add('login form', () => (
     <Form onSubmit={action('onSubmit')} onError={action('onError')}>
-      {({
-        inputProps,
-        submit,
-      }) =>
+      {({ submit }) => (
         <>
           <TextInput
-            {...inputProps}
             name="email"
             placeholder="Enter email address"
             required
@@ -143,14 +123,12 @@ storiesOf('Form', module)
             validators={[emailValidator('Email address is incorrect.')]}
           />
           <PasswordInput
-            {...inputProps}
             name="password"
             placeholder="Enter password"
             required
           />
           <button onClick={() => submit()}>Login</button>
         </>
-      }
+      )}
     </Form>
   ));
-

@@ -1,7 +1,5 @@
 # loform #
 
-**alpha version**
-
 loform is light, easy to use and extendable form validation library written in TypeScript. Currently available for React, but planned to support other popular UI libraries/frameworks (most of the logic is library-agnostic).
 
 #### Module size
@@ -32,7 +30,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 ## React ##
 
-  *Project requires React and ReactDOM in version 16.2.0 and up*
+  *Project requires React and ReactDOM in version 16.3.0 and up due to use of new React Context*
 
   loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
 
@@ -82,12 +80,10 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
       onSubmit={values => console.log(values)}
     >
       {({
-        inputProps,
         submit,
       }) => (
         <>
           <TextInput
-            {...inputProps}
             className="emailInput"
             name="email"
             value="example@email.com"
@@ -99,7 +95,6 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
             requiredMessage="Email is required."
           />
           <PasswordInput
-            {...inputProps}
             name="password"
             required
             requiredMessage="Password is required."
@@ -170,12 +165,10 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
       onSubmit={values => console.log(values)}
     >
       {({
-        inputProps,
         submit,
       }) => (
         <>
           <SwitchInput
-            {...inputProps}
             name="switch"
             validators={[
               {
@@ -212,11 +205,11 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
       formService={formService}
       onSubmit={values => console.log(values)}
     >
-      {({ inputProps }) => (
+      {() => (
         <>
-          <TextInput name="name" label="Name" {...inputProps} required />
-          <TextInput name="street" label="Street" {...inputProps} required />
-          <TextInput name="city" label="City" {...inputProps} required />
+          <TextInput name="name" label="Name" required />
+          <TextInput name="street" label="Street" required />
+          <TextInput name="city" label="City" required />
         </>
       )}
     </Form>
@@ -262,7 +255,7 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   * label?: string
   * required?: boolean
   * requiredMessage?: string
-  * validators?: [Validator](#validator)[]
+  * validators?: [InputValidator](#inputvalidator)[]
 
   #### TextInput ####
   ##### Props #####
@@ -330,8 +323,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   }
   ```
 
-  #### Validator ####
-  Validator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return *true* if input is successfully validated and *false* if otherwise.
+  #### InputValidator ####
+  InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return *true* if input is successfully validated and *false* if otherwise.
   ```
   {
     errorMessage: string;

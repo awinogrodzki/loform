@@ -5,19 +5,13 @@ import * as uuid from 'uuid/v4';
 import Label from '../Label';
 import { FormService, FormEventEmitter, FormEvent } from '../../services';
 import {
-  InputInterface,
-  InputDescriptorInterface,
-  SelectInputInterface,
-  FormValuesInterface,
-  InputValidatorInterface,
-  FormInputInterface,
+  InputDescriptor,
+  FormInputProps,
+  DecoratedInputProps,
 } from '../../types';
+import { FormContext } from '../../context';
 
 const styles = require('./FormInput.css');
-
-export interface FormInputProps extends FormInputInterface {
-  children: <T>(inputProps: InputInterface & T) => React.ReactElement<any>;
-}
 
 export class FormInput extends React.Component<FormInputProps> {
   static defaultProps: Partial<FormInputProps> = {
@@ -51,7 +45,7 @@ export class FormInput extends React.Component<FormInputProps> {
     }
   }
 
-  getDescriptorFromProps(value: string): InputDescriptorInterface {
+  getDescriptorFromProps(value: string): InputDescriptor {
     return {
       value,
       id: this.id,
@@ -85,7 +79,7 @@ export class FormInput extends React.Component<FormInputProps> {
     this.validate(this.getDescriptorFromProps(this.state.value));
   }
 
-  validate(descriptor: InputDescriptorInterface) {
+  validate(descriptor: InputDescriptor) {
     const errors = this.props.formService.getErrorsFromInput(descriptor);
     const hasErrors = !!errors.length;
 
@@ -150,7 +144,7 @@ export class FormInput extends React.Component<FormInputProps> {
       onChange,
       children,
       hasErrors: hasErrorsFromProps,
-      ...rest,
+      ...rest
     } = this.props;
 
     const hasErrors =
@@ -195,15 +189,24 @@ export class FormInput extends React.Component<FormInputProps> {
 export const FormInputDecorator = function<T>(
   Component: React.ComponentClass<T> | React.StatelessComponent<T>,
 ) {
-  type ComposedInterface = FormInputInterface & T;
-
-  const Input: React.SFC<ComposedInterface> = props => (
-    <FormInput {...props}>
-      {inputProps => <Component {...inputProps} />}
-    </FormInput>
+  const DecoratedInput: React.SFC<T & DecoratedInputProps> = props => (
+    <FormContext.Consumer>
+      {({
+        formService,
+        formEventEmitter,
+      }) => (
+        <FormInput
+          formService={formService}
+          formEventEmitter={formEventEmitter}
+          {...props}
+        >
+          {inputProps => <Component {...inputProps} />}
+        </FormInput>
+      )}
+    </FormContext.Consumer>
   );
 
-  Input.propTypes = {
+  DecoratedInput.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
@@ -218,8 +221,6 @@ export const FormInputDecorator = function<T>(
     inputWrapperClass: PropTypes.string,
     errorContainerClass: PropTypes.string,
     errorClass: PropTypes.string,
-    formService: PropTypes.instanceOf(FormService).isRequired,
-    formEventEmitter: PropTypes.instanceOf(FormEventEmitter).isRequired,
     validators: PropTypes.arrayOf(
       PropTypes.shape({
         errorMessage: PropTypes.string.isRequired,
@@ -230,7 +231,7 @@ export const FormInputDecorator = function<T>(
     requiredMessage: PropTypes.string,
   } as any;
 
-  return Input;
+  return DecoratedInput;
 };
 
 export default FormInput;

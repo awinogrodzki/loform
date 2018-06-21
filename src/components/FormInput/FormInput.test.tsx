@@ -5,7 +5,6 @@ import {
   FormService,
   FormEventEmitter,
 } from '../../services';
-import { InputPropsInterface } from '../../types';
 
 jest.mock('../../services');
 
@@ -36,7 +35,7 @@ describe('FormInput', () => {
   it('should update input descriptor on change', () => {
     let change: (values: string) => any;
 
-    const wrapper = shallow(
+    shallow(
       <FormInput
         {...mockDescriptor}
         formService={formService}
@@ -144,7 +143,7 @@ describe('FormInput', () => {
       return <div/>;
     });
 
-    const wrapper = shallow(
+    shallow(
       <FormInput
         {...mockDescriptor}
         formService={formService}
@@ -175,7 +174,7 @@ describe('FormInput', () => {
       return <div/>;
     });
 
-    const wrapper = shallow(
+    shallow(
       <FormInput
         {...mockDescriptor}
         formService={formService}

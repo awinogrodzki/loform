@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { FormInputDecorator } from '../../../components';
-import { RadioInputInterface, FormInputInterface } from '../../../types';
+import { RadioInputProps } from '../../../types';
 
 const styles = require('./RadioInput.css');
 
-const RadioInput: React.SFC<RadioInputInterface> = ({
+const RadioInput: React.SFC<RadioInputProps> = ({
   id,
   name,
   value,
@@ -51,4 +51,4 @@ const RadioInput: React.SFC<RadioInputInterface> = ({
   </div>
 );
 
-export default FormInputDecorator<RadioInputInterface>(RadioInput);
+export default FormInputDecorator<RadioInputProps>(RadioInput);
