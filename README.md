@@ -7,6 +7,7 @@ loform is light, easy to use and extendable form validation library written in T
 
 ## Table of Contents ##
 * [React](#react)
+  - [Requirements](#requirements)
   - [Installation](#installation)
   - [Usage](#usage)
     - [Basic form](#basic-form)
@@ -30,9 +31,13 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
 ## React ##
 
-  *Project requires React and ReactDOM in version 16.3.0 and up due to use of new React Context*
-
   loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
+  
+  ### Requirements ###
+  --------------------
+  
+  * React and React DOM version ^16.3.0 (due to new React Context)
+  * If your project is written in TypeScript, make sure you have installed version ^2.9.0 (due to type compatibility)
 
   See **Examples** in Storybook [here](https://awinogrodzki.github.io/loform/)
 
