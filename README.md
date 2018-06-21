@@ -36,8 +36,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   ### Requirements ###
   --------------------
   
-  * React and React DOM version ^16.3.0 (due to new React Context)
-  * If your project is written in TypeScript, make sure you have installed version ^2.9.0 (due to type compatibility)
+  * **React** and **React DOM** version **^16.3.0** (due to new React Context)
+  * If your project is written in **TypeScript**, make sure you have installed version **^2.9.0** (due to type compatibility)
 
   See **Examples** in Storybook [here](https://awinogrodzki.github.io/loform/)
 
