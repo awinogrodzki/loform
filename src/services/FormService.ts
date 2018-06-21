@@ -84,7 +84,7 @@ class FormService {
           rootName = this.getInputRootName(input.name);
         } catch (e) {}
 
-        errors[rootName] = inputErrors;
+        errors[rootName] = [...(errors[rootName] || []), ...inputErrors];
       }
     });
 
@@ -142,11 +142,13 @@ class FormService {
     const matchString = match[index];
     const isLastKey = match.length - 1 === index;
     const keyMatch = regex.exec(matchString);
-    const key = keyMatch && keyMatch[1] || null;
+    const key = (keyMatch && keyMatch[1]) || null;
     const nextIndex = index - 1;
 
     if (isLastKey && key) {
-      return this.getValueByMatch(match, input, nextIndex, { [key]: input.value });
+      return this.getValueByMatch(match, input, nextIndex, {
+        [key]: input.value,
+      });
     }
 
     if (isLastKey && !key) {
@@ -154,7 +156,9 @@ class FormService {
     }
 
     if (key) {
-      return this.getValueByMatch(match, input, nextIndex, { [key]: currentValue });
+      return this.getValueByMatch(match, input, nextIndex, {
+        [key]: currentValue,
+      });
     }
 
     return this.getValueByMatch(match, input, nextIndex, [currentValue]);
