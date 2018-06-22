@@ -259,8 +259,8 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   | containerClass | `String` | `false` | Class name added to component's root element |
   | inputContainerClass | `String` | `false` | Class name added to element that contains input wrapper, label and error list elements |
   | inputWrapperClass | `String` | `false` | Class name added to element that contains input component |
-  | errorContainerClass | `String` | `false` | Class name added to element that list of errors |
-  | errorClass | `String` | `false` | Class name added to element single error element |
+  | errorContainerClass | `String` | `false` | Class name added to element containing list of errors |
+  | errorClass | `String` | `false` | Class name added to error element |
   | label | `String` | `false` | If provided, displays label above input |
   | required | `Boolean` | `false` | If true, displays error when user is trying to submit form with empty input |
   | requiredMessage | `String` | `false` | Replaces default required error message |
@@ -268,14 +268,16 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### TextInput ####
   ##### Props #####
-  * id?: string
-  * name: string
-  * value?: string
-  * disabled?: boolean
-  * placeholder?: string
-  * className?: string
-  * onChange?: (value: string) => any
-  * [Props from FormInput component](#forminput)
+  | Name | Type | Required | Description |
+  |:---|:---|:---|:---|
+  | id | `String` | `false` | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+  | name | `String` | `true` | Name of an input. Used to generate [FormValues](#formvalues) on form submission. |
+  | value | `String` | `false` | Can be used to set initial value of an input or to control input's value during it's lifecycle |
+  | disabled | `Boolean` | `false` | Can be set to true in order to disable input |
+  | placeholder | `String` | `false` | If set, displayed as placeholder of an input |
+  | className | `String` | `false` | Class name added to input element |
+  | onChange | `Function` | `false` | Function called on input's value change with it's value as a `String` |
+  | [Props from FormInput component](#forminput) | - | - | - |
 
   #### PasswordInput ####
   ##### Props #####
