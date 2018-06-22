@@ -254,15 +254,17 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
   All inputs extend functionality provided by FormInput component. Checkout [here](#custom-input) how to create custom input with [FormInputDecorator](#custom-input).
 
   ##### Props #####
-  * containerClass?: string
-  * inputContainerClass?: string
-  * inputWrapperClass?: string
-  * errorContainerClass?: string
-  * errorClass?: string
-  * label?: string
-  * required?: boolean
-  * requiredMessage?: string
-  * validators?: [InputValidator](#inputvalidator)[]
+  | Name | Type | Required | Description |
+  |:---|:---|:---|:---|
+  | containerClass | `String` | `false` | Class name added to component's root element |
+  | inputContainerClass | `String` | `false` | Class name added to element that contains input wrapper, label and error list elements |
+  | inputWrapperClass | `String` | `false` | Class name added to element that contains input component |
+  | errorContainerClass | `String` | `false` | Class name added to element that list of errors |
+  | errorClass | `String` | `false` | Class name added to element single error element |
+  | label | `String` | `false` | If provided, displays label above input |
+  | required | `Boolean` | `false` | If true, displays error when user is trying to submit form with empty input |
+  | requiredMessage | `String` | `false` | Replaces default required error message |
+  | validators | `Array` | `false` | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
 
   #### TextInput ####
   ##### Props #####
