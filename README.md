@@ -32,10 +32,10 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 ## React ##
 
   loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
-  
+
   ### Requirements ###
   --------------------
-  
+
   * **React** and **React DOM** version **^16.3.0** (due to new React Context)
   * If your project is written in **TypeScript**, make sure you have installed version **^2.9.0** (due to type compatibility)
 
@@ -238,11 +238,13 @@ It can be used with TypeScript (definition files included) and pure JavaScript.
 
   #### Form ####
   ##### Props #####
-  * className?: string
-  * onSubmit: (formValues: [FormValues](#formvalues)) => any
-  * onError?: (errors: [FormErrors](#formerrors)) => any
-  * formService?: [FormService](#formservice)
-  * formEventEmitter?: [FormEventEmitter](#formeventemitter)
+  | Name | Type | Required | Description |
+  |:---|:---|:---|:---|
+  | onSubmit | `Function` | `true` | Callback called with [FormValues](#formvalues) on successful form submit |
+  | className | `String` | `false` | Class name added to form element |
+  | onError | `Function` | `false` | Callback called with [FormErrors](#formerrors) on unsuccessful form submit |
+  | formService | [FormService](#formservice) | `false` | Service that handles input registration and validation |
+  | formEventListener | [FormEventEmitter](#formeventemitter) | `false` | Service that handles submit and update events  |
 
 
   ### Inputs ###
