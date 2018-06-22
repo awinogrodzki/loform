@@ -19,6 +19,10 @@ const mergeArrays = (objValue: any, srcValue: any) => {
 class FormService {
   private inputs: Map<string, InputDescriptor> = new Map();
 
+  getInput(id: string): InputDescriptor|undefined {
+    return this.inputs.get(id);
+  }
+
   registerInput(input: InputDescriptor) {
     this.inputs.set(input.id, input);
   }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, TextInput, emailValidator } from '../../dist';
+import { Form, TextInput, emailValidator } from '../../src';
 import { mount } from 'enzyme';
 
 const event = value => ({ target: { value } });
@@ -179,5 +179,38 @@ describe('Form', () => {
       arrayInput: ['message1', 'message2', 'message3'],
       nestedInput: ['message4', 'message5', 'message6'],
     });
+  });
+
+  fit('should allow to control input value during it\'s lifecycle', () => {
+    const SimpleForm = (({ testValue }: { testValue?: string }) => (
+      <Form onSubmit={onSubmit}>
+        {({ submit }) => (
+          <>
+            <TextInput value={testValue} name="input" />
+            <button onClick={() => submit()} />
+          </>
+        )}
+      </Form>
+    ));
+    const onSubmit = jest.fn();
+    const wrapper = mount(
+      <SimpleForm />
+    );
+
+    wrapper
+      .find('[name="input"] input')
+      .simulate('change', event('test value'));
+    wrapper.find('button').simulate('click');
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      input: 'test value',
+    });
+
+    // wrapper.setProps({ testValue: 'controlled value' });
+    // wrapper.find('button').simulate('click');
+
+    // expect(onSubmit).toHaveBeenLastCalledWith({
+    //   input: 'controlled value',
+    // });
   });
 });

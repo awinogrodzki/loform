@@ -464,6 +464,7 @@ var FormInput = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             value: _this.props.value || '',
+            prevValueProp: _this.props.value,
             hasErrors: false,
             errors: [],
         };
@@ -472,10 +473,17 @@ var FormInput = /** @class */ (function (_super) {
         _this.onFormSubmit = _this.onFormSubmit.bind(_this);
         return _this;
     }
-    FormInput.prototype.componentWillReceiveProps = function (nextProps) {
-        if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
-            this.setState({ value: nextProps.value });
+    FormInput.getDerivedStateFromProps = function (props, state) {
+        if (props.value === undefined) {
+            return null;
         }
+        if (props.value === state.prevValueProp) {
+            return null;
+        }
+        return {
+            value: props.value,
+            prevValueProp: props.value,
+        };
     };
     FormInput.prototype.getDescriptorFromProps = function (value) {
         return {

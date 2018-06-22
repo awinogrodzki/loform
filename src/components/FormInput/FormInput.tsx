@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
 import * as uuid from 'uuid/v4';
 import Label from '../Label';
-import { FormService, FormEventEmitter, FormEvent } from '../../services';
+import { FormEvent } from '../../services';
 import {
   InputDescriptor,
   FormInputProps,
@@ -13,18 +13,22 @@ import { FormContext } from '../../context';
 
 const styles = require('./FormInput.css');
 
-export class FormInput extends React.Component<FormInputProps> {
+interface FormInputState {
+  value: string;
+  prevValueProp?: string;
+  hasErrors: boolean;
+  errors: string[];
+}
+
+export class FormInput extends React.PureComponent<FormInputProps> {
   static defaultProps: Partial<FormInputProps> = {
     value: '',
     validators: [],
   };
 
-  public state: {
-    value: string;
-    hasErrors: boolean;
-    errors: string[];
-  } = {
+  public state: FormInputState = {
     value: this.props.value || '',
+    prevValueProp: this.props.value,
     hasErrors: false,
     errors: [],
   };
@@ -39,9 +43,32 @@ export class FormInput extends React.Component<FormInputProps> {
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: FormInputProps) {
-    if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
-      this.setState({ value: nextProps.value });
+  static getDerivedStateFromProps(props: FormInputProps, state: FormInputState) {
+    if (props.value === undefined) {
+      return null;
+    }
+
+    if (props.value === state.prevValueProp) {
+      return null;
+    }
+
+    return {
+      value: props.value,
+      prevValueProp: props.value,
+    };
+  }
+
+  componentDidUpdate(props: FormInputProps, state: FormInputState) {
+    const input = this.props.formService.getInput(this.id);
+
+    console.log(`INPUT VALUE: ${input!.value}, STATE VALUE: ${state.value}`);
+
+    if (!input || !input.value && !state.value) {
+      return;
+    }
+
+    if (input.value !== state.value) {
+      this.props.formService.updateInput(this.getDescriptorFromProps(state.value));
     }
   }
 
