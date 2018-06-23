@@ -1,6 +1,7 @@
 import { FormValues, InputDescriptor, FormValueType, FormErrors } from '../types';
 declare class FormService {
     private inputs;
+    getInput(id: string): InputDescriptor | undefined;
     registerInput(input: InputDescriptor): void;
     updateInput(input: InputDescriptor): void;
     unregisterInputById(id: string): void;

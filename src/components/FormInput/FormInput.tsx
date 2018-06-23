@@ -43,7 +43,10 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-  static getDerivedStateFromProps(props: FormInputProps, state: FormInputState) {
+  static getDerivedStateFromProps(
+    props: FormInputProps,
+    state: FormInputState,
+  ) {
     if (props.value === undefined) {
       return null;
     }
@@ -58,18 +61,20 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     };
   }
 
-  componentDidUpdate(props: FormInputProps, state: FormInputState) {
+  componentDidUpdate() {
     const input = this.props.formService.getInput(this.id);
 
-    console.log(`INPUT VALUE: ${input!.value}, STATE VALUE: ${state.value}`);
-
-    if (!input || !input.value && !state.value) {
+    if (!input) {
       return;
     }
 
-    if (input.value !== state.value) {
-      this.props.formService.updateInput(this.getDescriptorFromProps(state.value));
+    if (input.value === this.state.value) {
+      return;
     }
+
+    const descriptor = this.getDescriptorFromProps(this.state.value);
+    this.props.formService.updateInput(descriptor);
+    this.props.formEventEmitter.update();
   }
 
   getDescriptorFromProps(value: string): InputDescriptor {
@@ -103,10 +108,10 @@ export class FormInput extends React.PureComponent<FormInputProps> {
   }
 
   onFormSubmit() {
-    this.validate(this.getDescriptorFromProps(this.state.value));
+    this.updateInputState(this.getDescriptorFromProps(this.state.value));
   }
 
-  validate(descriptor: InputDescriptor) {
+  updateInputState(descriptor: InputDescriptor) {
     const errors = this.props.formService.getErrorsFromInput(descriptor);
     const hasErrors = !!errors.length;
 
@@ -115,16 +120,11 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       hasErrors,
       value: descriptor.value,
     });
-
-    return !hasErrors;
   }
 
   onInputChange(value: string) {
     const descriptor = this.getDescriptorFromProps(value);
-    this.props.formService.updateInput(descriptor);
-    this.props.formEventEmitter.update();
-
-    this.validate(descriptor);
+    this.updateInputState(descriptor);
 
     if (this.props.onChange) {
       this.props.onChange(value);
@@ -218,10 +218,7 @@ export const FormInputDecorator = function<T>(
 ) {
   const DecoratedInput: React.SFC<T & DecoratedInputProps> = props => (
     <FormContext.Consumer>
-      {({
-        formService,
-        formEventEmitter,
-      }) => (
+      {({ formService, formEventEmitter }) => (
         <FormInput
           formService={formService}
           formEventEmitter={formEventEmitter}

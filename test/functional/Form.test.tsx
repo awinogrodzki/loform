@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, TextInput, emailValidator } from '../../src';
+import { Form, TextInput, emailValidator } from '../../dist';
 import { mount } from 'enzyme';
 
 const event = value => ({ target: { value } });
@@ -15,7 +15,7 @@ describe('Form', () => {
             <button onClick={() => submit()} />
           </>
         )}
-      </Form>
+      </Form>,
     );
 
     wrapper
@@ -39,7 +39,7 @@ describe('Form', () => {
             <button onClick={() => submit()} />
           </>
         )}
-      </Form>
+      </Form>,
     );
 
     wrapper.find('button').simulate('click');
@@ -64,7 +64,7 @@ describe('Form', () => {
             <button onClick={() => submit()} />
           </>
         )}
-      </Form>
+      </Form>,
     );
 
     wrapper
@@ -93,7 +93,7 @@ describe('Form', () => {
             <button onClick={() => submit()} />
           </>
         )}
-      </Form>
+      </Form>,
     );
 
     wrapper
@@ -170,7 +170,7 @@ describe('Form', () => {
             <button onClick={() => submit()} />
           </>
         )}
-      </Form>
+      </Form>,
     );
 
     wrapper.find('button').simulate('click');
@@ -181,8 +181,8 @@ describe('Form', () => {
     });
   });
 
-  fit('should allow to control input value during it\'s lifecycle', () => {
-    const SimpleForm = (({ testValue }: { testValue?: string }) => (
+  it("should allow to control input value during it's lifecycle", () => {
+    const SimpleForm = ({ testValue }: { testValue?: string }) => (
       <Form onSubmit={onSubmit}>
         {({ submit }) => (
           <>
@@ -191,11 +191,9 @@ describe('Form', () => {
           </>
         )}
       </Form>
-    ));
-    const onSubmit = jest.fn();
-    const wrapper = mount(
-      <SimpleForm />
     );
+    const onSubmit = jest.fn();
+    const wrapper = mount(<SimpleForm />);
 
     wrapper
       .find('[name="input"] input')
@@ -206,11 +204,11 @@ describe('Form', () => {
       input: 'test value',
     });
 
-    // wrapper.setProps({ testValue: 'controlled value' });
-    // wrapper.find('button').simulate('click');
+    wrapper.setProps({ testValue: 'controlled value' });
+    wrapper.find('button').simulate('click');
 
-    // expect(onSubmit).toHaveBeenLastCalledWith({
-    //   input: 'controlled value',
-    // });
+    expect(onSubmit).toHaveBeenLastCalledWith({
+      input: 'controlled value',
+    });
   });
 });

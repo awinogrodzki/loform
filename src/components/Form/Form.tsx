@@ -1,16 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
-import {
-  FormService,
-  FormEventEmitter,
-  FormEvent,
-} from '../../services';
-import {
-  RenderProps,
-  FormValues,
-  FormErrors,
-} from '../../types';
+import { FormService, FormEventEmitter, FormEvent } from '../../services';
+import { RenderProps, FormValues, FormErrors } from '../../types';
 import { FormContext } from '../../context';
 
 const styles = require('./Form.css');
@@ -42,9 +34,11 @@ class Form extends React.Component<FormInterface> {
     super(props);
 
     this.formEventEmitter = props.formEventEmitter
-      ? props.formEventEmitter : (new FormEventEmitter());
+      ? props.formEventEmitter
+      : new FormEventEmitter();
     this.formService = props.formService
-      ? props.formService : (new FormService());
+      ? props.formService
+      : new FormService();
     this.renderProps = {
       submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
     };

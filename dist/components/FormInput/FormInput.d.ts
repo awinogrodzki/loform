@@ -6,7 +6,7 @@ interface FormInputState {
     hasErrors: boolean;
     errors: string[];
 }
-export declare class FormInput extends React.Component<FormInputProps> {
+export declare class FormInput extends React.PureComponent<FormInputProps> {
     static defaultProps: Partial<FormInputProps>;
     state: FormInputState;
     private id;
@@ -15,11 +15,12 @@ export declare class FormInput extends React.Component<FormInputProps> {
         value: string;
         prevValueProp: string;
     } | null;
+    componentDidUpdate(): void;
     getDescriptorFromProps(value: string): InputDescriptor;
     componentDidMount(): void;
     componentWillUnmount(): void;
     onFormSubmit(): void;
-    validate(descriptor: InputDescriptor): boolean;
+    updateInputState(descriptor: InputDescriptor): void;
     onInputChange(value: string): void;
     renderErrors(errors: string[]): JSX.Element;
     render(): JSX.Element;

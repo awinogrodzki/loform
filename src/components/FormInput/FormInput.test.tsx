@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { FormInput } from './FormInput';
-import {
-  FormService,
-  FormEventEmitter,
-} from '../../services';
+import { FormService, FormEventEmitter } from '../../services';
 
 jest.mock('../../services');
 
@@ -28,25 +25,22 @@ describe('FormInput', () => {
   beforeEach(() => {
     formService = new FormService();
     formEventEmitter = new FormEventEmitter();
-    (formService.getErrorsFromInput as jest.Mock)
-      .mockImplementation(() => []);
+    (formService.getErrorsFromInput as jest.Mock).mockImplementation(() => []);
   });
 
   it('should update input descriptor on change', () => {
     let change: (values: string) => any;
-
-    shallow(
+    (formService.getInput as jest.Mock).mockReturnValueOnce(mockDescriptor);
+    mount(
       <FormInput
         {...mockDescriptor}
         formService={formService}
         formEventEmitter={formEventEmitter}
       >
-        {({
-          onChange,
-        }) => {
+        {({ onChange }) => {
           change = onChange!;
 
-          return <div/>;
+          return <div />;
         }}
       </FormInput>,
     );
@@ -66,9 +60,7 @@ describe('FormInput', () => {
         formService={formService}
         formEventEmitter={formEventEmitter}
       >
-        {({
-          onChange,
-        }) => <div/>}
+        {({ onChange }) => <div />}
       </FormInput>,
     );
 
@@ -81,12 +73,11 @@ describe('FormInput', () => {
 
   it('should display errors if input is invalid', () => {
     let change: (value: string) => any;
-    (formService.getErrorsFromInput as jest.Mock)
-      .mockImplementation(() => [
-        'Message 1',
-        'Message 2',
-        'Message 3',
-      ]);
+    (formService.getErrorsFromInput as jest.Mock).mockImplementation(() => [
+      'Message 1',
+      'Message 2',
+      'Message 3',
+    ]);
     const wrapper = shallow(
       <FormInput
         {...mockDescriptor}
@@ -94,12 +85,10 @@ describe('FormInput', () => {
         formService={formService}
         formEventEmitter={formEventEmitter}
       >
-        {({
-          onChange,
-        }) => {
+        {({ onChange }) => {
           change = onChange!;
 
-          return <div/>;
+          return <div />;
         }}
       </FormInput>,
     );
@@ -109,7 +98,7 @@ describe('FormInput', () => {
   });
 
   it('should pass has errors flag from props to input', () => {
-    const renderProps = jest.fn(() => <div/>);
+    const renderProps = jest.fn(() => <div />);
 
     const wrapper = shallow(
       <FormInput
@@ -121,26 +110,27 @@ describe('FormInput', () => {
       </FormInput>,
     );
 
-    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: false }));
+    expect(renderProps).toHaveBeenLastCalledWith(
+      expect.objectContaining({ hasErrors: false }),
+    );
 
     wrapper.setProps({ hasErrors: true });
 
-    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: true }));
+    expect(renderProps).toHaveBeenLastCalledWith(
+      expect.objectContaining({ hasErrors: true }),
+    );
   });
 
   it('should give has errors prop a higher priority', () => {
     let change: (value: string) => any;
-    (formService.getErrorsFromInput as jest.Mock)
-      .mockImplementation(() => [
-        'Message 1',
-        'Message 2',
-        'Message 3',
-      ]);
-    const renderProps = jest.fn(({
-      onChange,
-    }) => {
+    (formService.getErrorsFromInput as jest.Mock).mockImplementation(() => [
+      'Message 1',
+      'Message 2',
+      'Message 3',
+    ]);
+    const renderProps = jest.fn(({ onChange }) => {
       change = onChange;
-      return <div/>;
+      return <div />;
     });
 
     shallow(
@@ -156,22 +146,21 @@ describe('FormInput', () => {
 
     change!('any value');
 
-    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: false }));
+    expect(renderProps).toHaveBeenLastCalledWith(
+      expect.objectContaining({ hasErrors: false }),
+    );
   });
 
   it('should tell if input has errors', () => {
     let change: (value: string) => any;
-    (formService.getErrorsFromInput as jest.Mock)
-      .mockImplementation(() => [
-        'Message 1',
-        'Message 2',
-        'Message 3',
-      ]);
-    const renderProps = jest.fn(({
-      onChange,
-    }) => {
+    (formService.getErrorsFromInput as jest.Mock).mockImplementation(() => [
+      'Message 1',
+      'Message 2',
+      'Message 3',
+    ]);
+    const renderProps = jest.fn(({ onChange }) => {
       change = onChange;
-      return <div/>;
+      return <div />;
     });
 
     shallow(
@@ -185,16 +174,16 @@ describe('FormInput', () => {
     );
 
     change!('any value');
-    expect(renderProps).toHaveBeenLastCalledWith(expect.objectContaining({ hasErrors: true }));
+    expect(renderProps).toHaveBeenLastCalledWith(
+      expect.objectContaining({ hasErrors: true }),
+    );
   });
 
   it('should update state value if prop value has changed', () => {
     let change: (value: string) => any;
-    const renderProps = jest.fn(({
-      onChange,
-    }) => {
+    const renderProps = jest.fn(({ onChange }) => {
       change = onChange;
-      return <div/>;
+      return <div />;
     });
 
     const wrapper = shallow(

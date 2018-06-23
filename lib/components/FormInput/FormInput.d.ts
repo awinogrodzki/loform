@@ -1,20 +1,26 @@
 import * as React from 'react';
 import { InputDescriptor, FormInputProps, DecoratedInputProps } from '../../types';
-export declare class FormInput extends React.Component<FormInputProps> {
+interface FormInputState {
+    value: string;
+    prevValueProp?: string;
+    hasErrors: boolean;
+    errors: string[];
+}
+export declare class FormInput extends React.PureComponent<FormInputProps> {
     static defaultProps: Partial<FormInputProps>;
-    state: {
-        value: string;
-        hasErrors: boolean;
-        errors: string[];
-    };
+    state: FormInputState;
     private id;
     constructor(props: FormInputProps);
-    componentWillReceiveProps(nextProps: FormInputProps): void;
+    static getDerivedStateFromProps(props: FormInputProps, state: FormInputState): {
+        value: string;
+        prevValueProp: string;
+    } | null;
+    componentDidUpdate(): void;
     getDescriptorFromProps(value: string): InputDescriptor;
     componentDidMount(): void;
     componentWillUnmount(): void;
     onFormSubmit(): void;
-    validate(descriptor: InputDescriptor): boolean;
+    updateInputState(descriptor: InputDescriptor): void;
     onInputChange(value: string): void;
     renderErrors(errors: string[]): JSX.Element;
     render(): JSX.Element;
