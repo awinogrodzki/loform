@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/awinogrodzki/loform/compare/v2.0.0...v2.0.1) (2018-06-23)
+
+
+### Bug Fixes
+
+* fixed derived state ([e71725b](https://github.com/awinogrodzki/loform/commit/e71725b))
+* **FormInput:** changed componentWillReceiveProps to getDerivedStateFromProps ([268d058](https://github.com/awinogrodzki/loform/commit/268d058))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/awinogrodzki/loform/compare/v1.1.0...v2.0.0) (2018-06-21)
 
