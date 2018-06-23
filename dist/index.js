@@ -104,7 +104,7 @@ __export(__webpack_require__(26));
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2016 Jed Watson.
+  Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
@@ -126,8 +126,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 			if (argType === 'string' || argType === 'number') {
 				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				classes.push(classNames.apply(null, arg));
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
 			} else if (argType === 'object') {
 				for (var key in arg) {
 					if (hasOwn.call(arg, key) && arg[key]) {
@@ -141,6 +144,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	}
 
 	if (typeof module !== 'undefined' && module.exports) {
+		classNames.default = classNames;
 		module.exports = classNames;
 	} else if (true) {
 		// register as 'classnames', consistent with npm package name
@@ -281,6 +285,9 @@ var FormService = /** @class */ (function () {
     function FormService() {
         this.inputs = new Map();
     }
+    FormService.prototype.getInput = function (id) {
+        return this.inputs.get(id);
+    };
     FormService.prototype.registerInput = function (input) {
         this.inputs.set(input.id, input);
     };
@@ -464,6 +471,7 @@ var FormInput = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             value: _this.props.value || '',
+            prevValueProp: _this.props.value,
             hasErrors: false,
             errors: [],
         };
@@ -472,10 +480,29 @@ var FormInput = /** @class */ (function (_super) {
         _this.onFormSubmit = _this.onFormSubmit.bind(_this);
         return _this;
     }
-    FormInput.prototype.componentWillReceiveProps = function (nextProps) {
-        if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
-            this.setState({ value: nextProps.value });
+    FormInput.getDerivedStateFromProps = function (props, state) {
+        if (props.value === undefined) {
+            return null;
         }
+        if (props.value === state.prevValueProp) {
+            return null;
+        }
+        return {
+            value: props.value,
+            prevValueProp: props.value,
+        };
+    };
+    FormInput.prototype.componentDidUpdate = function () {
+        var input = this.props.formService.getInput(this.id);
+        if (!input) {
+            return;
+        }
+        if (input.value === this.state.value) {
+            return;
+        }
+        var descriptor = this.getDescriptorFromProps(this.state.value);
+        this.props.formService.updateInput(descriptor);
+        this.props.formEventEmitter.update();
     };
     FormInput.prototype.getDescriptorFromProps = function (value) {
         return {
@@ -497,9 +524,9 @@ var FormInput = /** @class */ (function (_super) {
         this.props.formEventEmitter.removeListener(services_1.FormEvent.Submit, this.onFormSubmit);
     };
     FormInput.prototype.onFormSubmit = function () {
-        this.validate(this.getDescriptorFromProps(this.state.value));
+        this.updateInputState(this.getDescriptorFromProps(this.state.value));
     };
-    FormInput.prototype.validate = function (descriptor) {
+    FormInput.prototype.updateInputState = function (descriptor) {
         var errors = this.props.formService.getErrorsFromInput(descriptor);
         var hasErrors = !!errors.length;
         this.setState({
@@ -507,13 +534,10 @@ var FormInput = /** @class */ (function (_super) {
             hasErrors: hasErrors,
             value: descriptor.value,
         });
-        return !hasErrors;
     };
     FormInput.prototype.onInputChange = function (value) {
         var descriptor = this.getDescriptorFromProps(value);
-        this.props.formService.updateInput(descriptor);
-        this.props.formEventEmitter.update();
-        this.validate(descriptor);
+        this.updateInputState(descriptor);
         if (this.props.onChange) {
             this.props.onChange(value);
         }
@@ -546,7 +570,7 @@ var FormInput = /** @class */ (function (_super) {
         validators: [],
     };
     return FormInput;
-}(React.Component));
+}(React.PureComponent));
 exports.FormInput = FormInput;
 exports.FormInputDecorator = function (Component) {
     var DecoratedInput = function (props) { return (React.createElement(context_1.FormContext.Consumer, null, function (_a) {
@@ -641,9 +665,11 @@ var Form = /** @class */ (function (_super) {
     function Form(props) {
         var _this = _super.call(this, props) || this;
         _this.formEventEmitter = props.formEventEmitter
-            ? props.formEventEmitter : (new services_1.FormEventEmitter());
+            ? props.formEventEmitter
+            : new services_1.FormEventEmitter();
         _this.formService = props.formService
-            ? props.formService : (new services_1.FormService());
+            ? props.formService
+            : new services_1.FormService();
         _this.renderProps = {
             submit: _this.formEventEmitter.submit.bind(_this.formEventEmitter),
         };
