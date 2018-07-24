@@ -250,7 +250,7 @@ const formValues = formService.getValuesFromInputs();
 
 **Form requires it's children to be a render function. What it means is that instead of strings, components or array of them you pass a function that returns them:*
 
-```
+```javascript
 <Form onSubmit={values => console.log(values)}>
   {(form) => (
     {/* ... */}
@@ -259,10 +259,13 @@ const formValues = formService.getValuesFromInputs();
 ```
 
 Our render function argument consists of following properties:
-| Name   | Description--------------------- |
+
+| Name   | Description                      |
 | :----- | :------------------------------- |
 | submit | A function that submits our form |
-| errors | [FormErrors](#formerrors) object |    
+| errors | [FormErrors](#formerrors) object |
+
+
 
 ### Inputs
 
