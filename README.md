@@ -248,7 +248,7 @@ const formValues = formService.getValuesFromInputs();
 | formService       | [FormService](#formservice)           | `false`  | Service that handles input registration and validation                     |
 | formEventListener | [FormEventEmitter](#formeventemitter) | `false`  | Service that handles submit and update events                              |
 
-**Form requires it's children to be a render function. What it means is that instead of strings, components or array of them you pass a function that returns them:*
+**Form requires it's children to be a render function. What it means is that instead of strings, components or array of them you pass a function that returns them:**
 
 ```javascript
 <Form onSubmit={values => console.log(values)}>
