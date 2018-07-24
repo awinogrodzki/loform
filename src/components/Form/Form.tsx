@@ -18,7 +18,7 @@ export interface FormProps {
   children: (renderProps: RenderProps) => React.ReactNode;
 }
 
-interface FormState {
+export interface FormState {
   errors: FormErrors;
 }
 

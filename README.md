@@ -61,7 +61,6 @@ loform for React was inspired by Render Props concept. [Here's why to use Render
 ---
 
 - **React** and **React DOM** version **^16.3.0** (due to new React Context)
-- If your project is written in **TypeScript**, make sure you have installed version **^2.9.0** (due to type compatibility)
 
 Go straight to [Docs](#components)
 

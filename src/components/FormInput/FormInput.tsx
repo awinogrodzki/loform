@@ -9,7 +9,7 @@ import {
 } from '../../types';
 import { FormContext } from '../../context';
 
-interface FormInputState {
+export interface FormInputState {
   value: string;
   prevValueProp?: string;
 }
