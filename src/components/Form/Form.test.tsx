@@ -58,4 +58,43 @@ describe('Form', () => {
       }),
     );
   });
+
+  it('should remove input key from errors if it is no longer invalid', () => {
+    const render = jest.fn(() => <div />);
+    const eventEmitter = new FormEventEmitter();
+
+    shallow(
+      <Form formEventEmitter={eventEmitter} onSubmit={jest.fn()}>
+        {render}
+      </Form>,
+    );
+
+    const firstInput: InputDescriptor = {
+      id: 'test1',
+      name: 'name1',
+      value: '',
+      required: true,
+      requiredMessage: 'error',
+    };
+
+    eventEmitter.update(firstInput);
+
+    expect(render).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        errors: {
+          name1: ['error'],
+        },
+      }),
+    );
+
+    const updatedInput = { ...firstInput, value: 'test' };
+
+    eventEmitter.update(updatedInput);
+
+    expect(render).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        errors: {},
+      }),
+    );
+  });
 });
