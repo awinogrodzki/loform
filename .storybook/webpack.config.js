@@ -4,7 +4,7 @@ module.exports = {
   plugins: [],
   resolve: {
     modules: [path.resolve(__dirname, '../src'), 'node_modules'],
-    extensions: ['.ts', '.tsx', '.js', '.css', '.md'],
+    extensions: ['.ts', '.tsx', '.js', '.css'],
   },
   module: {
     rules: [
