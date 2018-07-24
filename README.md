@@ -21,7 +21,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
 You might be thinking, why should you choose loform over Formik then?
 
 1.  Sometimes size matter, and loform is two times lighter than Formik.
-2.  Less mess. In loform validation is sole responsibility of an input. If you delete an input, you don't need to worry about updating your form.
+2.  Less mess. In loform, validation is sole responsibility of an input. If you delete an input, you don't need to worry about updating your form.
 3.  More complex forms, easier to maintain. You can create and manage state of only one form in Formik, while loform allows you to control multiple forms by sharing same instance of [FormService](#formservice)
 4.  With loform you can submit your Form outside of Form component. Actually, you can do it anywhere in the application using [FormEventEmitter](#formeventemitter). You cannot do that with Formik.
 
