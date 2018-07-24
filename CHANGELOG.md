@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.2"></a>
+## [3.0.2](https://github.com/awinogrodzki/loform/compare/v3.0.1...v3.0.2) (2018-07-24)
+
+
+### Bug Fixes
+
+* fixed declaration files ([695dd7f](https://github.com/awinogrodzki/loform/commit/695dd7f))
+* fixed type definitions ([8394223](https://github.com/awinogrodzki/loform/commit/8394223))
+
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/awinogrodzki/loform/compare/v3.0.0...v3.0.1) (2018-07-24)
 
