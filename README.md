@@ -4,6 +4,27 @@ loform is light, easy to use and extendable form validation library written in T
 
 See **Examples** in Storybook [here](https://awinogrodzki.github.io/loform/)
 
+### Why not Redux-Form?
+
+Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/formik)
+
+> By now, you might be thinking, "Why didn't you just use
+> [Redux-Form](https://github.com/erikras/redux-form)?" Good question.
+>
+> 1.  According to our prophet Dan Abramov,
+>     [**form state is inherently ephemeral and local**, so tracking it in Redux (or any kind of Flux library) is unnecessary](https://github.com/reactjs/redux/issues/1287#issuecomment-175351978)
+> 2.  Redux-Form calls your entire top-level Redux reducer multiple times ON EVERY
+>     SINGLE KEYSTROKE. This is fine for small apps, but as your Redux app grows,
+>     input latency will continue to increase if you use Redux-Form.
+> 3.  Redux-Form is 22.5 kB minified gzipped (Formik is 7.8 kB)
+
+You might be thinking, why should you choose loform over Formik then?
+
+1.  Sometimes size matter, and loform is two times lighter than Formik.
+2.  Less mess. In loform validation is sole responsibility of an input. If you delete an input, you don't need to worry about updating your form.
+3.  More complex forms, easier to maintain. You can create and manage state of only one form in Formik, while loform allows you to control multiple forms by sharing same instance of [FormService](#formservice)
+4.  With loform you can submit your Form outside of Form component. Actually, you can do it anywhere in the application using [FormEventEmitter](#formeventemitter). You cannot do that with Formik.
+
 ## Table of Contents
 
 - [React](#react)
@@ -121,7 +142,6 @@ In order for input to work, you need to wrap it with **FormInputDecorator** HOC
 - disabled?: boolean
 - placeholder?: string
 - ...rest _all other props given to the HOC will be passed down to your component (eg. options in SelectInput)_
-
 
 ```javascript
 import React from 'react';
@@ -271,8 +291,6 @@ Our render function argument consists of following properties:
 | submit | A function that submits our form |
 | errors | [FormErrors](#formerrors) object |
 
-
-
 ### Inputs
 
 ---
@@ -419,8 +437,8 @@ FormErrors is an object representing invalid inputs with error messages. Example
   ]
 }
 ```
-**Note that if form is valid, FormErrors object has no properties.**
 
+**Note that if form is valid, FormErrors object has no properties.**
 
 #### FormEvent
 
