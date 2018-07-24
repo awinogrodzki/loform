@@ -54,7 +54,6 @@ class FormService {
   }
 
   getErrorsFromInput({
-    label,
     name,
     value,
     required,
@@ -64,7 +63,7 @@ class FormService {
     let errors: string[] = [];
 
     if (required && !value) {
-      errors = [requiredMessage || `Input ${label || name} is required`];
+      errors = [requiredMessage || `Input ${name} is required`];
     }
 
     validators.forEach((validator) => {

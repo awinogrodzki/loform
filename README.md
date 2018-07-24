@@ -1,12 +1,12 @@
-# loform #
+# loform
 
-loform is light, easy to use and extendable form validation library written in TypeScript. Currently available for React, but planned to support other popular UI libraries/frameworks (most of the logic is library-agnostic).
+loform is light, easy to use and extendable form validation library written in TypeScript. Currently available for React.
 
-#### Module size
-**16.8kb minified (4.4kb gzipped)**
+See **Examples** in Storybook [here](https://awinogrodzki.github.io/loform/)
 
-## Table of Contents ##
-* [React](#react)
+## Table of Contents
+
+- [React](#react)
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -22,424 +22,446 @@ loform is light, easy to use and extendable form validation library written in T
     - [RadioInput](#radioinput)
   - [Types](#types)
   - [Services](#services)
-* [Development](#development)
-* [Contributing](#contributing)
-
+- [Development](#development)
+- [Contributing](#contributing)
 
 It can be used with TypeScript (definition files included) and pure JavaScript.
 
+## React
 
-## React ##
+### Module size
 
-  loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
+**14.4kb minified (3.7kb gzipped)**
 
-  ### Requirements ###
-  --------------------
+loform for React was inspired by Render Props concept. [Here's why to use Render Props](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce)
 
-  * **React** and **React DOM** version **^16.3.0** (due to new React Context)
-  * If your project is written in **TypeScript**, make sure you have installed version **^2.9.0** (due to type compatibility)
+### Requirements
 
-  See **Examples** in Storybook [here](https://awinogrodzki.github.io/loform/)
+---
 
+- **React** and **React DOM** version **^16.3.0** (due to new React Context)
+- If your project is written in **TypeScript**, make sure you have installed version **^2.9.0** (due to type compatibility)
 
-  Go straight to [Docs](#components)
+Go straight to [Docs](#components)
 
+### Installation
 
-  ### Installation ###
-  --------------------
+---
 
+#### npm
 
-  #### npm ####
-  ```
-  npm install @loform/react --save
-  ```
-  #### yarn ####
-  ```
-  yarn add @loform/react
-  ```
+```
+npm install @loform/react --save
+```
 
+#### yarn
 
-  ### Usage ###
-  -------------
+```
+yarn add @loform/react
+```
 
+### Usage
 
-  *All examples are in JavaScript*
+---
 
-  #### Basic form ####
+_All examples are in JavaScript_
 
-  *Note that in order to import styles from javascript you need to have appropriate loader (eg. [postcss-loader for Webpack](https://github.com/postcss/postcss-loader))*
+#### Basic form
 
-  ```javascript
-  import React from 'react';
-  import {
-    Form,
-    TextInput,
-    PasswordInput,
-    emailValidator,
-  } from '@loform/react';
-  import '@loform/react/dist/styles.css';
+```javascript
+import React from 'react';
+import { Form, TextInput, PasswordInput, emailValidator } from '@loform/react';
 
-  const LoginForm = () => (
-    <Form
-      className="form"
-      onSubmit={values => console.log(values)}
-    >
-      {({
-        submit,
-      }) => (
-        <>
-          <TextInput
-            className="emailInput"
-            name="email"
-            value="example@email.com"
-            placeholder="Enter email address"
-            validators={[
-              emailValidator('Value is not a valid email address'),
-            ]}
-            required
-            requiredMessage="Email is required."
-          />
-          <PasswordInput
-            name="password"
-            required
-            requiredMessage="Password is required."
-          />
-          <button onClick={() => submit()}>Submit form</button>
-        </>
-      )}
-    </Form>
-  );
-  ```
+const renderErrors = (errors, inputName) =>
+  errors[inputName] &&
+  errors[inputName].map((error, index) => (
+    <span key={index} className="error">
+      {error}
+    </span>
+  ));
 
-  #### Custom input ####
-  In order for input to work, you need to wrap it with **FormInputDecorator** HOC
+const LoginForm = () => (
+  <Form className="form" onSubmit={values => console.log(values)}>
+    {({ submit, errors }) => (
+      <>
+        {/* Since version 3.0 you control styles and rendering order of errors */}
+        {renderErrors(errors, 'email')}
+        <TextInput
+          className="emailInput"
+          name="email"
+          value="example@email.com"
+          placeholder="Enter email address"
+          validators={[emailValidator('Value is not a valid email address')]}
+          required
+          requiredMessage="Email is required."
+        />
+        {renderErrors(errors, 'password')}
+        <PasswordInput
+          name="password"
+          required
+          requiredMessage="Password is required."
+        />
+        <button onClick={() => submit()}>Submit form</button>
+      </>
+    )}
+  </Form>
+);
+```
 
-  ##### Props passed by FormInputDecorator HOC #####
-  * id: string
-  * name: string
-  * hasErrors: boolean
-  * value: string
-  * onChange: (value: string) => any
-  * disabled?: boolean
-  * placeholder?: string
-  * ...rest *all other props given to the HOC will be passed down to your component (eg. options in SelectInput)*
+#### Custom input
 
-  ```javascript
-  import React from 'react';
-  import classnames from 'classnames';
-  import { FormInputDecorator } from '@loform/react';
+In order for input to work, you need to wrap it with **FormInputDecorator** HOC
 
-  const ON = 'on';
-  const OFF = 'off';
+##### Props passed by FormInputDecorator HOC
 
-  export const SwitchInput = ({
-    onChange,
-    hasErrors,
-    value,
-  }) => (
-    <div
-      className={classnames(
-        'switchInput',
-        { 'switchInput__hasErrors': hasErrors },
-      )}
-    >
-      <input
-        type="radio"
-        value={ON}
-        checked={value === ON}
-        onChange={() => onChange(ON)}
-      />
-      <input
-        type="radio"
-        value={OFF}
-        checked={value === OFF}
-        onChange={() => onChange(OFF)}
-      />
-    </div>
-  );
-
-  export default FormInputDecorator(SwitchInput);
-  ```
-
-  Usage:
-
-  ```javascript
-  const LoginForm = () => (
-    <Form
-      className="form"
-      onSubmit={values => console.log(values)}
-    >
-      {({
-        submit,
-      }) => (
-        <>
-          <SwitchInput
-            name="switch"
-            validators={[
-              {
-                errorMessage: 'Switch should be off to submit',
-                validate: value => value === 'off',
-              },
-            ]}
-            value="on"
-          />
-          <button onClick={() => submit()}>Submit form</button>
-        </>
-      )}
-    </Form>
-  );
-  ```
+- id: string
+- name: string
+- value: string
+- onChange: (value: string) => any
+- disabled?: boolean
+- placeholder?: string
+- ...rest _all other props given to the HOC will be passed down to your component (eg. options in SelectInput)_
 
 
-  #### Advanced form ####
-  ```javascript
-  import {
-    Form,
-    TextInput,
-    FormEventEmitter,
-    FormService,
-  } from '@loform/react';
-  import '@loform/react/dist/styles.css';
+```javascript
+import React from 'react';
+import classnames from 'classnames';
+import { FormInputDecorator } from '@loform/react';
 
-  const formEventEmitter = new FormEventEmitter();
-  const formService = new FormService();
+const ON = 'on';
+const OFF = 'off';
 
-  const AddressForm = () => (
-    <Form
-      formEventEmitter={formEventEmitter}
-      formService={formService}
-      onSubmit={values => console.log(values)}
-    >
-      {() => (
-        <>
-          <TextInput name="name" label="Name" required />
-          <TextInput name="street" label="Street" required />
-          <TextInput name="city" label="City" required />
-        </>
-      )}
-    </Form>
-  );
+export const SwitchInput = ({ onChange, hasErrors, value }) => (
+  <div
+    className={classnames('switchInput', { switchInput__hasErrors: hasErrors })}
+  >
+    SWITCH ME ON
+    <input
+      type="radio"
+      value={ON}
+      checked={value === ON}
+      onChange={() => onChange(ON)}
+    />
+    <input
+      type="radio"
+      value={OFF}
+      checked={value === OFF}
+      onChange={() => onChange(OFF)}
+    />
+  </div>
+);
 
-  const OtherComponent = () => (
-    <div>
-      <AddressForm />
-      <button onClick={() => formEventEmitter.submit()}>Submit outside</button>
-    </div>
-  );
-  ```
-  Later in code
-  ```javascript
-  const formValues = formService.getValuesFromInputs();
-  ```
+export default FormInputDecorator(SwitchInput);
+```
 
-  ### Components ###
-  ------------------
+Usage:
 
+```javascript
+const LoginForm = () => (
+  <Form className="form" onSubmit={values => console.log(values)}>
+    {({ submit, errors }) => (
+      <>
+        {errors.switch &&
+          errors.switch.map((error, index) => (
+            <span className="error">{error}</span>
+          ))}
+        <SwitchInput
+          name="switch"
+          hasErrors={!!errors.switch}
+          validators={[
+            {
+              errorMessage: 'Switch should be on to submit',
+              validate: value => value === 'on',
+            },
+          ]}
+          value="off"
+        />
+        <button onClick={() => submit()}>Submit form</button>
+      </>
+    )}
+  </Form>
+);
+```
 
-  #### Form ####
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | onSubmit | `Function` | `true` | Callback called with [FormValues](#formvalues) on successful form submit |
-  | className | `String` | `false` | Class name added to form element |
-  | onError | `Function` | `false` | Callback called with [FormErrors](#formerrors) on unsuccessful form submit |
-  | formService | [FormService](#formservice) | `false` | Service that handles input registration and validation |
-  | formEventListener | [FormEventEmitter](#formeventemitter) | `false` | Service that handles submit and update events  |
+#### Advanced form
 
+```javascript
+import { Form, TextInput, FormEventEmitter, FormService } from '@loform/react';
 
-  ### Inputs ###
-  --------------
+const formEventEmitter = new FormEventEmitter();
+const formService = new FormService();
 
-  #### FormInput ####
-  All inputs extend functionality provided by FormInput component. Checkout [here](#custom-input) how to create custom input with [FormInputDecorator](#custom-input).
+const renderErrors = (errors, inputName) =>
+  errors[inputName] &&
+  errors[inputName].map((error, index) => (
+    <span key={index} className="error">
+      {error}
+    </span>
+  ));
 
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | containerClass | `String` | `false` | Class name added to component's root element |
-  | inputContainerClass | `String` | `false` | Class name added to element that contains input wrapper, label and error list elements |
-  | inputWrapperClass | `String` | `false` | Class name added to element that contains input component |
-  | errorContainerClass | `String` | `false` | Class name added to element containing list of errors |
-  | errorClass | `String` | `false` | Class name added to error element |
-  | label | `String` | `false` | If provided, displays label above input |
-  | required | `Boolean` | `false` | If true, displays error when user is trying to submit form with empty input |
-  | requiredMessage | `String` | `false` | Replaces default required error message |
-  | validators | `Array` | `false` | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
+const AddressForm = () => (
+  <Form
+    formEventEmitter={formEventEmitter}
+    formService={formService}
+    onSubmit={values => console.log(values)}
+  >
+    {({ errors }) => (
+      <>
+        {renderErrors(errors, 'name')}
+        <TextInput name="name" placeholder="Name" required />
+        {renderErrors(errors, 'street')}
+        <TextInput name="street" placeholder="Street" required />
+        {renderErrors(errors, 'city')}
+        <TextInput name="city" placeholder="City" required />
+      </>
+    )}
+  </Form>
+);
 
-  #### TextInput ####
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | id | `String` | `false` | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-  | name | `String` | `true` | Name of an input. Used to generate [FormValues](#formvalues) on form submission. |
-  | value | `String` | `false` | Can be used to set initial value of an input or to control input's value during it's lifecycle |
-  | disabled | `Boolean` | `false` | Can be set to true in order to disable input |
-  | placeholder | `String` | `false` | If set, displayed as placeholder of an input |
-  | className | `String` | `false` | Class name added to input element |
-  | onChange | `Function` | `false` | Function called on input's value change with it's value as a `String` |
-  | [Props from FormInput](#forminput) | - | - | - |
+const OtherComponent = () => (
+  <div>
+    <AddressForm />
+    <button onClick={() => formEventEmitter.submit()}>Submit outside</button>
+  </div>
+);
+```
 
-  #### PasswordInput ####
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | id | `String` | `false` | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-  | name | `String` | `true` | Name of an input. Used to generate [FormValues](#formvalues) on form submission. |
-  | value | `String` | `false` | Can be used to set initial value of an input or to control input's value during it's lifecycle |
-  | disabled | `Boolean` | `false` | Can be set to true in order to disable input |
-  | placeholder | `String` | `false` | If set, displayed as placeholder of an input |
-  | className | `String` | `false` | Class name added to input element |
-  | onChange | `Function` | `false` | Function called on input's value change with it's value as a `String` |
-  | [Props from FormInput](#forminput) | - | - | - |
+Later in code
 
-  #### TextAreaInput ####
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | id | `String` | `false` | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-  | name | `String` | `true` | Name of an input. Used to generate [FormValues](#formvalues) on form submission. |
-  | value | `String` | `false` | Can be used to set initial value of an input or to control input's value during it's lifecycle |
-  | disabled | `Boolean` | `false` | Can be set to true in order to disable input |
-  | className | `String` | `false` | Class name added to input element |
-  | onChange | `Function` | `false` | Function called on input's value change with it's value as a `String` |
-  | [Props from FormInput](#forminput) | - | - | - |
+```javascript
+const formValues = formService.getValuesFromInputs();
+```
 
-  #### SelectInput ####
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | id | `String` | `false` | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-  | name | `String` | `true` | Name of an input. Used to generate [FormValues](#formvalues) on form submission. |
-  | value | `String` | `false` | Can be used to set initial value of an input or to control input's value during it's lifecycle |
-  | options | `Array` | `false` | Array of [Options](#option) |
-  | disabled | `Boolean` | `false` | Can be set to true in order to disable input |
-  | className | `String` | `false` | Class name added to input element |
-  | onChange | `Function` | `false` | Function called on input's value change with it's value as a `String` |
-  | [Props from FormInput](#forminput) | - | - | - |
+### Components
 
-  #### RadioInput ####
-  ##### Props #####
-  | Name | Type | Required | Description |
-  |:---|:---|:---|:---|
-  | id | `String` | `false` | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-  | name | `String` | `true` | Name of an input. Used to generate [FormValues](#formvalues) on form submission. |
-  | value | `String` | `false` | Can be used to set initial value of an input or to control input's value during it's lifecycle |
-  | options | `Array` | `false` | Array of [Options](#option) |
-  | className | `String` | `false` | Class name added to input element |
-  | onChange | `Function` | `false` | Function called on input's value change with it's value as a `String` |
-  | [Props from FormInput](#forminput) | - | - | - |
+---
 
-  ### Types ###
-  -------------
+#### Form
 
+##### Props
 
-  #### Option ####
-  ```
-  {
-    label: string;
-    value: string;
-    disabled?: boolean;
+| Name              | Type                                  | Required | Description                                                                |
+| :---------------- | :------------------------------------ | :------- | :------------------------------------------------------------------------- |
+| onSubmit          | `Function`                            | `true`   | Callback called with [FormValues](#formvalues) on successful form submit   |
+| className         | `String`                              | `false`  | Class name added to form element                                           |
+| onError           | `Function`                            | `false`  | Callback called with [FormErrors](#formerrors) on unsuccessful form submit |
+| formService       | [FormService](#formservice)           | `false`  | Service that handles input registration and validation                     |
+| formEventListener | [FormEventEmitter](#formeventemitter) | `false`  | Service that handles submit and update events                              |
+
+### Inputs
+
+---
+
+#### FormInput
+
+All inputs extend functionality provided by FormInput component. Checkout [here](#custom-input) how to create custom input with [FormInputDecorator](#custom-input).
+
+##### Props
+
+| Name            | Type      | Required | Description                                                                                            |
+| :-------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------- |
+| required        | `Boolean` | `false`  | If true, displays error when user is trying to submit form with empty input                            |
+| requiredMessage | `String`  | `false`  | Replaces default required error message                                                                |
+| validators      | `Array`   | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
+
+#### TextInput
+
+##### Props
+
+| Name                               | Type       | Required | Description                                                                                                  |
+| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
+| placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
+| className                          | `String`   | `false`  | Class name added to input element                                                                            |
+| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
+| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+
+#### PasswordInput
+
+##### Props
+
+| Name                               | Type       | Required | Description                                                                                                  |
+| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
+| placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
+| className                          | `String`   | `false`  | Class name added to input element                                                                            |
+| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
+| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+
+#### TextAreaInput
+
+##### Props
+
+| Name                               | Type       | Required | Description                                                                                                  |
+| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
+| className                          | `String`   | `false`  | Class name added to input element                                                                            |
+| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
+| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+
+#### SelectInput
+
+##### Props
+
+| Name                               | Type       | Required | Description                                                                                                  |
+| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| options                            | `Array`    | `false`  | Array of [Options](#option)                                                                                  |
+| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
+| className                          | `String`   | `false`  | Class name added to input element                                                                            |
+| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
+| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+
+#### RadioInput
+
+##### Props
+
+| Name                               | Type       | Required | Description                                                                                                  |
+| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| options                            | `Array`    | `false`  | Array of [Options](#option)                                                                                  |
+| className                          | `String`   | `false`  | Class name added to input element                                                                            |
+| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
+| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+
+### Types
+
+---
+
+#### Option
+
+```
+{
+  label: string;
+  value: string;
+  disabled?: boolean;
+}
+```
+
+#### InputValidator
+
+InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return _true_ if input is successfully validated and _false_ if otherwise.
+
+```
+{
+  errorMessage: string;
+  validate: (value: string, formValues: FormValues) => boolean;
+}
+```
+
+#### FormValues
+
+FormValues is an object representing all of the current form values. Example:
+
+```
+{
+  firstName: 'John',
+  lastName: 'Doe',
+  userName: 'john.doe',
+  languages: ['PL', 'EN', 'DE'],
+  street: {
+    name: 'Corner Street',
+    number: '180F2'
   }
-  ```
+}
+```
 
-  #### InputValidator ####
-  InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return *true* if input is successfully validated and *false* if otherwise.
-  ```
-  {
-    errorMessage: string;
-    validate: (value: string, formValues: FormValues) => boolean;
-  }
-  ```
+#### FormErrors
 
-  #### FormValues ####
-  FormValues is an object representing all of the current form values. Example:
-  ```
-  {
-    firstName: 'John',
-    lastName: 'Doe',
-    userName: 'john.doe',
-    languages: ['PL', 'EN', 'DE'],
-    street: {
-      name: 'Corner Street',
-      number: '180F2'
-    }
-  }
-  ```
+FormErrors is an object representing invalid inputs with error messages. Example:
 
-  #### FormErrors ####
-  FormErrors is an object representing invalid inputs with error messages. Example:
-  ```
-  {
-    email: [
-      'Invalid email address'
-    ],
-    phone: [
-      'Phone number too long',
-      'Incorrect phone format'
-    ]
-  }
-  ```
+```
+{
+  email: [
+    'Invalid email address'
+  ],
+  phone: [
+    'Phone number too long',
+    'Incorrect phone format'
+  ]
+}
+```
 
-  #### FormEvent ####
-  FormEvent is an enum that can contain two values: "submit" or "update".
+#### FormEvent
 
-  If you are using TypeScript, you will need to use FormEvent.Submit or FormEvent.Update enum value.
-  ```javascript
-  import { FormEvent } from '@loform/react';
-  ```
-  and later in code:
-  ```javascript
-  formEventEmitter.addListener(FormEvent.Submit, callback);
-  ```
+FormEvent is an enum that can contain two values: "submit" or "update".
 
-  ### Services ###
-  ----------------
+If you are using TypeScript, you will need to use FormEvent.Submit or FormEvent.Update enum value.
 
+```javascript
+import { FormEvent } from '@loform/react';
+```
 
-  #### FormService ####
-  FormService is used internally in order to handle inputs, validation and other tasks.
-  For more advanced use can be injected to [Form](#form) through formService prop.
+and later in code:
 
-  ##### Methods #####
-  Documentation is in development. For FormService methods reference use TypeScript declaration files.
+```javascript
+formEventEmitter.addListener(FormEvent.Submit, callback);
+```
 
+### Services
 
-  #### FormEventEmitter ####
-  FormEventEmitter is used internally to handle submit and update events.
-  For more advanced use can be injected to [Form](#form) through formEventEmitter prop.
+---
 
-  See example usage of [FormEventEmitter](#advanced-form)
+#### FormService
 
-  ##### Methods #####
-  Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
+FormService is used internally in order to handle inputs, validation and other tasks.
+For more advanced use can be injected to [Form](#form) through formService prop.
 
-  * submit()
-  * update()
-  * addListener(event: FormEvent, callback: () => any)
-  * removeListener(event: FormEvent, callback: () => any)
+##### Methods
 
-  Check [FormEvent](#formevent) type
+Documentation is in development. For FormService methods reference use TypeScript declaration files.
 
+#### FormEventEmitter
 
-## Development ##
+FormEventEmitter is used internally to handle submit and update events.
+For more advanced use can be injected to [Form](#form) through formEventEmitter prop.
+
+See example usage of [FormEventEmitter](#advanced-form)
+
+##### Methods
+
+Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
+
+- submit()
+- update()
+- addListener(event: FormEvent, callback: () => any)
+- removeListener(event: FormEvent, callback: () => any)
+
+Check [FormEvent](#formevent) type
+
+## Development
 
 Project is written in TypeScript and compiled to JavaScript using Webpack.
 
 In order to develop this application you need to install dependencies using yarn:
+
 ```
 yarn install
 ```
 
 Exemplary components are rendered during development using [Storybook](https://github.com/storybooks/storybook):
+
 ```
 npm run storybook
 ```
 
-## Contributing ##
+## Contributing
 
 In order to contribute to loform you need to use [conventional commits](https://conventionalcommits.org/).
 
 You can freely issue a pull request to the master branch. Mention author for code review before any merges.
 
 If there is a problem issuing a pull request, contact author.
-

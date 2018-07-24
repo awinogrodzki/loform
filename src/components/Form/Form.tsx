@@ -1,13 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import * as classNames from 'classnames';
 import { FormService, FormEventEmitter, FormEvent } from '../../services';
 import { RenderProps, FormValues, FormErrors } from '../../types';
 import { FormContext } from '../../context';
 
-const styles = require('./Form.css');
-
-export interface FormInterface {
+export interface FormProps {
   className?: string;
   formService?: FormService;
   formEventEmitter?: FormEventEmitter;
@@ -16,10 +13,16 @@ export interface FormInterface {
   children: (renderProps: RenderProps) => React.ReactNode;
 }
 
-class Form extends React.Component<FormInterface> {
+interface FormState {
+  errors: FormErrors;
+}
+
+class Form extends React.Component<FormProps, FormState> {
   private formEventEmitter: FormEventEmitter;
   private formService: FormService;
-  private renderProps: RenderProps;
+  public state: FormState = {
+    errors: {},
+  };
 
   static propTypes = {
     className: PropTypes.string,
@@ -30,7 +33,7 @@ class Form extends React.Component<FormInterface> {
     formEventEmitter: PropTypes.instanceOf(FormEventEmitter),
   };
 
-  constructor(props: FormInterface) {
+  constructor(props: FormProps) {
     super(props);
 
     this.formEventEmitter = props.formEventEmitter
@@ -39,13 +42,12 @@ class Form extends React.Component<FormInterface> {
     this.formService = props.formService
       ? props.formService
       : new FormService();
-    this.renderProps = {
-      submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
-    };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onSubmitEvent = this.onSubmitEvent.bind(this);
+    this.onUpdateEvent = this.onUpdateEvent.bind(this);
 
+    this.formEventEmitter.addListener(FormEvent.Update, this.onUpdateEvent);
     this.formEventEmitter.addListener(FormEvent.Submit, this.onSubmitEvent);
   }
 
@@ -54,20 +56,34 @@ class Form extends React.Component<FormInterface> {
   }
 
   submit() {
-    const values = this.formService.getValuesFromInputs();
     const errors = this.formService.getErrors();
     const isValid = Object.keys(errors).length === 0;
 
     if (!isValid) {
-      this.props.onError && this.props.onError(errors);
+      this.setState({
+        errors,
+      }, () => this.props.onError && this.props.onError(errors));
+
       return;
     }
 
-    this.props.onSubmit(values);
+    const values = this.formService.getValuesFromInputs();
+
+    this.setState({
+      errors: {},
+    }, () => this.props.onSubmit(values));
   }
 
   onSubmitEvent() {
     this.submit();
+  }
+
+  onUpdateEvent() {
+    const errors = this.formService.getErrors();
+
+    this.setState({
+      errors,
+    });
   }
 
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -75,11 +91,18 @@ class Form extends React.Component<FormInterface> {
     e.stopPropagation();
   }
 
+  getRenderProps(): RenderProps {
+    return {
+      submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
+      errors: this.state.errors,
+    };
+  }
+
   render() {
     return (
       <form
         onSubmit={this.onFormSubmit}
-        className={classNames(styles.container, this.props.className)}
+        className={this.props.className}
       >
         <FormContext.Provider
           value={{
@@ -87,7 +110,7 @@ class Form extends React.Component<FormInterface> {
             formService: this.formService,
           }}
         >
-          {this.props.children(this.renderProps)}
+          {this.props.children(this.getRenderProps())}
         </FormContext.Provider>
       </form>
     );

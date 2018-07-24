@@ -1,9 +1,6 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
 import { SelectInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
-
-const styles = require('./SelectInput.css');
 
 const SelectInput: React.SFC<SelectInputProps> = ({
   id,
@@ -18,7 +15,7 @@ const SelectInput: React.SFC<SelectInputProps> = ({
     id={id}
     name={name}
     disabled={disabled}
-    className={classNames(className, styles.input)}
+    className={className}
     value={value}
     onChange={e => onChange(e.target.value)}
   >

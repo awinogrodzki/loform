@@ -9,19 +9,12 @@ export interface InputProps {
   disabled?: boolean;
   value?: string;
   onChange?: (value: string) => any;
-  hasErrors?: boolean;
 }
 
 export interface DecoratedInputProps extends InputProps {
-  containerClass?: string;
-  inputContainerClass?: string;
-  inputWrapperClass?: string;
-  errorContainerClass?: string;
-  errorClass?: string;
   validators?: InputValidator[];
   required?: boolean;
   requiredMessage?: string;
-  label?: string;
 }
 
 export interface FormInputProps extends DecoratedInputProps {
@@ -51,7 +44,6 @@ export interface InputValidator {
 
 export interface InputDescriptor {
   id: string;
-  label?: string;
   name: string;
   value: string;
   required: boolean;
@@ -61,6 +53,7 @@ export interface InputDescriptor {
 
 export interface RenderProps {
   submit: () => void;
+  errors: FormErrors;
 }
 
 export type FormValueType = string | string[] | FormValues;
