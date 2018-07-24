@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/awinogrodzki/loform/compare/v2.0.1...v3.0.0) (2018-07-24)
+
+
+### Features
+
+* **FormInput:** removed label, errors and styles ([c8dfd49](https://github.com/awinogrodzki/loform/commit/c8dfd49))
+
+
+### BREAKING CHANGES
+
+* **FormInput:** From now on, user is responsible for styling inputs and displaying errors. Removed form styles and added errors (FormErrors) as Form render function parameter
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/awinogrodzki/loform/compare/v2.0.0...v2.0.1) (2018-06-23)
 
