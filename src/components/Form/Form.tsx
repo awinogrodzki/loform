@@ -1,7 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { FormService, FormEventEmitter, FormEvent } from '../../services';
-import { RenderProps, FormValues, FormErrors } from '../../types';
+import {
+  RenderProps,
+  FormValues,
+  FormErrors,
+  InputDescriptor,
+} from '../../types';
 import { FormContext } from '../../context';
 
 export interface FormProps {
@@ -60,30 +65,51 @@ class Form extends React.Component<FormProps, FormState> {
     const isValid = Object.keys(errors).length === 0;
 
     if (!isValid) {
-      this.setState({
-        errors,
-      }, () => this.props.onError && this.props.onError(errors));
+      this.setState(
+        {
+          errors,
+        },
+        () => this.props.onError && this.props.onError(errors),
+      );
 
       return;
     }
 
     const values = this.formService.getValuesFromInputs();
 
-    this.setState({
-      errors: {},
-    }, () => this.props.onSubmit(values));
+    this.setState(
+      {
+        errors: {},
+      },
+      () => this.props.onSubmit(values),
+    );
   }
 
   onSubmitEvent() {
     this.submit();
   }
 
-  onUpdateEvent() {
-    const errors = this.formService.getErrors();
+  onUpdateEvent(input: InputDescriptor) {
+    const inputErrors = this.formService.getErrorsFromInput(input);
+    const inputKey = this.formService.getInputErrorKey(input);
 
-    this.setState({
-      errors,
-    });
+    if (inputErrors.length > 0) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          [inputKey]: inputErrors,
+        },
+      });
+      return;
+    }
+
+    if (this.state.errors[inputKey]) {
+      const errors = { ...this.state.errors };
+      delete errors[inputKey];
+
+      this.setState({ errors });
+      return;
+    }
   }
 
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -100,10 +126,7 @@ class Form extends React.Component<FormProps, FormState> {
 
   render() {
     return (
-      <form
-        onSubmit={this.onFormSubmit}
-        className={this.props.className}
-      >
+      <form onSubmit={this.onFormSubmit} className={this.props.className}>
         <FormContext.Provider
           value={{
             formEventEmitter: this.formEventEmitter,

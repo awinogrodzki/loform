@@ -1,4 +1,5 @@
 import * as EventEmitter from 'events';
+import { InputDescriptor } from '../types';
 
 export interface FormEventEmitterOptions {
   maxListeners?: number;
@@ -12,22 +13,20 @@ export enum FormEvent {
 class FormEventEmitter {
   private emitter: EventEmitter = new EventEmitter();
 
-  constructor({
-    maxListeners = 100,
-  }: FormEventEmitterOptions = {}) {
+  constructor({ maxListeners = 100 }: FormEventEmitterOptions = {}) {
     this.emitter.setMaxListeners(maxListeners);
   }
 
-  addListener(event: FormEvent, callback: () => any) {
+  addListener(event: FormEvent, callback: (...args: any[]) => any) {
     this.emitter.addListener(event, callback);
   }
 
-  removeListener(event: FormEvent, callback: () => any) {
+  removeListener(event: FormEvent, callback: (...args: any[]) => any) {
     this.emitter.removeListener(event, callback);
   }
 
-  update() {
-    this.emitter.emit(FormEvent.Update);
+  update(descriptor: InputDescriptor) {
+    this.emitter.emit(FormEvent.Update, descriptor);
   }
 
   submit() {

@@ -19,7 +19,7 @@ const mergeArrays = (objValue: any, srcValue: any) => {
 class FormService {
   private inputs: Map<string, InputDescriptor> = new Map();
 
-  getInput(id: string): InputDescriptor|undefined {
+  getInput(id: string): InputDescriptor | undefined {
     return this.inputs.get(id);
   }
 
@@ -42,7 +42,7 @@ class FormService {
   validateInputs() {
     let isValid = true;
 
-    this.inputs.forEach((input) => {
+    this.inputs.forEach(input => {
       const errors = this.getErrorsFromInput(input);
 
       if (errors.length) {
@@ -66,7 +66,7 @@ class FormService {
       errors = [requiredMessage || `Input ${name} is required`];
     }
 
-    validators.forEach((validator) => {
+    validators.forEach(validator => {
       if (!validator.validate(value, this.getValuesFromInputs())) {
         errors = [...errors, validator.errorMessage];
       }
@@ -78,16 +78,13 @@ class FormService {
   getErrors() {
     const errors: FormErrors = {};
 
-    this.inputs.forEach((input) => {
+    this.inputs.forEach(input => {
       const inputErrors = this.getErrorsFromInput(input);
 
       if (inputErrors.length > 0) {
-        let rootName = input.name;
-        try {
-          rootName = this.getInputRootName(input.name);
-        } catch (e) {}
+        const inputKey = this.getInputErrorKey(input);
 
-        errors[rootName] = [...(errors[rootName] || []), ...inputErrors];
+        errors[inputKey] = [...(errors[inputKey] || []), ...inputErrors];
       }
     });
 
@@ -97,11 +94,21 @@ class FormService {
   getValuesFromInputs(): FormValues {
     let values: FormValues = {};
 
-    this.inputs.forEach((input) => {
+    this.inputs.forEach(input => {
       values = mergeWith(values, this.getInputValue(input), mergeArrays);
     });
 
     return values;
+  }
+
+  getInputErrorKey(input: InputDescriptor) {
+    let rootName = input.name;
+
+    try {
+      rootName = this.getInputRootName(input.name);
+    } catch (e) {}
+
+    return rootName;
   }
 
   getInputValue(input: InputDescriptor): FormValues {
@@ -130,6 +137,8 @@ class FormService {
 
     return match[1];
   }
+
+  getInputKey(input: InputDescriptor) {}
 
   getValueByMatch(
     match: string[],

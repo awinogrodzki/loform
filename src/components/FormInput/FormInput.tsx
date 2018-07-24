@@ -64,7 +64,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
     const descriptor = this.getDescriptorFromProps(this.state.value);
     this.props.formService.updateInput(descriptor);
-    this.props.formEventEmitter.update();
+    this.props.formEventEmitter.update(descriptor);
   }
 
   getDescriptorFromProps(value: string): InputDescriptor {

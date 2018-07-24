@@ -97,7 +97,7 @@ const RegistrationForm = () => (
         {renderErrors(errors, 'passwordRepeat')}
         <PasswordInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.password,
+            [styles.hasErrors]: !!errors.passwordRepeat,
           })}
           name="passwordRepeat"
           placeholder="Repeat password"

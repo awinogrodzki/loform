@@ -438,6 +438,21 @@ FormErrors is an object representing invalid inputs with error messages. Example
 }
 ```
 
+#### InputDescriptor
+
+InputDescriptor is a representation of an input used by FormService and FormEventEmitter
+
+```
+{
+  id: string;
+  name: string;
+  value: string;
+  required: boolean;
+  requiredMessage?: string;
+  validators?: InputValidator[];
+}
+```
+
 **Note that if form is valid, FormErrors object has no properties.**
 
 #### FormEvent
@@ -481,9 +496,10 @@ See example usage of [FormEventEmitter](#advanced-form)
 Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
 
 - submit()
-- update()
-- addListener(event: FormEvent, callback: () => any)
-- removeListener(event: FormEvent, callback: () => any)
+- update(input: InputDescriptor)
+- addListener(event: FormEvent, callback: (...args: any[]) => any)
+  - callback for FormEvent.Update event receives [InputDescriptor](#inputdescriptor) as a parameter
+- removeListener(event: FormEvent, callback: (...args: any[]) => any)
 
 Check [FormEvent](#formevent) type
 

@@ -1,9 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint-react",
-    "tslint-config-airbnb"
-  ],
+  "extends": ["tslint-react", "tslint-config-airbnb"],
   "jsRules": {},
   "rules": {
     "variable-name": false,
@@ -13,6 +10,7 @@
     "import-name": false,
     "align": false,
     "no-unused-variable": true,
+    "ter-arrow-parens": false,
     "trailing-comma": [
       true,
       {
