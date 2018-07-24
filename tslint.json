@@ -9,7 +9,6 @@
     "jsx-boolean-value": false,
     "import-name": false,
     "align": false,
-    "no-unused-variable": true,
     "ter-arrow-parens": false,
     "trailing-comma": [
       true,

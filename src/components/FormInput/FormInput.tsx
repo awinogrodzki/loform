@@ -5,6 +5,7 @@ import {
   InputDescriptor,
   FormInputProps,
   DecoratedInputProps,
+  InputProps,
 } from '../../types';
 import { FormContext } from '../../context';
 
@@ -133,7 +134,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
   }
 }
 
-export const FormInputDecorator = function<T>(
+export const FormInputDecorator = function<T extends InputProps>(
   Component: React.ComponentClass<T> | React.StatelessComponent<T>,
 ) {
   const DecoratedInput: React.SFC<T & DecoratedInputProps> = props => (

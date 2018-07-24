@@ -11,13 +11,13 @@ export interface InputProps {
   onChange?: (value: string) => any;
 }
 
-export interface DecoratedInputProps extends InputProps {
+export interface DecoratedInputProps {
   validators?: InputValidator[];
   required?: boolean;
   requiredMessage?: string;
 }
 
-export interface FormInputProps extends DecoratedInputProps {
+export interface FormInputProps extends InputProps, DecoratedInputProps {
   formService: FormService;
   formEventEmitter: FormEventEmitter;
   children: <T>(inputProps: InputProps & T) => React.ReactElement<any>;

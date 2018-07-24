@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SelectInputProps } from '../../../types';
+import { SelectInputProps, DecoratedInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
 
 const SelectInput: React.SFC<SelectInputProps> = ({
@@ -20,7 +20,9 @@ const SelectInput: React.SFC<SelectInputProps> = ({
     onChange={e => onChange(e.target.value)}
   >
     {options.map(option => (
-      <option key={option.value} value={option.value}>{option.label}</option>
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
     ))}
   </select>
 );

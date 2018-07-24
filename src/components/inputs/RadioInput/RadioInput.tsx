@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../../components';
-import { RadioInputProps } from '../../../types';
+import { RadioInputProps, DecoratedInputProps } from '../../../types';
 
 const RadioInput: React.SFC<RadioInputProps> = ({
   id,
@@ -17,9 +17,7 @@ const RadioInput: React.SFC<RadioInputProps> = ({
       const checked = value !== undefined && value === option.value;
 
       return (
-        <div
-          key={inputId}
-        >
+        <div key={inputId}>
           <input
             id={inputId}
             disabled={option.disabled}

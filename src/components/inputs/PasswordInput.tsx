@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputProps } from '../../types';
+import { InputProps, DecoratedInputProps } from '../../types';
 
 export const PasswordInput: React.SFC<InputProps> = ({
   id,
