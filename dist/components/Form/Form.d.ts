@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { FormService, FormEventEmitter } from '../../services';
 import { RenderProps, FormValues, FormErrors } from '../../types';
-export interface FormInterface {
+export interface FormProps {
     className?: string;
     formService?: FormService;
     formEventEmitter?: FormEventEmitter;
@@ -10,10 +10,13 @@ export interface FormInterface {
     onError?: (errors: FormErrors) => any;
     children: (renderProps: RenderProps) => React.ReactNode;
 }
-declare class Form extends React.Component<FormInterface> {
+interface FormState {
+    errors: FormErrors;
+}
+declare class Form extends React.Component<FormProps, FormState> {
     private formEventEmitter;
     private formService;
-    private renderProps;
+    state: FormState;
     static propTypes: {
         className: PropTypes.Requireable<any>;
         onSubmit: PropTypes.Validator<any>;
@@ -22,11 +25,13 @@ declare class Form extends React.Component<FormInterface> {
         formService: PropTypes.Requireable<any>;
         formEventEmitter: PropTypes.Requireable<any>;
     };
-    constructor(props: FormInterface);
+    constructor(props: FormProps);
     componentWillUnmount(): void;
     submit(): void;
     onSubmitEvent(): void;
+    onUpdateEvent(): void;
     onFormSubmit(e: React.FormEvent<HTMLFormElement>): void;
+    getRenderProps(): RenderProps;
     render(): JSX.Element;
 }
 export default Form;

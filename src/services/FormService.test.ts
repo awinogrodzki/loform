@@ -22,19 +22,6 @@ describe('FormService', () => {
     expect(errors).toEqual(['error message']);
   });
 
-  it('should validate required input with default message with label', () => {
-    const input = {
-      id: 'inputId',
-      label: 'Nice Name',
-      name: 'name',
-      value: '',
-      required: true,
-    };
-    const errors = formService.getErrorsFromInput(input);
-
-    expect(errors).toEqual(['Input Nice Name is required']);
-  });
-
   it(
     'should validate required input with default message \
     with name if label is not provided',

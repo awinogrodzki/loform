@@ -7,7 +7,7 @@ declare class FormService {
     unregisterInputById(id: string): void;
     getInputs(): Map<string, InputDescriptor>;
     validateInputs(): boolean;
-    getErrorsFromInput({ label, name, value, required, requiredMessage, validators, }: InputDescriptor): string[];
+    getErrorsFromInput({ name, value, required, requiredMessage, validators, }: InputDescriptor): string[];
     getErrors(): FormErrors;
     getValuesFromInputs(): FormValues;
     getInputValue(input: InputDescriptor): FormValues;

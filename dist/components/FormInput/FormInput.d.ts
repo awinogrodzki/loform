@@ -3,8 +3,6 @@ import { InputDescriptor, FormInputProps, DecoratedInputProps } from '../../type
 interface FormInputState {
     value: string;
     prevValueProp?: string;
-    hasErrors: boolean;
-    errors: string[];
 }
 export declare class FormInput extends React.PureComponent<FormInputProps> {
     static defaultProps: Partial<FormInputProps>;
@@ -19,11 +17,9 @@ export declare class FormInput extends React.PureComponent<FormInputProps> {
     getDescriptorFromProps(value: string): InputDescriptor;
     componentDidMount(): void;
     componentWillUnmount(): void;
-    onFormSubmit(): void;
-    updateInputState(descriptor: InputDescriptor): void;
+    updateInputState(value: string): void;
     onInputChange(value: string): void;
-    renderErrors(errors: string[]): JSX.Element;
-    render(): JSX.Element;
+    render(): React.ReactElement<any>;
 }
 export declare const FormInputDecorator: <T>(Component: React.ComponentClass<T> | React.StatelessComponent<T>) => React.StatelessComponent<T & DecoratedInputProps>;
 export default FormInput;

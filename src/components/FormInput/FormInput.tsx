@@ -1,9 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import * as classNames from 'classnames';
 import * as uuid from 'uuid/v4';
-import Label from '../Label';
-import { FormEvent } from '../../services';
 import {
   InputDescriptor,
   FormInputProps,
@@ -11,13 +8,9 @@ import {
 } from '../../types';
 import { FormContext } from '../../context';
 
-const styles = require('./FormInput.css');
-
 interface FormInputState {
   value: string;
   prevValueProp?: string;
-  hasErrors: boolean;
-  errors: string[];
 }
 
 export class FormInput extends React.PureComponent<FormInputProps> {
@@ -29,8 +22,6 @@ export class FormInput extends React.PureComponent<FormInputProps> {
   public state: FormInputState = {
     value: this.props.value || '',
     prevValueProp: this.props.value,
-    hasErrors: false,
-    errors: [],
   };
 
   private id: string;
@@ -40,7 +31,6 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
     this.id = props.id || uuid();
     this.onInputChange = this.onInputChange.bind(this);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   static getDerivedStateFromProps(
@@ -81,7 +71,6 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     return {
       value,
       id: this.id,
-      label: this.props.label,
       name: this.props.name,
       required: this.props.required || false,
       requiredMessage: this.props.requiredMessage,
@@ -93,70 +82,29 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     this.props.formService.registerInput(
       this.getDescriptorFromProps(this.state.value),
     );
-    this.props.formEventEmitter.addListener(
-      FormEvent.Submit,
-      this.onFormSubmit,
-    );
   }
 
   componentWillUnmount() {
     this.props.formService.unregisterInputById(this.id);
-    this.props.formEventEmitter.removeListener(
-      FormEvent.Submit,
-      this.onFormSubmit,
-    );
   }
 
-  onFormSubmit() {
-    this.updateInputState(this.getDescriptorFromProps(this.state.value));
-  }
-
-  updateInputState(descriptor: InputDescriptor) {
-    const errors = this.props.formService.getErrorsFromInput(descriptor);
-    const hasErrors = !!errors.length;
-
+  updateInputState(value: string) {
     this.setState({
-      errors,
-      hasErrors,
-      value: descriptor.value,
+      value,
     });
   }
 
   onInputChange(value: string) {
-    const descriptor = this.getDescriptorFromProps(value);
-    this.updateInputState(descriptor);
+    this.updateInputState(value);
 
     if (this.props.onChange) {
       this.props.onChange(value);
     }
   }
 
-  renderErrors(errors: string[]) {
-    return (
-      <div
-        className={classNames(styles.errors, this.props.errorContainerClass)}
-      >
-        {errors.map((error, index) => (
-          <div
-            title={error}
-            key={index}
-            className={classNames(styles.error, this.props.errorClass)}
-          >
-            <span>{error}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   render() {
     const {
-      id: notUsedId,
-      containerClass,
-      inputContainerClass,
-      inputWrapperClass,
-      errorContainerClass,
-      errorClass,
+      id,
       formService,
       formEventEmitter,
       className,
@@ -167,49 +115,21 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       validators,
       required,
       requiredMessage,
-      label,
       onChange,
       children,
-      hasErrors: hasErrorsFromProps,
       ...rest
     } = this.props;
 
-    const hasErrors =
-      hasErrorsFromProps !== undefined
-        ? hasErrorsFromProps
-        : this.state.hasErrors;
-
-    return (
-      <div className={classNames(styles.container, containerClass)}>
-        <div className={classNames(styles.inputContainer, inputContainerClass)}>
-          {label && (
-            <Label
-              htmlFor={this.id}
-              className={styles.label}
-              required={required}
-            >
-              {label}
-            </Label>
-          )}
-          <div className={classNames(styles.inputWrapper, inputWrapperClass)}>
-            {this.props.children({
-              name,
-              disabled,
-              placeholder,
-              hasErrors,
-              id: this.id,
-              className: classNames(className, styles.input, {
-                [styles.hasErrors]: hasErrors,
-              }),
-              value: this.state.value,
-              onChange: this.onInputChange,
-              ...rest,
-            })}
-            {this.renderErrors(this.state.errors)}
-          </div>
-        </div>
-      </div>
-    );
+    return this.props.children({
+      ...rest,
+      name,
+      disabled,
+      placeholder,
+      className,
+      id: this.id,
+      value: this.state.value,
+      onChange: this.onInputChange,
+    });
   }
 }
 
@@ -233,18 +153,11 @@ export const FormInputDecorator = function<T>(
   DecoratedInput.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
-    label: PropTypes.string,
     className: PropTypes.string,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     value: PropTypes.string,
     onChange: PropTypes.func,
-    hasErrors: PropTypes.bool,
-    containerClass: PropTypes.string,
-    inputContainerClass: PropTypes.string,
-    inputWrapperClass: PropTypes.string,
-    errorContainerClass: PropTypes.string,
-    errorClass: PropTypes.string,
     validators: PropTypes.arrayOf(
       PropTypes.shape({
         errorMessage: PropTypes.string.isRequired,
