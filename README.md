@@ -438,6 +438,8 @@ FormErrors is an object representing invalid inputs with error messages. Example
 }
 ```
 
+**Note that if form is valid, FormErrors object has no properties.**
+
 #### InputDescriptor
 
 InputDescriptor is a representation of an input used by FormService and FormEventEmitter
@@ -452,8 +454,6 @@ InputDescriptor is a representation of an input used by FormService and FormEven
   validators?: InputValidator[];
 }
 ```
-
-**Note that if form is valid, FormErrors object has no properties.**
 
 #### FormEvent
 
