@@ -18,7 +18,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
 >     input latency will continue to increase if you use Redux-Form.
 > 3.  Redux-Form is 22.5 kB minified gzipped (Formik is 7.8 kB)
 
-You might be thinking, why should you choose loform over Formik then?
+"Why should you choose loform over Formik then?", you may ask.
 
 1.  Sometimes size matter, and loform is two times lighter than Formik.
 2.  Less mess. In loform, validation is sole responsibility of an input. If you delete an input, you don't need to worry about updating your form.
