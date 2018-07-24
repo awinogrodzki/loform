@@ -253,7 +253,13 @@ const formValues = formService.getValuesFromInputs();
 ```javascript
 <Form onSubmit={values => console.log(values)}>
   {(form) => (
-    {/* ... */}
+    {/* You can access invidual input errors by form.errors object as follows: */}
+    {form.errors.username && <span>form.errors.username</span>}
+    {/* You must remember that form.errors.username is either undefined or an array */}
+    <TextInput name="username" placeholder="Enter username" required />
+
+    {/* You can submit form by calling form.submit() */}
+    <button onClick={() => form.submit()}>Submit</button>
   )}
 </Form>
 ```
@@ -413,6 +419,8 @@ FormErrors is an object representing invalid inputs with error messages. Example
   ]
 }
 ```
+**Note that if form is valid, FormErrors object has no properties.**
+
 
 #### FormEvent
 
