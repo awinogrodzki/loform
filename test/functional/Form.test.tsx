@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, TextInput, emailValidator } from '../../dist';
+import { Form, TextInput, emailValidator, Input } from '../../dist';
 import { mount } from 'enzyme';
 
 const event = value => ({ target: { value } });
@@ -182,6 +182,7 @@ describe('Form', () => {
   });
 
   it("should allow to control input value during it's lifecycle", () => {
+    const onSubmit = jest.fn();
     const SimpleForm = ({ testValue }: { testValue?: string }) => (
       <Form onSubmit={onSubmit}>
         {({ submit }) => (
@@ -192,7 +193,6 @@ describe('Form', () => {
         )}
       </Form>
     );
-    const onSubmit = jest.fn();
     const wrapper = mount(<SimpleForm />);
 
     wrapper
@@ -209,6 +209,40 @@ describe('Form', () => {
 
     expect(onSubmit).toHaveBeenLastCalledWith({
       input: 'controlled value',
+    });
+  });
+
+  it('should render basic input component', () => {
+    const onSubmit = jest.fn();
+    const SimpleForm = ({ testValue }: { testValue?: string }) => (
+      <Form onSubmit={onSubmit}>
+        {({ submit }) => (
+          <>
+            <Input
+              value={testValue}
+              name="input"
+              type="customType"
+              pattern="test"
+            />
+            <button onClick={() => submit()} />
+          </>
+        )}
+      </Form>
+    );
+    const wrapper = mount(<SimpleForm />);
+
+    const input = wrapper.find('[name="input"] input');
+    const inputType = input.props().type;
+    const inputPattern = input.props().pattern;
+
+    expect(inputType).toBe('customType');
+    expect(inputPattern).toBe('test');
+
+    input.simulate('change', event('test value'));
+    wrapper.find('button').simulate('click');
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      input: 'test value',
     });
   });
 });

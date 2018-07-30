@@ -36,6 +36,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
     - [Advanced form](#advanced-form)
   - [Components](#components)
   - [Inputs](#inputs)
+    - [Input](#input)
     - [TextInput](#textinput)
     - [PasswordInput](#passwordinput)
     - [TextAreaInput](#textareainput)
@@ -305,6 +306,42 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 | required        | `Boolean` | `false`  | If true, displays error when user is trying to submit form with empty input                            |
 | requiredMessage | `String`  | `false`  | Replaces default required error message                                                                |
 | validators      | `Array`   | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
+
+#### Input
+
+##### Props
+
+| Name                               | Type       | Required | Description                                                                                                  |
+| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
+| placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
+| className                          | `String`   | `false`  | Class name added to input element                                                                            |
+| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
+| type                               | `String`   | `false`  | The type of an input. Default value is `text`                                                                |
+| ...rest                            | `any[]`    | `false`  | Any other value you pass as a prop is passed down to the native input (e.g. pattern)                         |
+| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+
+Example:
+
+```javascript
+<Form onSubmit={onSubmit}>
+  {({ submit }) => (
+    <>
+      <Input
+        placeholder="Enter quantity"
+        name="quantity"
+        type="number"
+        min={10}
+        max={100}
+      />
+      <button onClick={() => submit()} />
+    </>
+  )}
+</Form>
+```
 
 #### TextInput
 
