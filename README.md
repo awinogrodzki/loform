@@ -395,7 +395,7 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 
 #### InputValidator
 
-InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first argument and FormValues object as the second argument. It must return _true_ if input is successfully validated and _false_ if otherwise.
+InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first parameter and FormValues object as the second parameter. It must return _true_ if input is successfully validated and _false_ if otherwise.
 
 ```
 {
