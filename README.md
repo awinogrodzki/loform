@@ -142,7 +142,7 @@ On it's submission you'll probably expect a data structure equal to the followin
 
 And if the input wasn't checked, you wouldn't get any data.
 
-This means, that marked checkbox has value of `accepted` and `checked attribute` set to `true`, while unmarked checkbox has value of `undefined` and `checked attribute` set to `false`. This logic is unnecessarily complicated and neglects existence of a boolean type. Infact, you can recreate this logic in loform with the following ComplicatedCheckbox component:
+This means, that marked checkbox has a value of `accepted` and `checked attribute` set to `true`, while unmarked checkbox has a value of `undefined` and `checked attribute` set to `false`. This logic is unnecessarily complicated and neglects the existence of a boolean type. Infact, you can recreate this logic in loform with the following ComplicatedCheckbox component:
 
 ```javascript
 import React from 'react';
