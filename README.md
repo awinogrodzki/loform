@@ -33,6 +33,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
   - [Usage](#usage)
     - [Basic form](#basic-form)
     - [Custom input](#custom-input)
+    - [The checkbox input problem](#the-checkbox-input-problem)
     - [Advanced form](#advanced-form)
   - [Components](#components)
   - [Inputs](#inputs)
@@ -40,6 +41,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
     - [TextInput](#textinput)
     - [PasswordInput](#passwordinput)
     - [TextAreaInput](#textareainput)
+    - [CheckboxInput](#checkboxinput)
     - [SelectInput](#selectinput)
     - [RadioInput](#radioinput)
   - [Types](#types)
@@ -128,6 +130,120 @@ const LoginForm = () => (
   </Form>
 );
 ```
+
+#### The checkbox input problem
+
+Consider you have a standard html form with `<input name="agreement" value="accepted" checked="checked" />` element.
+On it's submission you'll probably expect a data structure equal to the following json:
+
+```json
+{ "agreement": "accepted" }
+```
+
+And if the input wasn't checked, you wouldn't get any data.
+
+This means, that marked checkbox has value of `accepted` and `checked attribute` set to `true`, while unmarked checkbox has value of `undefined` and `checked attribute` set to `false`. This logic is unnecessarily complicated and neglects existence of a boolean type. Infact, you can recreate this logic in loform with the following ComplicatedCheckbox component:
+
+```javascript
+import React from 'react';
+import { FormInputDecorator } from '@loform/react';
+
+class ComplicatedCheckbox extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      checked: this.props.checked || false,
+      initialValue: this.props.value || '',
+    };
+  }
+
+  handleChange(event) {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      this.props.onChange(this.state.initialValue);
+    } else {
+      this.props.onChange(undefined);
+    }
+
+    this.setState({
+      checked: isChecked,
+    });
+  }
+
+  render() {
+    const { id, name, disabled } = this.props;
+
+    return (
+      <input
+        id={id}
+        name={name}
+        disabled={disabled}
+        value={this.state.initialValue}
+        checked={this.state.checked}
+        onChange={this.handleChange}
+        type="checkbox"
+      />
+    );
+  }
+}
+
+export default FormInputDecorator(ComplicatedCheckbox);
+```
+
+Core concept of loform is that an input can have a single value identified by it's name. The following component is available by importing [CheckboxInput](#checkboxinput):
+
+```javascript
+import * as React from 'react';
+import { FormInputDecorator } from '@loform/react';
+
+const CheckboxInput = ({
+  id,
+  name,
+  value = false, // We expect a boolean type as a value
+  disabled,
+  onChange = () => {},
+}) => {
+  return (
+    <input
+      id={id}
+      name={name}
+      checked={value}
+      disabled={disabled}
+      type="checkbox"
+      onChange={e => onChange(e.target.checked)}
+    />
+  );
+};
+
+export default FormInputDecorator(CheckboxInput);
+```
+
+It's simply using native input's `checked` attribute to pass as a value. You can use it as shown below:
+
+```javascript
+<CheckboxInput name="hasAgreed" value={true} />
+```
+
+If it is checked, the form values will be equal
+
+```javascript
+{
+  hasAgreed: true,
+}
+```
+
+and
+
+```javascript
+{
+  hasAgreed: false,
+}
+```
+
+if otherwise.
 
 #### Custom input
 
@@ -312,17 +428,17 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 
 ##### Props
 
-| Name                               | Type       | Required | Description                                                                                                  |
-| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
-| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
-| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
-| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
-| placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
-| className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| type                               | `String`   | `false`  | The type of an input. Default value is `text`                                                                |
-| ...rest                            | `any[]`    | `false`  | Any other value you pass as a prop is passed down to the native input (e.g. pattern)                         |
-| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+| Name                               | Type      | Required | Description                                                                                                  |
+| :--------------------------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`  | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`  | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`  | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean` | `false`  | Can be set to true in order to disable input                                                                 |
+| placeholder                        | `String`  | `false`  | If set, displayed as placeholder of an input                                                                 |
+| className                          | `String`  | `false`  | Class name added to input element                                                                            |
+| type                               | `String`  | `false`  | The type of an input. Default value is `text`                                                                |
+| ...rest                            | `any[]`   | `false`  | Any other value you pass as a prop is passed down to the native input (e.g. pattern)                         |
+| [Props from FormInput](#forminput) | -         | -        | -                                                                                                            |
 
 Example:
 
@@ -347,69 +463,82 @@ Example:
 
 ##### Props
 
-| Name                               | Type       | Required | Description                                                                                                  |
-| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
-| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
-| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
-| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
-| placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
-| className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+| Name                               | Type      | Required | Description                                                                                                  |
+| :--------------------------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`  | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`  | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`  | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean` | `false`  | Can be set to true in order to disable input                                                                 |
+| placeholder                        | `String`  | `false`  | If set, displayed as placeholder of an input                                                                 |
+| className                          | `String`  | `false`  | Class name added to input element                                                                            |
+| [Props from FormInput](#forminput) | -         | -        | -                                                                                                            |
 
 #### PasswordInput
 
 ##### Props
 
-| Name                               | Type       | Required | Description                                                                                                  |
-| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
-| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
-| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
-| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
-| placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
-| className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+| Name                               | Type      | Required | Description                                                                                                  |
+| :--------------------------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`  | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`  | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`  | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean` | `false`  | Can be set to true in order to disable input                                                                 |
+| placeholder                        | `String`  | `false`  | If set, displayed as placeholder of an input                                                                 |
+| className                          | `String`  | `false`  | Class name added to input element                                                                            |
+| [Props from FormInput](#forminput) | -         | -        | -                                                                                                            |
 
 #### TextAreaInput
 
 ##### Props
 
-| Name                               | Type       | Required | Description                                                                                                  |
-| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
-| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
-| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
-| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
-| className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+| Name                               | Type      | Required | Description                                                                                                  |
+| :--------------------------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`  | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`  | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`  | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean` | `false`  | Can be set to true in order to disable input                                                                 |
+| className                          | `String`  | `false`  | Class name added to input element                                                                            |
+| [Props from FormInput](#forminput) | -         | -        | -                                                                                                            |
+
+#### CheckboxInput
+
+##### Props
+
+| Name                               | Type      | Required | Description                                                                                                  |
+| :--------------------------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`  | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`  | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `Boolean` | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| disabled                           | `Boolean` | `false`  | Can be set to true in order to disable input                                                                 |
+| className                          | `String`  | `false`  | Class name added to input element                                                                            |
+| [Props from FormInput](#forminput) | -         | -        | -                                                                                                            |
 
 #### SelectInput
 
 ##### Props
 
-| Name                               | Type       | Required | Description                                                                                                  |
-| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
-| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
-| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
-| options                            | `Array`    | `false`  | Array of [Options](#option)                                                                                  |
-| disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
-| className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+| Name                               | Type      | Required | Description                                                                                                  |
+| :--------------------------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String`  | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String`  | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String`  | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| options                            | `Array`   | `false`  | Array of [Options](#option)                                                                                  |
+| disabled                           | `Boolean` | `false`  | Can be set to true in order to disable input                                                                 |
+| className                          | `String`  | `false`  | Class name added to input element                                                                            |
+| [Props from FormInput](#forminput) | -         | -        | -                                                                                                            |
 
 #### RadioInput
 
 ##### Props
 
-| Name                               | Type       | Required | Description                                                                                                  |
-| :--------------------------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------------- |
-| id                                 | `String`   | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
-| name                               | `String`   | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
-| value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
-| options                            | `Array`    | `false`  | Array of [Options](#option)                                                                                  |
-| className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
+| Name                               | Type     | Required | Description                                                                                                  |
+| :--------------------------------- | :------- | :------- | :----------------------------------------------------------------------------------------------------------- |
+| id                                 | `String` | `false`  | Id of an input. Must be unique. Used internally to identify input in FormService. Generated uuid by default. |
+| name                               | `String` | `true`   | Name of an input. Used to generate [FormValues](#formvalues) on form submission.                             |
+| value                              | `String` | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
+| options                            | `Array`  | `false`  | Array of [Options](#option)                                                                                  |
+| className                          | `String` | `false`  | Class name added to input element                                                                            |
+| [Props from FormInput](#forminput) | -        | -        | -                                                                                                            |
 
 ### Types
 

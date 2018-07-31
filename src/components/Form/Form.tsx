@@ -8,7 +8,6 @@ import {
   InputDescriptor,
 } from '../../types';
 import { FormContext } from '../../context';
-import { isEqual } from '../../utils';
 
 export interface FormProps {
   className?: string;
@@ -90,36 +89,42 @@ class Form extends React.Component<FormProps, FormState> {
     this.submit();
   }
 
-  onUpdateEvent(input: InputDescriptor) {
-    const inputKey = this.formService.getInputErrorKey(input);
-    const inputHasErrors = !!this.state.errors[inputKey];
+  onUpdateEvent() {
+    const errors = this.formService.getErrors();
 
-    if (!inputHasErrors) {
-      return;
-    }
+    this.updateOnlyCorrectedErrors(errors);
+  }
 
-    const inputErrors = this.formService.getErrorsFromInput(input);
+  private updateOnlyCorrectedErrors(errors: FormErrors) {
+    const keys = Object.keys(errors);
 
-    if (inputErrors.length === 0) {
-      const newErrors = { ...this.state.errors };
+    const newErrors = keys.reduce((currentErrors: FormErrors, key) => {
+      const errorsForKey = errors[key];
+      const stateErrorsForKey = this.state.errors[key];
 
-      delete newErrors[inputKey];
+      if (!stateErrorsForKey || stateErrorsForKey.length === 0) {
+        return currentErrors;
+      }
 
-      this.setState({
-        errors: newErrors,
-      });
+      if (!errorsForKey || errorsForKey.length === 0) {
+        return currentErrors;
+      }
 
-      return;
-    }
+      const filteredErrors = stateErrorsForKey.filter(error => errorsForKey.includes(error));
 
-    if (!isEqual(inputErrors, this.state.errors[inputKey])) {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          [inputKey]: [...inputErrors],
-        },
-      });
-    }
+      if (!filteredErrors.length) {
+        return currentErrors;
+      }
+
+      return {
+        ...currentErrors,
+        [key]: filteredErrors,
+      };
+    }, {});
+
+    this.setState({
+      errors: newErrors,
+    });
   }
 
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {

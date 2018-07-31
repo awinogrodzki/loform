@@ -19,6 +19,6 @@ const CheckboxInput: React.SFC<CheckboxInputProps> = ({
       onChange={e => onChange(e.target.checked)}
     />
   );
-}
+};
 
 export default FormInputDecorator(CheckboxInput);
