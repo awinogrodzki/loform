@@ -101,11 +101,7 @@ describe('Form', () => {
     expect(render).toHaveBeenLastCalledWith(
       expect.objectContaining({
         errors: {
-          name1: [
-            'error1',
-            'error2',
-            'error3',
-          ],
+          name1: ['error1', 'error2', 'error3'],
         },
       }),
     );
@@ -116,24 +112,18 @@ describe('Form', () => {
     expect(render).toHaveBeenLastCalledWith(
       expect.objectContaining({
         errors: {
-          name1: [
-            'error2',
-            'error3',
-          ],
+          name1: ['error2', 'error3'],
         },
       }),
     );
 
-    formService.updateInput({ ...input, value: 'value1', required: true });
+    formService.updateInput({ ...input, value: '', required: true });
     eventEmitter.update({ ...input, value: 'value1' });
 
     expect(render).toHaveBeenLastCalledWith(
       expect.objectContaining({
         errors: {
-          name1: [
-            'error2',
-            'error3',
-          ],
+          name1: ['error2', 'error3'],
         },
       }),
     );
@@ -171,9 +161,7 @@ describe('Form', () => {
     expect(render).toHaveBeenLastCalledWith(
       expect.objectContaining({
         errors: {
-          name1: [
-            'error1',
-          ],
+          name1: ['error1'],
         },
       }),
     );
