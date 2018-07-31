@@ -5,7 +5,7 @@ import { RadioInputProps, DecoratedInputProps } from '../../../types';
 const RadioInput: React.SFC<RadioInputProps> = ({
   id,
   name,
-  value,
+  value = '',
   className,
   onChange = () => {},
   options = [],

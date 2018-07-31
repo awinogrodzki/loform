@@ -7,7 +7,7 @@ export const TextAreaInput: React.SFC<InputProps> = ({
   className,
   name,
   onChange = () => {},
-  value,
+  value = '',
   disabled,
 }) => (
   <textarea

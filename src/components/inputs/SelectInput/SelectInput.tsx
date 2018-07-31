@@ -6,7 +6,7 @@ const SelectInput: React.SFC<SelectInputProps> = ({
   id,
   className,
   name,
-  value,
+  value = '',
   disabled,
   onChange = () => {},
   options = [],

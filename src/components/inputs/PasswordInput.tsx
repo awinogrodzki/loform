@@ -9,7 +9,7 @@ export const PasswordInput: React.SFC<InputProps> = ({
   name,
   placeholder,
   onChange = () => {},
-  value = undefined,
+  value = '',
 }) => (
   <input
     id={id}

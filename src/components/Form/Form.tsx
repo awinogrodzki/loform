@@ -8,6 +8,7 @@ import {
   InputDescriptor,
 } from '../../types';
 import { FormContext } from '../../context';
+import { isEqual } from '../../utils';
 
 export interface FormProps {
   className?: string;
@@ -90,25 +91,34 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   onUpdateEvent(input: InputDescriptor) {
-    const inputErrors = this.formService.getErrorsFromInput(input);
     const inputKey = this.formService.getInputErrorKey(input);
+    const inputHasErrors = !!this.state.errors[inputKey];
 
-    if (inputErrors.length > 0) {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          [inputKey]: inputErrors,
-        },
-      });
+    if (!inputHasErrors) {
       return;
     }
 
-    if (this.state.errors[inputKey]) {
-      const errors = { ...this.state.errors };
-      delete errors[inputKey];
+    const inputErrors = this.formService.getErrorsFromInput(input);
 
-      this.setState({ errors });
+    if (inputErrors.length === 0) {
+      const newErrors = { ...this.state.errors };
+
+      delete newErrors[inputKey];
+
+      this.setState({
+        errors: newErrors,
+      });
+
       return;
+    }
+
+    if (!isEqual(inputErrors, this.state.errors[inputKey])) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          [inputKey]: [...inputErrors],
+        },
+      });
     }
   }
 

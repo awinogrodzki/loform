@@ -6,22 +6,22 @@ import {
   FormInputProps,
   DecoratedInputProps,
   InputProps,
+  InputValue,
 } from '../../types';
 import { FormContext } from '../../context';
 
 export interface FormInputState {
-  value: string;
+  value?: InputValue;
   prevValueProp?: string;
 }
 
 export class FormInput extends React.PureComponent<FormInputProps> {
   static defaultProps: Partial<FormInputProps> = {
-    value: '',
     validators: [],
   };
 
   public state: FormInputState = {
-    value: this.props.value || '',
+    value: this.props.value,
     prevValueProp: this.props.value,
   };
 
@@ -38,10 +38,6 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     props: FormInputProps,
     state: FormInputState,
   ) {
-    if (props.value === undefined) {
-      return null;
-    }
-
     if (props.value === state.prevValueProp) {
       return null;
     }
@@ -68,7 +64,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     this.props.formEventEmitter.update(descriptor);
   }
 
-  getDescriptorFromProps(value: string): InputDescriptor {
+  getDescriptorFromProps(value?: InputValue): InputDescriptor {
     return {
       value,
       id: this.id,
@@ -89,13 +85,13 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     this.props.formService.unregisterInputById(this.id);
   }
 
-  updateInputState(value: string) {
+  updateInputState(value?: InputValue) {
     this.setState({
       value,
     });
   }
 
-  onInputChange(value: string) {
+  onInputChange(value?: InputValue) {
     this.updateInputState(value);
 
     if (this.props.onChange) {
@@ -157,7 +153,7 @@ export const FormInputDecorator = function<T extends InputProps>(
     className: PropTypes.string,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
-    value: PropTypes.string,
+    value: PropTypes.any,
     onChange: PropTypes.func,
     validators: PropTypes.arrayOf(
       PropTypes.shape({

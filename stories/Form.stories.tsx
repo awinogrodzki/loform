@@ -9,6 +9,7 @@ import {
   RadioInput,
   Form,
   Input,
+  CheckboxInput,
 } from '../src/components';
 import { emailValidator } from '../src/validators';
 import { FormErrors } from '../src/types';
@@ -113,6 +114,21 @@ const RegistrationForm = () => (
             },
           ]}
         />
+        {renderErrors(errors, 'agreement')}
+        <CheckboxInput
+          className={classnames(styles.checkbox, {
+            [styles.hasErrors]: !!errors.agreement,
+          })}
+          name="agreement"
+          value={true}
+          validators={[
+            {
+              errorMessage: 'You need to accept Terms and Conditions',
+              validate: value => value,
+            },
+          ]}
+        />
+        <p>Lorem ipsum dolor sit amet</p>
         <button className={styles.submit} onClick={() => submit()}>
           Login
         </button>

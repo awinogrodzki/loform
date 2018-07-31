@@ -137,8 +137,8 @@ In order for input to work, you need to wrap it with **FormInputDecorator** HOC
 
 - id: string
 - name: string
-- value: string
-- onChange: (value: string) => any
+- value: any
+- onChange: (value?: any) => any
 - disabled?: boolean
 - placeholder?: string
 - ...rest _all other props given to the HOC will be passed down to your component (eg. options in SelectInput)_
@@ -301,11 +301,12 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 
 ##### Props
 
-| Name            | Type      | Required | Description                                                                                            |
-| :-------------- | :-------- | :------- | :----------------------------------------------------------------------------------------------------- |
-| required        | `Boolean` | `false`  | If true, displays error when user is trying to submit form with empty input                            |
-| requiredMessage | `String`  | `false`  | Replaces default required error message                                                                |
-| validators      | `Array`   | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
+| Name            | Type       | Required | Description                                                                                            |
+| :-------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------- |
+| required        | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                            |
+| requiredMessage | `String`   | `false`  | Replaces default required error message                                                                |
+| validators      | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
+| onChange        | `Function` | `false`  | Function called on input's value change with it's value                                                |
 
 #### Input
 
@@ -319,7 +320,6 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 | disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
 | placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
 | className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
 | type                               | `String`   | `false`  | The type of an input. Default value is `text`                                                                |
 | ...rest                            | `any[]`    | `false`  | Any other value you pass as a prop is passed down to the native input (e.g. pattern)                         |
 | [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
@@ -355,7 +355,6 @@ Example:
 | disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
 | placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
 | className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
 | [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
 
 #### PasswordInput
@@ -370,7 +369,6 @@ Example:
 | disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
 | placeholder                        | `String`   | `false`  | If set, displayed as placeholder of an input                                                                 |
 | className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
 | [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
 
 #### TextAreaInput
@@ -384,7 +382,6 @@ Example:
 | value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
 | disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
 | className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
 | [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
 
 #### SelectInput
@@ -399,7 +396,6 @@ Example:
 | options                            | `Array`    | `false`  | Array of [Options](#option)                                                                                  |
 | disabled                           | `Boolean`  | `false`  | Can be set to true in order to disable input                                                                 |
 | className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
 | [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
 
 #### RadioInput
@@ -413,7 +409,6 @@ Example:
 | value                              | `String`   | `false`  | Can be used to set initial value of an input or to control input's value during it's lifecycle               |
 | options                            | `Array`    | `false`  | Array of [Options](#option)                                                                                  |
 | className                          | `String`   | `false`  | Class name added to input element                                                                            |
-| onChange                           | `Function` | `false`  | Function called on input's value change with it's value as a `String`                                        |
 | [Props from FormInput](#forminput) | -          | -        | -                                                                                                            |
 
 ### Types
@@ -484,7 +479,7 @@ InputDescriptor is a representation of an input used by FormService and FormEven
 {
   id: string;
   name: string;
-  value: string;
+  value?: any;
   required: boolean;
   requiredMessage?: string;
   validators?: InputValidator[];
