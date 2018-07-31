@@ -131,6 +131,80 @@ const LoginForm = () => (
 );
 ```
 
+#### Custom input
+
+In order for input to work, you need to wrap it with **FormInputDecorator** HOC
+
+##### Props passed by FormInputDecorator HOC
+
+- id: string
+- name: string
+- value: any
+- onChange: (value?: any) => any
+- disabled?: boolean
+- placeholder?: string
+- ...rest _all other props given to the HOC will be passed down to your component (eg. options in SelectInput)_
+
+```javascript
+import React from 'react';
+import classnames from 'classnames';
+import { FormInputDecorator } from '@loform/react';
+
+const ON = 'on';
+const OFF = 'off';
+
+export const SwitchInput = ({ onChange, hasErrors, value }) => (
+  <div
+    className={classnames('switchInput', { switchInput__hasErrors: hasErrors })}
+  >
+    SWITCH ME ON
+    <input
+      type="radio"
+      value={ON}
+      checked={value === ON}
+      onChange={() => onChange(ON)}
+    />
+    <input
+      type="radio"
+      value={OFF}
+      checked={value === OFF}
+      onChange={() => onChange(OFF)}
+    />
+  </div>
+);
+
+export default FormInputDecorator(SwitchInput);
+```
+
+Usage:
+
+```javascript
+const LoginForm = () => (
+  <Form className="form" onSubmit={values => console.log(values)}>
+    {({ submit, errors }) => (
+      <>
+        {errors.switch &&
+          errors.switch.map((error, index) => (
+            <span className="error">{error}</span>
+          ))}
+        <SwitchInput
+          name="switch"
+          hasErrors={!!errors.switch}
+          validators={[
+            {
+              errorMessage: 'Switch should be on to submit',
+              validate: value => value === 'on',
+            },
+          ]}
+          value="off"
+        />
+        <button onClick={() => submit()}>Submit form</button>
+      </>
+    )}
+  </Form>
+);
+```
+
 #### The checkbox input problem
 
 Consider you have a standard html form with `<input name="agreement" value="accepted" checked="checked" />` element.
@@ -244,80 +318,6 @@ and
 ```
 
 if otherwise.
-
-#### Custom input
-
-In order for input to work, you need to wrap it with **FormInputDecorator** HOC
-
-##### Props passed by FormInputDecorator HOC
-
-- id: string
-- name: string
-- value: any
-- onChange: (value?: any) => any
-- disabled?: boolean
-- placeholder?: string
-- ...rest _all other props given to the HOC will be passed down to your component (eg. options in SelectInput)_
-
-```javascript
-import React from 'react';
-import classnames from 'classnames';
-import { FormInputDecorator } from '@loform/react';
-
-const ON = 'on';
-const OFF = 'off';
-
-export const SwitchInput = ({ onChange, hasErrors, value }) => (
-  <div
-    className={classnames('switchInput', { switchInput__hasErrors: hasErrors })}
-  >
-    SWITCH ME ON
-    <input
-      type="radio"
-      value={ON}
-      checked={value === ON}
-      onChange={() => onChange(ON)}
-    />
-    <input
-      type="radio"
-      value={OFF}
-      checked={value === OFF}
-      onChange={() => onChange(OFF)}
-    />
-  </div>
-);
-
-export default FormInputDecorator(SwitchInput);
-```
-
-Usage:
-
-```javascript
-const LoginForm = () => (
-  <Form className="form" onSubmit={values => console.log(values)}>
-    {({ submit, errors }) => (
-      <>
-        {errors.switch &&
-          errors.switch.map((error, index) => (
-            <span className="error">{error}</span>
-          ))}
-        <SwitchInput
-          name="switch"
-          hasErrors={!!errors.switch}
-          validators={[
-            {
-              errorMessage: 'Switch should be on to submit',
-              validate: value => value === 'on',
-            },
-          ]}
-          value="off"
-        />
-        <button onClick={() => submit()}>Submit form</button>
-      </>
-    )}
-  </Form>
-);
-```
 
 #### Advanced form
 
