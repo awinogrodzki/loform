@@ -8,6 +8,7 @@ import {
   SelectInput,
   RadioInput,
   Form,
+  Input,
 } from '../src/components';
 import { emailValidator } from '../src/validators';
 import { FormErrors } from '../src/types';
@@ -211,12 +212,15 @@ storiesOf('Form', module)
           />
           <Toggle>
             {renderErrors(errors, 'pin')}
-            <TextInput
+            <Input
               className={classnames(styles.input, {
                 [styles.hasErrors]: !!errors.pin,
               })}
               name="pin"
               placeholder="Pin code"
+              type="number"
+              min={0}
+              max={9999}
               required
             />
           </Toggle>
