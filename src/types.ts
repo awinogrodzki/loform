@@ -1,14 +1,16 @@
 import FormService from './services/FormService';
 import FormEventEmitter from './services/FormEventEmitter';
 
+export type InputValue = any;
+
 export interface InputProps {
   id?: string;
   className?: string;
   name: string;
   placeholder?: string;
   disabled?: boolean;
-  value?: string;
-  onChange?: (value: string) => any;
+  value?: InputValue;
+  onChange?: (value?: InputValue) => any;
 }
 
 export interface DecoratedInputProps {
@@ -37,15 +39,19 @@ export interface RadioInputProps extends InputProps {
   options?: Option[];
 }
 
+export interface CheckboxInputProps extends InputProps {
+  value?: boolean;
+}
+
 export interface InputValidator {
   errorMessage: string;
-  validate: (value: string, formValues: FormValues) => boolean;
+  validate: (value: InputValue|undefined, formValues: FormValues) => boolean;
 }
 
 export interface InputDescriptor {
   id: string;
   name: string;
-  value: string;
+  value: InputValue|undefined;
   required: boolean;
   requiredMessage?: string;
   validators?: InputValidator[];
@@ -56,7 +62,7 @@ export interface RenderProps {
   errors: FormErrors;
 }
 
-export type FormValueType = string | string[] | FormValues;
+export type FormValueType = InputValue | InputValue[] | FormValues;
 
 export interface FormValues {
   [key: string]: FormValueType;

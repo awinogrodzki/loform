@@ -9,9 +9,11 @@ import {
   RadioInput,
   Form,
   Input,
+  CheckboxInput,
 } from '../src/components';
 import { emailValidator } from '../src/validators';
 import { FormErrors } from '../src/types';
+import ComplicatedCheckbox from './ComplicatedCheckbox';
 
 const styles = require('./Form.stories.css');
 const registrationReadme = require('./readme/registration.md');
@@ -113,6 +115,23 @@ const RegistrationForm = () => (
             },
           ]}
         />
+        {renderErrors(errors, 'agreement')}
+        <p>
+          <CheckboxInput
+            className={classnames(styles.checkbox, {
+              [styles.hasErrors]: !!errors.agreement,
+            })}
+            name="agreement"
+            value={true}
+            validators={[
+              {
+                errorMessage: 'You need to accept Terms and Conditions',
+                validate: value => value,
+              },
+            ]}
+          />
+          I accept Terms and Conditions
+        </p>
         <button className={styles.submit} onClick={() => submit()}>
           Login
         </button>
@@ -235,6 +254,29 @@ storiesOf('Form', module)
           />
           <button className={styles.submit} onClick={() => submit()}>
             Login
+          </button>
+        </>
+      )}
+    </Form>
+  ))
+  .add('complicated checkbox', () => (
+    <Form
+      className={styles.form}
+      onSubmit={action('onSubmit')}
+      onError={action('onError')}
+    >
+      {({ submit }) => (
+        <>
+          <p>
+            <ComplicatedCheckbox
+              name="agreement"
+              value="accepted"
+              checked={true}
+            />
+            I accept Terms and Conditions
+          </p>
+          <button className={styles.submit} onClick={() => submit()}>
+            Try me
           </button>
         </>
       )}

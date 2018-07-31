@@ -89,27 +89,42 @@ class Form extends React.Component<FormProps, FormState> {
     this.submit();
   }
 
-  onUpdateEvent(input: InputDescriptor) {
-    const inputErrors = this.formService.getErrorsFromInput(input);
-    const inputKey = this.formService.getInputErrorKey(input);
+  onUpdateEvent() {
+    const errors = this.formService.getErrors();
 
-    if (inputErrors.length > 0) {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          [inputKey]: inputErrors,
-        },
-      });
-      return;
-    }
+    this.updateOnlyCorrectedErrors(errors);
+  }
 
-    if (this.state.errors[inputKey]) {
-      const errors = { ...this.state.errors };
-      delete errors[inputKey];
+  private updateOnlyCorrectedErrors(errors: FormErrors) {
+    const keys = Object.keys(errors);
 
-      this.setState({ errors });
-      return;
-    }
+    const newErrors = keys.reduce((currentErrors: FormErrors, key) => {
+      const errorsForKey = errors[key];
+      const stateErrorsForKey = this.state.errors[key];
+
+      if (!stateErrorsForKey || stateErrorsForKey.length === 0) {
+        return currentErrors;
+      }
+
+      if (!errorsForKey || errorsForKey.length === 0) {
+        return currentErrors;
+      }
+
+      const filteredErrors = stateErrorsForKey.filter(error => errorsForKey.includes(error));
+
+      if (!filteredErrors.length) {
+        return currentErrors;
+      }
+
+      return {
+        ...currentErrors,
+        [key]: filteredErrors,
+      };
+    }, {});
+
+    this.setState({
+      errors: newErrors,
+    });
   }
 
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {

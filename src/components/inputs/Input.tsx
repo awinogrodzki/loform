@@ -16,7 +16,7 @@ export const Input: React.SFC<InputProps & React.InputHTMLAttributes<HTMLInputEl
   disabled,
   placeholder,
   onChange = () => {},
-  value,
+  value = '',
   type = 'text',
   ...rest
 }) => (

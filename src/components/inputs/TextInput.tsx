@@ -9,7 +9,7 @@ export const TextInput: React.SFC<InputProps> = ({
   disabled,
   placeholder,
   onChange = () => {},
-  value,
+  value = '',
 }) => (
   <input
     id={id}
