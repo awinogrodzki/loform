@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/awinogrodzki/loform/compare/v3.2.0...v3.3.0) (2018-08-01)
+
+
+### Features
+
+* **Validation Strategies:** you can now pass different form validation strategies to Form component. See README for more info. ([721e291](https://github.com/awinogrodzki/loform/commit/721e291))
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/awinogrodzki/loform/compare/v3.1.1...v3.2.0) (2018-07-31)
 
