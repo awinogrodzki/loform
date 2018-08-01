@@ -1,3 +1,4 @@
+import { FormErrors } from './../dist/types.d';
 import FormService from './services/FormService';
 import FormEventEmitter from './services/FormEventEmitter';
 
@@ -45,13 +46,13 @@ export interface CheckboxInputProps extends InputProps {
 
 export interface InputValidator {
   errorMessage: string;
-  validate: (value: InputValue|undefined, formValues: FormValues) => boolean;
+  validate: (value: InputValue | undefined, formValues: FormValues) => boolean;
 }
 
 export interface InputDescriptor {
   id: string;
   name: string;
-  value: InputValue|undefined;
+  value: InputValue | undefined;
   required: boolean;
   requiredMessage?: string;
   validators?: InputValidator[];
@@ -70,4 +71,15 @@ export interface FormValues {
 
 export interface FormErrors {
   [name: string]: string[];
+}
+
+export interface FormValidationStrategy {
+  getErrorsOnFormMount: (
+    errors: FormErrors,
+    prevErrors: FormErrors,
+  ) => FormErrors | null;
+  getErrorsOnInputUpdate: (
+    errors: FormErrors,
+    prevErrors: FormErrors,
+  ) => FormErrors | null;
 }

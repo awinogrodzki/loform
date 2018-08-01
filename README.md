@@ -46,6 +46,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
     - [RadioInput](#radioinput)
   - [Types](#types)
   - [Services](#services)
+  - [Validation Strategies](#validation-strategies)
 - [Development](#development)
 - [Contributing](#contributing)
 
@@ -376,13 +377,14 @@ const formValues = formService.getValuesFromInputs();
 
 ##### Props
 
-| Name              | Type                                  | Required | Description                                                                |
-| :---------------- | :------------------------------------ | :------- | :------------------------------------------------------------------------- |
-| onSubmit          | `Function`                            | `true`   | Callback called with [FormValues](#formvalues) on successful form submit   |
-| className         | `String`                              | `false`  | Class name added to form element                                           |
-| onError           | `Function`                            | `false`  | Callback called with [FormErrors](#formerrors) on unsuccessful form submit |
-| formService       | [FormService](#formservice)           | `false`  | Service that handles input registration and validation                     |
-| formEventListener | [FormEventEmitter](#formeventemitter) | `false`  | Service that handles submit and update events                              |
+| Name               | Type                                             | Required | Description                                                                                                                                                                                              |
+| :----------------- | :----------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| onSubmit           | `Function`                                       | `true`   | Callback called with [FormValues](#formvalues) on successful form submit                                                                                                                                 |
+| className          | `String`                                         | `false`  | Class name added to form element                                                                                                                                                                         |
+| onError            | `Function`                                       | `false`  | Callback called with [FormErrors](#formerrors) on unsuccessful form submit                                                                                                                               |
+| formService        | [FormService](#formservice)                      | `false`  | Service that handles input registration and validation                                                                                                                                                   |
+| formEventListener  | [FormEventEmitter](#formeventemitter)            | `false`  | Service that handles submit and update events                                                                                                                                                            |
+| validationStrategy | [FormValidationStrategy](#validation-strategies) | `false`  | Default value: `onlyOnSubmit`. There is one more strategy you can use: `onInputValueChange`. You can even write one yourself. See [Validation Strategies](#validation-strategies) section for more info. |
 
 **Form requires it's children to be a render function. What it means is that instead of strings, components or array of them you pass a function that returns them:**
 
@@ -662,6 +664,48 @@ Documentation is in development and incomplete. For all FormEventEmitter methods
 - removeListener(event: FormEvent, callback: (...args: any[]) => any)
 
 Check [FormEvent](#formevent) type
+
+### Validation Strategies
+
+---
+
+Form can use different validation strategies. Validation Strategies are used to tell the form how to update `errors` that you receive as a parameter in render function on form mount and input change.
+
+You can see an example of different validation strategies for a registration form on [Storybook](https://awinogrodzki.github.io/loform/)
+
+There are two strategies available, but you can easily create your own strategy by implementing **FormValidationStrategy** interface:
+
+```typescript
+{
+  getErrorsOnFormMount: (errors: FormErrors, prevErrors: FormErrors) =>
+    FormErrors | null;
+  getErrorsOnInputUpdate: (errors: FormErrors, prevErrors: FormErrors) =>
+    FormErrors | null;
+}
+```
+
+You read about **FormErrors** [here](#formerrors)
+
+If you return `null`, errors won't be updated. If you return **FormErrors** object, it will be set as new form errors.
+
+Example usage:
+
+```javascript
+import { Form, onInputChangeStrategy } from '@loform/react';
+
+const RegistrationForm = () => (
+  <Form
+    className={styles.form}
+    onSubmit={values => console.log(values)}
+    onError={errors => console.log(errors)}
+    validationStrategy={onInputChangeStrategy}
+  >
+    {({ submit, errors }) => (
+      // ...
+    )}
+  </Form>
+);
+```
 
 ## Development
 
