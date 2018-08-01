@@ -1,4 +1,3 @@
-import { FormErrors } from './../dist/types.d';
 import FormService from './services/FormService';
 import FormEventEmitter from './services/FormEventEmitter';
 

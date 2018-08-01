@@ -691,14 +691,14 @@ If you return `null`, errors won't be updated. If you return **FormErrors** obje
 Example usage:
 
 ```javascript
-import { Form, onInputChangeStrategy } from '@loform/react';
+import { Form, onInputValueChange } from '@loform/react';
 
 const RegistrationForm = () => (
   <Form
     className={styles.form}
     onSubmit={values => console.log(values)}
     onError={errors => console.log(errors)}
-    validationStrategy={onInputChangeStrategy}
+    validationStrategy={onInputValueChange}
   >
     {({ submit, errors }) => (
       // ...
