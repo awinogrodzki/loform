@@ -6,13 +6,16 @@ import {
   FormValues,
   FormErrors,
   InputDescriptor,
+  FormValidationStrategy,
 } from '../../types';
 import { FormContext } from '../../context';
+import { onlyOnSubmit } from './strategy';
 
 export interface FormProps {
   className?: string;
   formService?: FormService;
   formEventEmitter?: FormEventEmitter;
+  validationStrategy?: FormValidationStrategy;
   onSubmit: (values: FormValues) => any;
   onError?: (errors: FormErrors) => any;
   children: (renderProps: RenderProps) => React.ReactNode;
@@ -25,6 +28,7 @@ export interface FormState {
 class Form extends React.Component<FormProps, FormState> {
   private formEventEmitter: FormEventEmitter;
   private formService: FormService;
+  private validationStrategy: FormValidationStrategy;
   public state: FormState = {
     errors: {},
   };
@@ -36,6 +40,10 @@ class Form extends React.Component<FormProps, FormState> {
     children: PropTypes.func.isRequired,
     formService: PropTypes.instanceOf(FormService),
     formEventEmitter: PropTypes.instanceOf(FormEventEmitter),
+    validationStrategy: PropTypes.shape({
+      getErrorsOnFormMount: PropTypes.func,
+      getErrorsOnInputUpdate: PropTypes.func,
+    }),
   };
 
   constructor(props: FormProps) {
@@ -47,6 +55,7 @@ class Form extends React.Component<FormProps, FormState> {
     this.formService = props.formService
       ? props.formService
       : new FormService();
+    this.validationStrategy = props.validationStrategy || onlyOnSubmit;
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onSubmitEvent = this.onSubmitEvent.bind(this);
@@ -54,6 +63,22 @@ class Form extends React.Component<FormProps, FormState> {
 
     this.formEventEmitter.addListener(FormEvent.Update, this.onUpdateEvent);
     this.formEventEmitter.addListener(FormEvent.Submit, this.onSubmitEvent);
+  }
+
+  componentDidMount() {
+    const errors = this.formService.getErrors();
+    const newErrors = this.validationStrategy.getErrorsOnFormMount(
+      errors,
+      this.state.errors,
+    );
+
+    if (!newErrors) {
+      return;
+    }
+
+    this.setState({
+      errors: newErrors,
+    });
   }
 
   componentWillUnmount() {
@@ -91,36 +116,14 @@ class Form extends React.Component<FormProps, FormState> {
 
   onUpdateEvent() {
     const errors = this.formService.getErrors();
+    const newErrors = this.validationStrategy.getErrorsOnInputUpdate(
+      errors,
+      this.state.errors,
+    );
 
-    this.updateOnlyCorrectedErrors(errors);
-  }
-
-  private updateOnlyCorrectedErrors(errors: FormErrors) {
-    const keys = Object.keys(errors);
-
-    const newErrors = keys.reduce((currentErrors: FormErrors, key) => {
-      const errorsForKey = errors[key];
-      const stateErrorsForKey = this.state.errors[key];
-
-      if (!stateErrorsForKey || stateErrorsForKey.length === 0) {
-        return currentErrors;
-      }
-
-      if (!errorsForKey || errorsForKey.length === 0) {
-        return currentErrors;
-      }
-
-      const filteredErrors = stateErrorsForKey.filter(error => errorsForKey.includes(error));
-
-      if (!filteredErrors.length) {
-        return currentErrors;
-      }
-
-      return {
-        ...currentErrors,
-        [key]: filteredErrors,
-      };
-    }, {});
+    if (!newErrors) {
+      return;
+    }
 
     this.setState({
       errors: newErrors,

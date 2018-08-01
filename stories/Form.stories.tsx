@@ -10,9 +10,11 @@ import {
   Form,
   Input,
   CheckboxInput,
+  onlyOnSubmit,
+  onInputValueChange,
 } from '../src/components';
 import { emailValidator } from '../src/validators';
-import { FormErrors } from '../src/types';
+import { FormErrors, FormValidationStrategy } from '../src/types';
 import ComplicatedCheckbox from './ComplicatedCheckbox';
 
 const styles = require('./Form.stories.css');
@@ -68,11 +70,16 @@ const renderErrors = (errors: FormErrors, name: string) => {
   );
 };
 
-const RegistrationForm = () => (
+const RegistrationForm = ({
+  validationStrategy,
+}: {
+  validationStrategy: FormValidationStrategy;
+}) => (
   <Form
     className={styles.form}
     onSubmit={action('onSubmit')}
     onError={action('onError')}
+    validationStrategy={validationStrategy}
   >
     {({ submit, errors }) => (
       <>
@@ -143,8 +150,13 @@ const RegistrationForm = () => (
 storiesOf('Form', module)
   .add(
     'registration',
-    withReadme(registrationReadme, () => <RegistrationForm />),
+    withReadme(registrationReadme, () => (
+      <RegistrationForm validationStrategy={onlyOnSubmit} />
+    )),
   )
+  .add('registration with onInputValueChange form validation strategy', () => (
+    <RegistrationForm validationStrategy={onInputValueChange} />
+  ))
   .add('random', () => (
     <Form
       className={styles.form}
