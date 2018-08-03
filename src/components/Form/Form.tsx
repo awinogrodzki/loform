@@ -69,7 +69,6 @@ class Form extends React.Component<FormProps, FormState> {
     const errors = this.formService.getErrors();
     const newErrors = this.validationStrategy.getErrorsOnFormMount(
       errors,
-      this.state.errors,
     );
 
     if (!newErrors) {

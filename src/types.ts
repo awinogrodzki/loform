@@ -75,7 +75,6 @@ export interface FormErrors {
 export interface FormValidationStrategy {
   getErrorsOnFormMount: (
     errors: FormErrors,
-    prevErrors: FormErrors,
   ) => FormErrors | null;
   getErrorsOnInputUpdate: (
     errors: FormErrors,

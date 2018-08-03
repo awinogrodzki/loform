@@ -677,7 +677,7 @@ There are two strategies available, but you can easily create your own strategy 
 
 ```typescript
 {
-  getErrorsOnFormMount: (errors: FormErrors, prevErrors: FormErrors) =>
+  getErrorsOnFormMount: (errors: FormErrors) =>
     FormErrors | null;
   getErrorsOnInputUpdate: (errors: FormErrors, prevErrors: FormErrors) =>
     FormErrors | null;
