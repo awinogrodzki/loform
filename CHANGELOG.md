@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/awinogrodzki/loform/compare/v3.3.0...v3.4.0) (2018-08-04)
+
+
+### Features
+
+* added onInputBlur validation strategy and used it as default ([a83863c](https://github.com/awinogrodzki/loform/commit/a83863c))
+
+
+
 <a name="3.3.1"></a>
 
 ## [3.3.1](https://github.com/awinogrodzki/loform/compare/v3.3.0...v3.3.1) (2018-08-01)
