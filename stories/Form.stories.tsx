@@ -11,7 +11,8 @@ import {
   Input,
   CheckboxInput,
   onlyOnSubmit,
-  onInputValueChange,
+  onInputChange,
+  onInputBlur,
 } from '../src/components';
 import { emailValidator } from '../src/validators';
 import { FormErrors, FormValidationStrategy } from '../src/types';
@@ -149,13 +150,16 @@ const RegistrationForm = ({
 
 storiesOf('Form', module)
   .add(
-    'registration',
+    'registration with onInputBlur form validation strategy',
     withReadme(registrationReadme, () => (
-      <RegistrationForm validationStrategy={onlyOnSubmit} />
+      <RegistrationForm validationStrategy={onInputBlur} />
     )),
   )
-  .add('registration with onInputValueChange form validation strategy', () => (
-    <RegistrationForm validationStrategy={onInputValueChange} />
+  .add('registration with onlyOnSubmit form validation strategy', () => (
+    <RegistrationForm validationStrategy={onlyOnSubmit} />
+  ))
+  .add('registration with onInputChange form validation strategy', () => (
+    <RegistrationForm validationStrategy={onInputChange} />
   ))
   .add('random', () => (
     <Form

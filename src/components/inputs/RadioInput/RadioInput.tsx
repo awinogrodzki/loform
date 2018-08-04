@@ -2,13 +2,17 @@ import * as React from 'react';
 import { FormInputDecorator } from '../../../components';
 import { RadioInputProps, DecoratedInputProps } from '../../../types';
 
-const RadioInput: React.SFC<RadioInputProps> = ({
+const RadioInput: React.SFC<
+  RadioInputProps & React.InputHTMLAttributes<HTMLInputElement>
+> = ({
   id,
   name,
   value = '',
   className,
   onChange = () => {},
+  onBlur,
   options = [],
+  ...rest
 }) => (
   <div className={className}>
     {options.map((option, index) => {
@@ -19,6 +23,8 @@ const RadioInput: React.SFC<RadioInputProps> = ({
       return (
         <div key={inputId}>
           <input
+            {...rest}
+            onBlur={onBlur}
             id={inputId}
             disabled={option.disabled}
             type="radio"

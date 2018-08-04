@@ -60,16 +60,16 @@ class Form extends React.Component<FormProps, FormState> {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onSubmitEvent = this.onSubmitEvent.bind(this);
     this.onUpdateEvent = this.onUpdateEvent.bind(this);
+    this.onBlurEvent = this.onBlurEvent.bind(this);
 
     this.formEventEmitter.addListener(FormEvent.Update, this.onUpdateEvent);
     this.formEventEmitter.addListener(FormEvent.Submit, this.onSubmitEvent);
+    this.formEventEmitter.addListener(FormEvent.Blur, this.onBlurEvent);
   }
 
   componentDidMount() {
     const errors = this.formService.getErrors();
-    const newErrors = this.validationStrategy.getErrorsOnFormMount(
-      errors,
-    );
+    const newErrors = this.validationStrategy.getErrorsOnFormMount(errors);
 
     if (!newErrors) {
       return;
@@ -109,13 +109,34 @@ class Form extends React.Component<FormProps, FormState> {
     );
   }
 
+  onBlurEvent(input: InputDescriptor) {
+    const errors = this.formService.getErrors();
+    const inputName = this.formService.getInputErrorKey(input);
+
+    const newErrors = this.validationStrategy.getErrorsOnInputBlur(
+      inputName,
+      errors,
+      this.state.errors,
+    );
+
+    if (!newErrors) {
+      return;
+    }
+
+    this.setState({
+      errors: newErrors,
+    });
+  }
+
   onSubmitEvent() {
     this.submit();
   }
 
-  onUpdateEvent() {
+  onUpdateEvent(input: InputDescriptor) {
     const errors = this.formService.getErrors();
+    const inputName = this.formService.getInputErrorKey(input);
     const newErrors = this.validationStrategy.getErrorsOnInputUpdate(
+      inputName,
       errors,
       this.state.errors,
     );

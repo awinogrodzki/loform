@@ -5,7 +5,15 @@ export const onlyOnSubmit: FormValidationStrategy = {
     return {};
   },
 
-  getErrorsOnInputUpdate: (errors: FormErrors, prevErrors: FormErrors) => {
+  getErrorsOnInputBlur: () => {
+    return null;
+  },
+
+  getErrorsOnInputUpdate: (
+    inputName: string,
+    errors: FormErrors,
+    prevErrors: FormErrors,
+  ) => {
     const keys = Object.keys(errors);
     const newErrors = keys.reduce((currentErrors: FormErrors, key) => {
       const errorsForKey = errors[key];

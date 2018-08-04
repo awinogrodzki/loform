@@ -2,18 +2,24 @@ import * as React from 'react';
 import { SelectInputProps, DecoratedInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
 
-const SelectInput: React.SFC<SelectInputProps> = ({
+const SelectInput: React.SFC<
+  SelectInputProps & React.InputHTMLAttributes<HTMLSelectElement>
+> = ({
   id,
   className,
   name,
   value = '',
   disabled,
   onChange = () => {},
+  onBlur,
   options = [],
+  ...rest
 }) => (
   <select
+    {...rest}
     id={id}
     name={name}
+    onBlur={onBlur}
     disabled={disabled}
     className={className}
     value={value}

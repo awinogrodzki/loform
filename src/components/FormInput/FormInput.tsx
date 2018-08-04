@@ -32,6 +32,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
     this.id = props.id || uuid();
     this.onInputChange = this.onInputChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
   }
 
   static getDerivedStateFromProps(
@@ -99,6 +100,16 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     }
   }
 
+  onBlur(e: React.FocusEvent<any>) {
+    this.props.formEventEmitter.blur(
+      this.getDescriptorFromProps(this.state.value),
+    );
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+  }
+
   render() {
     const {
       id,
@@ -114,6 +125,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       requiredMessage,
       onChange,
       children,
+      onBlur,
       ...rest
     } = this.props;
 
@@ -123,6 +135,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       disabled,
       placeholder,
       className,
+      onBlur: this.onBlur,
       id: this.id,
       value: this.state.value,
       onChange: this.onInputChange,

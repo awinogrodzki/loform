@@ -14,6 +14,7 @@ describe('onlyOnSubmit FormValidationStrategy', () => {
     };
 
     const errors = onlyOnSubmit.getErrorsOnInputUpdate(
+      'firstName',
       errorsOnUpdate,
       errorsFromSubmit,
     );

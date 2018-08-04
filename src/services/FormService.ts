@@ -57,7 +57,7 @@ class FormService {
     name,
     value,
     required,
-    requiredMessage = null,
+    requiredMessage,
     validators = [],
   }: InputDescriptor): string[] {
     let errors: string[] = [];
@@ -137,8 +137,6 @@ class FormService {
 
     return match[1];
   }
-
-  getInputKey(input: InputDescriptor) {}
 
   getValueByMatch(
     match: string[],

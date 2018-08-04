@@ -11,6 +11,7 @@ export interface InputProps {
   disabled?: boolean;
   value?: InputValue;
   onChange?: (value?: InputValue) => any;
+  onBlur?: (e: React.FocusEvent<any>) => any;
 }
 
 export interface DecoratedInputProps {
@@ -24,6 +25,12 @@ export interface FormInputProps extends InputProps, DecoratedInputProps {
   formEventEmitter: FormEventEmitter;
   children: <T>(inputProps: InputProps & T) => React.ReactElement<any>;
 }
+
+export type Diff<
+  T extends string | number | symbol,
+  U extends string | number | symbol
+> = ({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T];
+export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;
 
 export interface Option {
   value: string;
@@ -73,10 +80,14 @@ export interface FormErrors {
 }
 
 export interface FormValidationStrategy {
-  getErrorsOnFormMount: (
+  getErrorsOnFormMount: (errors: FormErrors) => FormErrors | null;
+  getErrorsOnInputBlur: (
+    inputName: string,
     errors: FormErrors,
-  ) => FormErrors | null;
+    prevErrors: FormErrors,
+  ) => any;
   getErrorsOnInputUpdate: (
+    inputName: string,
     errors: FormErrors,
     prevErrors: FormErrors,
   ) => FormErrors | null;

@@ -9,28 +9,34 @@ export interface InputProps extends ParentInputProps {
   type?: string;
 }
 
-export const Input: React.SFC<InputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
+export const Input: React.SFC<
+  InputProps & React.InputHTMLAttributes<HTMLInputElement>
+> = ({
   id,
   className,
   name,
   disabled,
   placeholder,
   onChange = () => {},
+  onBlur,
   value = '',
   type = 'text',
   ...rest
 }) => (
   <input
+    {...rest}
     id={id}
     disabled={disabled}
+    onBlur={onBlur}
     onChange={e => onChange(e.target.value)}
     className={className}
     name={name}
     value={value}
     placeholder={placeholder}
     type={type}
-    {...rest}
   />
 );
 
-export default FormInputDecorator<InputProps & React.InputHTMLAttributes<HTMLInputElement>>(Input);
+export default FormInputDecorator<
+  InputProps & React.InputHTMLAttributes<HTMLInputElement>
+>(Input);

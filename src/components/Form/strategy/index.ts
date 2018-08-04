@@ -1,2 +1,3 @@
 export * from './onlyOnSubmit';
-export * from './onInputValueChange';
+export * from './onInputChange';
+export * from './onInputBlur';

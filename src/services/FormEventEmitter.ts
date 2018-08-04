@@ -8,6 +8,7 @@ export interface FormEventEmitterOptions {
 export enum FormEvent {
   Update = 'update',
   Submit = 'submit',
+  Blur = 'blur',
 }
 
 class FormEventEmitter {
@@ -27,6 +28,10 @@ class FormEventEmitter {
 
   update(descriptor: InputDescriptor) {
     this.emitter.emit(FormEvent.Update, descriptor);
+  }
+
+  blur(descriptor: InputDescriptor) {
+    this.emitter.emit(FormEvent.Blur, descriptor);
   }
 
   submit() {

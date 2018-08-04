@@ -377,14 +377,14 @@ const formValues = formService.getValuesFromInputs();
 
 ##### Props
 
-| Name               | Type                                             | Required | Description                                                                                                                                                                                              |
-| :----------------- | :----------------------------------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| onSubmit           | `Function`                                       | `true`   | Callback called with [FormValues](#formvalues) on successful form submit                                                                                                                                 |
-| className          | `String`                                         | `false`  | Class name added to form element                                                                                                                                                                         |
-| onError            | `Function`                                       | `false`  | Callback called with [FormErrors](#formerrors) on unsuccessful form submit                                                                                                                               |
-| formService        | [FormService](#formservice)                      | `false`  | Service that handles input registration and validation                                                                                                                                                   |
-| formEventListener  | [FormEventEmitter](#formeventemitter)            | `false`  | Service that handles submit and update events                                                                                                                                                            |
-| validationStrategy | [FormValidationStrategy](#validation-strategies) | `false`  | Default value: `onlyOnSubmit`. There is one more strategy you can use: `onInputValueChange`. You can even write one yourself. See [Validation Strategies](#validation-strategies) section for more info. |
+| Name               | Type                                             | Required | Description                                                                                                                                                                                                       |
+| :----------------- | :----------------------------------------------- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| onSubmit           | `Function`                                       | `true`   | Callback called with [FormValues](#formvalues) on successful form submit                                                                                                                                          |
+| className          | `String`                                         | `false`  | Class name added to form element                                                                                                                                                                                  |
+| onError            | `Function`                                       | `false`  | Callback called with [FormErrors](#formerrors) on unsuccessful form submit                                                                                                                                        |
+| formService        | [FormService](#formservice)                      | `false`  | Service that handles input registration and validation                                                                                                                                                            |
+| formEventListener  | [FormEventEmitter](#formeventemitter)            | `false`  | Service that handles submit and update events                                                                                                                                                                     |
+| validationStrategy | [FormValidationStrategy](#validation-strategies) | `false`  | Default value: `onInputBlur`. There are more strategies you can use: `onlyOnSubmit`, `onInputChange`. You can even write one yourself. See [Validation Strategies](#validation-strategies) section for more info. |
 
 **Form requires it's children to be a render function. What it means is that instead of strings, components or array of them you pass a function that returns them:**
 
@@ -673,14 +673,21 @@ Form can use different validation strategies. Validation Strategies are used to 
 
 You can see an example of different validation strategies for a registration form on [Storybook](https://awinogrodzki.github.io/loform/)
 
-There are two strategies available, but you can easily create your own strategy by implementing **FormValidationStrategy** interface:
+There are three strategies available, but you can easily create your own strategy by implementing **FormValidationStrategy** interface:
 
 ```typescript
 {
-  getErrorsOnFormMount: (errors: FormErrors) =>
-    FormErrors | null;
-  getErrorsOnInputUpdate: (errors: FormErrors, prevErrors: FormErrors) =>
-    FormErrors | null;
+  getErrorsOnFormMount: (errors: FormErrors) => FormErrors | null;
+  getErrorsOnInputBlur: (
+    inputName: string,
+    errors: FormErrors,
+    prevErrors: FormErrors,
+  ) => FormErrors | null;
+  getErrorsOnInputUpdate: (
+    inputName: string,
+    errors: FormErrors,
+    prevErrors: FormErrors,
+  ) => FormErrors | null;
 }
 ```
 
@@ -691,14 +698,14 @@ If you return `null`, errors won't be updated. If you return **FormErrors** obje
 Example usage:
 
 ```javascript
-import { Form, onInputValueChange } from '@loform/react';
+import { Form, onlyOnSubmit } from '@loform/react';
 
 const RegistrationForm = () => (
   <Form
     className={styles.form}
     onSubmit={values => console.log(values)}
     onError={errors => console.log(errors)}
-    validationStrategy={onInputValueChange}
+    validationStrategy={onlyOnSubmit}
   >
     {({ submit, errors }) => (
       // ...
