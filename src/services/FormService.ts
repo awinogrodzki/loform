@@ -102,13 +102,7 @@ class FormService {
   }
 
   getInputErrorKey(input: InputDescriptor) {
-    let rootName = input.name;
-
-    try {
-      rootName = this.getInputRootName(input.name);
-    } catch (e) {}
-
-    return rootName;
+    return input.name;
   }
 
   getInputValue(input: InputDescriptor): FormValues {

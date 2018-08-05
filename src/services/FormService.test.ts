@@ -22,21 +22,18 @@ describe('FormService', () => {
     expect(errors).toEqual(['error message']);
   });
 
-  it(
-    'should validate required input with default message \
-    with name if label is not provided',
-    () => {
-      const input = {
-        id: 'inputId',
-        name: 'name',
-        value: '',
-        required: true,
-      };
-      const errors = formService.getErrorsFromInput(input);
+  it('should validate required input with default message \
+    with name if label is not provided', () => {
+    const input = {
+      id: 'inputId',
+      name: 'name',
+      value: '',
+      required: true,
+    };
+    const errors = formService.getErrorsFromInput(input);
 
-      expect(errors).toEqual(['Input name is required']);
-    },
-  );
+    expect(errors).toEqual(['Input name is required']);
+  });
 
   it('should return empty array of errors if input is valid', () => {
     const input = {
@@ -53,8 +50,14 @@ describe('FormService', () => {
 
   it('should validate using validators', () => {
     const mockValidators = [
-      { errorMessage: 'message1', validate: (value: string) => value === 'value1' },
-      { errorMessage: 'message2', validate: (value: string) => value === 'value2' },
+      {
+        errorMessage: 'message1',
+        validate: (value: string) => value === 'value1',
+      },
+      {
+        errorMessage: 'message2',
+        validate: (value: string) => value === 'value2',
+      },
     ];
     const input = {
       id: 'inputId',
@@ -177,10 +180,7 @@ describe('FormService', () => {
     formService.registerInput(input2);
 
     expect(formService.getValuesFromInputs()).toEqual({
-      name: [
-        'value1',
-        'value2',
-      ],
+      name: ['value1', 'value2'],
     });
   });
 
@@ -210,11 +210,7 @@ describe('FormService', () => {
 
     expect(formService.getValuesFromInputs()).toEqual({
       name: {
-        one: [
-          'value1',
-          'value2',
-          { three: 'value3' },
-        ],
+        one: ['value1', 'value2', { three: 'value3' }],
       },
     });
   });
@@ -244,29 +240,36 @@ describe('FormService', () => {
     });
   });
 
-  it(
-    'should throw error if we try to get values from \
-    input without key in front of square braces',
-    () => {
-      const input = {
-        id: 'input1',
-        name: '[]',
-        value: 'value1',
-        required: true,
-      };
+  it('should throw error if we try to get values from \
+    input without key in front of square braces', () => {
+    const input = {
+      id: 'input1',
+      name: '[]',
+      value: 'value1',
+      required: true,
+    };
 
-      formService.registerInput(input);
+    formService.registerInput(input);
 
-      expect(() => formService.getValuesFromInputs())
-        .toThrowError('Input name needs a key in front of array or object');
-    },
-  );
+    expect(() => formService.getValuesFromInputs()).toThrowError(
+      'Input name needs a key in front of array or object',
+    );
+  });
 
   it('should extract errors from inputs', () => {
     const mockValidators = [
-      { errorMessage: 'message1', validate: (value: string) => value === 'value1' },
-      { errorMessage: 'message2', validate: (value: string) => value === 'value2' },
-      { errorMessage: 'message3', validate: (value: string) => value === 'value2' },
+      {
+        errorMessage: 'message1',
+        validate: (value: string) => value === 'value1',
+      },
+      {
+        errorMessage: 'message2',
+        validate: (value: string) => value === 'value2',
+      },
+      {
+        errorMessage: 'message3',
+        validate: (value: string) => value === 'value2',
+      },
     ];
     const input = {
       id: 'inputId',
@@ -290,17 +293,29 @@ describe('FormService', () => {
       required: true,
       requiredMessage: 'input 3 required message',
     };
+    const input4 = {
+      id: 'input4Id',
+      label: 'Fourth input',
+      name: 'name3[testKey][]',
+      value: '',
+      required: true,
+      requiredMessage: 'input 4 required message',
+    };
 
     formService.registerInput(input);
     formService.registerInput(input2);
     formService.registerInput(input3);
+    formService.registerInput(input4);
 
     const errors = formService.getErrors();
 
     expect(errors).toEqual({
       name: ['message2', 'message3'],
       name2: ['message1'],
-      name3: [expect.any(String)],
+      'name3[testKey][]': [
+        'input 3 required message',
+        'input 4 required message',
+      ],
     });
   });
 });

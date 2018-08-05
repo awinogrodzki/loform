@@ -595,9 +595,9 @@ FormValues is an object representing all of the current form values. Example:
 
 #### FormErrors
 
-FormErrors is an object representing invalid inputs with error messages. Example:
+FormErrors is an object representing invalid inputs with error messages. Error messages are identified by input `name` prop. Example:
 
-```
+```javascript
 {
   email: [
     'Invalid email address'
@@ -605,6 +605,9 @@ FormErrors is an object representing invalid inputs with error messages. Example
   phone: [
     'Phone number too long',
     'Incorrect phone format'
+  ],
+  'language[]': [
+    'At least one language is required',
   ]
 }
 ```

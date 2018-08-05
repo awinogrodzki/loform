@@ -176,8 +176,10 @@ describe('Form', () => {
     wrapper.find('button').simulate('click');
     expect(onSubmit).not.toHaveBeenCalled();
     expect(onError).toHaveBeenCalledWith({
-      arrayInput: ['message1', 'message2', 'message3'],
-      nestedInput: ['message4', 'message5', 'message6'],
+      'arrayInput[]': ['message1', 'message2', 'message3'],
+      'nestedInput[firstKey]': ['message4'],
+      'nestedInput[secondKey]': ['message5'],
+      'nestedInput[thirdKey][]': ['message6'],
     });
   });
 
