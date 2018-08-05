@@ -9,7 +9,7 @@ import {
   FormValidationStrategy,
 } from '../../types';
 import { FormContext } from '../../context';
-import { onlyOnSubmit } from './strategy';
+import { onInputBlur } from './strategy';
 
 export interface FormProps {
   className?: string;
@@ -55,7 +55,7 @@ class Form extends React.Component<FormProps, FormState> {
     this.formService = props.formService
       ? props.formService
       : new FormService();
-    this.validationStrategy = props.validationStrategy || onlyOnSubmit;
+    this.validationStrategy = props.validationStrategy || onInputBlur;
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onSubmitEvent = this.onSubmitEvent.bind(this);
