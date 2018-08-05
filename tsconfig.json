@@ -8,17 +8,14 @@
     "sourceMap": true,
     "module": "commonjs",
     "target": "es5",
-    "lib": [
-      "es2015",
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2015", "es2017", "dom"],
     "jsx": "react"
   },
-  "include": [
-    "./src/**/*"
-  ],
+  "include": ["./src/**/*"],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "./src/**/__tests__/*",
+    "./src/**/*.test.tsx",
+    "./src/**/*.test.ts"
   ]
 }
