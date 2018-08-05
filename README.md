@@ -142,6 +142,7 @@ In order for input to work, you need to wrap it with **FormInputDecorator** HOC
 - name: string
 - value: any
 - onChange: (value?: any) => any
+- onBlur: (event: React.FocusEvent<any>) => any
 - disabled?: boolean
 - placeholder?: string
 - ...rest _all other props given to the HOC will be passed down to your component (eg. options in SelectInput)_
@@ -154,7 +155,7 @@ import { FormInputDecorator } from '@loform/react';
 const ON = 'on';
 const OFF = 'off';
 
-export const SwitchInput = ({ onChange, hasErrors, value }) => (
+export const SwitchInput = ({ onChange, onBlur, hasErrors, value }) => (
   <div
     className={classnames('switchInput', { switchInput__hasErrors: hasErrors })}
   >
@@ -164,12 +165,14 @@ export const SwitchInput = ({ onChange, hasErrors, value }) => (
       value={ON}
       checked={value === ON}
       onChange={() => onChange(ON)}
+      onBlur={onBlur} // You need to pass onBlur function, in order for onInputBlur validation to work
     />
     <input
       type="radio"
       value={OFF}
       checked={value === OFF}
       onChange={() => onChange(OFF)}
+      onBlur={onBlur} // As above
     />
   </div>
 );
@@ -259,6 +262,7 @@ class ComplicatedCheckbox extends React.Component {
         value={this.state.initialValue}
         checked={this.state.checked}
         onChange={this.handleChange}
+        onBlur={this.props.onBlur}
         type="checkbox"
       />
     );
@@ -280,15 +284,19 @@ const CheckboxInput = ({
   value = false, // We expect a boolean type as a value
   disabled,
   onChange = () => {},
+  onBlur,
+  ...rest
 }) => {
   return (
     <input
+      {...rest}
       id={id}
       name={name}
       checked={value}
       disabled={disabled}
       type="checkbox"
       onChange={e => onChange(e.target.checked)}
+      onBlur={onBlur}
     />
   );
 };
@@ -424,7 +432,8 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 | required        | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                            |
 | requiredMessage | `String`   | `false`  | Replaces default required error message                                                                |
 | validators      | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
-| onChange        | `Function` | `false`  | Function called on input's value change with it's value                                                |
+| onChange        | `Function` | `false`  | Function called on input value change with it's value                                                  |
+| onBlur          | `Function` | `false`  | Function called on input blur                                                                          |
 
 #### Input
 
