@@ -29,4 +29,4 @@ export const PasswordInput: React.SFC<
   />
 );
 
-export default FormInputDecorator<InputProps>(PasswordInput);
+export default FormInputDecorator(PasswordInput);

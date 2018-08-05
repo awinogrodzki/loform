@@ -29,4 +29,4 @@ export const TextInput: React.SFC<
   />
 );
 
-export default FormInputDecorator<InputProps>(TextInput);
+export default FormInputDecorator(TextInput);

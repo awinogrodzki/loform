@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SelectInputProps, DecoratedInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
 
-const SelectInput: React.SFC<
+export const SelectInput: React.SFC<
   SelectInputProps & React.InputHTMLAttributes<HTMLSelectElement>
 > = ({
   id,
@@ -33,4 +33,4 @@ const SelectInput: React.SFC<
   </select>
 );
 
-export default FormInputDecorator<SelectInputProps>(SelectInput);
+export default FormInputDecorator(SelectInput);

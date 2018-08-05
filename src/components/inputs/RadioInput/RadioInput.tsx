@@ -45,4 +45,4 @@ const RadioInput: React.SFC<
   </div>
 );
 
-export default FormInputDecorator<RadioInputProps>(RadioInput);
+export default FormInputDecorator(RadioInput);

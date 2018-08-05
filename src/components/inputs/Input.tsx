@@ -37,6 +37,4 @@ export const Input: React.SFC<
   />
 );
 
-export default FormInputDecorator<
-  InputProps & React.InputHTMLAttributes<HTMLInputElement>
->(Input);
+export default FormInputDecorator(Input);
