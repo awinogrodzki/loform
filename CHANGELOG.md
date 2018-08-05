@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.3"></a>
+## [3.4.3](https://github.com/awinogrodzki/loform/compare/v3.4.2...v3.4.3) (2018-08-05)
+
+
+### Bug Fixes
+
+* **FormService:** Errors are identified by input name ([f1310ac](https://github.com/awinogrodzki/loform/commit/f1310ac))
+
+
+
 <a name="3.4.2"></a>
 ## [3.4.2](https://github.com/awinogrodzki/loform/compare/v3.4.1...v3.4.2) (2018-08-05)
 
