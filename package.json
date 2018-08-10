@@ -118,7 +118,8 @@
     ],
     "transformIgnorePatterns": [
       "<rootDir>/node_modules"
-    ]
+    ],
+    "testURL": "http://localhost"
   },
   "pre-commit": [
     "lint",
