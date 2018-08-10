@@ -35,7 +35,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash-es": "^4.17.8",
     "prop-types": "^15.6.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
@@ -48,7 +47,6 @@
     "@types/classnames": "^2.2.2",
     "@types/enzyme": "^3.1.4",
     "@types/jest": "^21.1.1",
-    "@types/lodash-es": "^4.17.0",
     "@types/node": "^9.4.7",
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.3.18",
@@ -81,7 +79,6 @@
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
-    "lodash-es": "^4.17.8",
     "react": "^16.3.0",
     "react-dom": "^16.3.0"
   },
@@ -120,7 +117,7 @@
       "<rootDir>/test/setup.ts"
     ],
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!lodash-es/.*)"
+      "<rootDir>/node_modules"
     ]
   },
   "pre-commit": [

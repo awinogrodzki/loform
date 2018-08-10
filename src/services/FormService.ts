@@ -1,20 +1,10 @@
-import { mergeWith, isArray } from '../utils';
+import { merge } from '../utils';
 import {
   FormValues,
   InputDescriptor,
   FormValueType,
   FormErrors,
 } from '../types';
-
-const mergeArrays = (objValue: any, srcValue: any) => {
-  if (!objValue) {
-    return;
-  }
-
-  if (isArray(objValue)) {
-    return objValue.concat(srcValue);
-  }
-};
 
 class FormService {
   private inputs: Map<string, InputDescriptor> = new Map();
@@ -95,7 +85,7 @@ class FormService {
     let values: FormValues = {};
 
     this.inputs.forEach(input => {
-      values = mergeWith(values, this.getInputValue(input), mergeArrays);
+      values = merge(values, this.getInputValue(input));
     });
 
     return values;
