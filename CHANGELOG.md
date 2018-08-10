@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.4"></a>
+## [3.4.4](https://github.com/awinogrodzki/loform/compare/v3.4.3...v3.4.4) (2018-08-10)
+
+
+### Bug Fixes
+
+* removed lodash-es from dependencies ([6baffd4](https://github.com/awinogrodzki/loform/commit/6baffd4))
+
+
+
 <a name="3.4.3"></a>
 ## [3.4.3](https://github.com/awinogrodzki/loform/compare/v3.4.2...v3.4.3) (2018-08-05)
 
