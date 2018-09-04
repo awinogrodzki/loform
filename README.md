@@ -434,6 +434,7 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 | validators      | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
 | onChange        | `Function` | `false`  | Function called on input value change with it's value                                                  |
 | onBlur          | `Function` | `false`  | Function called on input blur                                                                          |
+| debounce        | `Number`   | `false`  | Debounce input value (default: 0). Used mainly with async validators                                   |
 
 #### Input
 

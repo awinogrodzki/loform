@@ -12,7 +12,7 @@ const config = {
     libraryTarget: 'umd',
   },
   devtool: 'source-map',
-  externals: [nodeExternals({ whitelist: ['uuid'] })],
+  externals: [nodeExternals({ whitelist: ['uuid', 'debounce'] })],
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.ts', '.tsx', '.js'],

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as uuid from 'uuid/v4';
+import debounce = require('debounce');
 import {
   InputDescriptor,
   FormInputProps,
@@ -18,6 +19,7 @@ export interface FormInputState {
 export class FormInput extends React.PureComponent<FormInputProps> {
   static defaultProps: Partial<FormInputProps> = {
     validators: [],
+    debounce: 0,
   };
 
   public state: FormInputState = {
@@ -32,6 +34,10 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
     this.id = props.id || uuid();
     this.onInputChange = this.onInputChange.bind(this);
+    this.updateInputDescriptor = debounce(
+      this.updateInputDescriptor,
+      this.props.debounce,
+    );
     this.onBlur = this.onBlur.bind(this);
   }
 
@@ -60,6 +66,10 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       return;
     }
 
+    this.updateInputDescriptor();
+  }
+
+  updateInputDescriptor() {
     const descriptor = this.getDescriptorFromProps(this.state.value);
     this.props.formService.updateInput(descriptor);
     this.props.formEventEmitter.update(descriptor);

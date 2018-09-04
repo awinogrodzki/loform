@@ -178,6 +178,7 @@ storiesOf('Form', module)
             name="username"
             key="username"
             required
+            debounce={500}
             placeholder="Username"
             validators={[
               {

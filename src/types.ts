@@ -18,6 +18,7 @@ export interface DecoratedInputProps {
   validators?: InputValidator[];
   required?: boolean;
   requiredMessage?: string;
+  debounce?: number;
 }
 
 export interface FormInputProps extends InputProps, DecoratedInputProps {
