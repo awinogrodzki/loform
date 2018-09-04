@@ -58,16 +58,16 @@ class FormService {
   }
 
   async getErrors(): Promise<FormErrors> {
-    const errors: FormErrors = {};
+    let errors: FormErrors = {};
 
     for (const input of Array.from(this.inputs.values())) {
       const inputErrors = await this.getErrorsFromInput(input);
+      const inputFormErrors = this.getValueByInputName(
+        input.name,
+        inputErrors.length ? inputErrors : undefined,
+      );
 
-      if (inputErrors.length > 0) {
-        const inputKey = this.getInputErrorKey(input);
-
-        errors[inputKey] = [...(errors[inputKey] || []), ...inputErrors];
-      }
+      errors = merge(errors, inputFormErrors);
     }
 
     return errors;
@@ -88,66 +88,56 @@ class FormService {
   }
 
   getInputValue(input: InputDescriptor): FormValues {
-    const regex = /\[(.*?)\]/g;
-    const match = input.name.match(regex);
+    return this.getValueByInputName(input.name, input.value);
+  }
 
-    if (!match || match.length === 0) {
-      return { [input.name]: input.value };
-    }
+  getValueByInputName(name: string, value: FormValueType): FormValueType {
+    const regex = /([^\[\]]*)(\[([^\[\]]*)\])/g;
 
-    const rootName = this.getInputRootName(input.name);
-    const value = {
-      [rootName]: this.getValueByMatch(match, input, match.length - 1, null),
+    let match: RegExpMatchArray | null;
+
+    type InputName = {
+      key: string;
+      name: string;
+      childKey: string;
+      childName: string;
     };
+    const keys: InputName[] = [];
 
-    return value;
-  }
+    while ((match = regex.exec(name))) {
+      const [key, name, childKey, childName] = match;
 
-  getInputRootName(name: string) {
-    const regex = /^(.+?)\[/;
-    const match = regex.exec(name);
-
-    if (!match) {
-      throw new Error('Input name needs a key in front of array or object');
-    }
-
-    return match[1];
-  }
-
-  getValueByMatch(
-    match: string[],
-    input: InputDescriptor,
-    index: number,
-    currentValue: any,
-  ): FormValueType {
-    if (index < 0) {
-      return currentValue;
-    }
-
-    const regex = /\[(.*?)\]/;
-    const matchString = match[index];
-    const isLastKey = match.length - 1 === index;
-    const keyMatch = regex.exec(matchString);
-    const key = (keyMatch && keyMatch[1]) || null;
-    const nextIndex = index - 1;
-
-    if (isLastKey && key) {
-      return this.getValueByMatch(match, input, nextIndex, {
-        [key]: input.value,
+      keys.push({
+        key,
+        name,
+        childKey,
+        childName,
       });
     }
 
-    if (isLastKey && !key) {
-      return this.getValueByMatch(match, input, nextIndex, [input.value]);
+    if (keys.length === 0) {
+      return { [name]: value };
     }
 
-    if (key) {
-      return this.getValueByMatch(match, input, nextIndex, {
-        [key]: currentValue,
-      });
-    }
+    return keys.reverse().reduce((value, key) => {
+      if (key.name && key.childName) {
+        return { [key.name]: { [key.childName]: value } };
+      }
 
-    return this.getValueByMatch(match, input, nextIndex, [currentValue]);
+      if (key.name && !key.childName) {
+        return { [key.name]: [value] };
+      }
+
+      if (!key.name && !key.childName) {
+        return [value];
+      }
+
+      if (!key.name && key.childName) {
+        return { [key.childName]: value };
+      }
+
+      return value;
+    }, value);
   }
 }
 

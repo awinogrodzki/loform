@@ -23,6 +23,7 @@ export interface FormProps {
 
 export interface FormState {
   errors: FormErrors;
+  isLoading: boolean;
 }
 
 class Form extends React.Component<FormProps, FormState> {
@@ -31,6 +32,7 @@ class Form extends React.Component<FormProps, FormState> {
   private validationStrategy: FormValidationStrategy;
   public state: FormState = {
     errors: {},
+    isLoading: false,
   };
 
   static propTypes = {
@@ -72,7 +74,7 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async updateErrorsOnMount() {
-    const errors = await this.formService.getErrors();
+    const errors = await this.getErrors();
     const newErrors = this.validationStrategy.getErrorsOnFormMount(errors);
 
     if (!newErrors) {
@@ -90,8 +92,21 @@ class Form extends React.Component<FormProps, FormState> {
     this.formEventEmitter.removeListener(FormEvent.Blur, this.onBlurEvent);
   }
 
+  async getErrors(): Promise<FormErrors> {
+    this.setState({ isLoading: true });
+
+    try {
+      const errors = await this.formService.getErrors();
+      this.setState({ isLoading: false });
+      return errors;
+    } catch (e) {
+      this.setState({ isLoading: false });
+      throw e;
+    }
+  }
+
   async submit() {
-    const errors = await this.formService.getErrors();
+    const errors = await this.getErrors();
     const isValid = Object.keys(errors).length === 0;
 
     if (!isValid) {
@@ -116,7 +131,7 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async onBlurEvent(input: InputDescriptor) {
-    const errors = await this.formService.getErrors();
+    const errors = await this.getErrors();
     const inputName = this.formService.getInputErrorKey(input);
 
     const newErrors = this.validationStrategy.getErrorsOnInputBlur(
@@ -139,7 +154,7 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async onUpdateEvent(input: InputDescriptor) {
-    const errors = await this.formService.getErrors();
+    const errors = await this.getErrors();
     const inputName = this.formService.getInputErrorKey(input);
     const newErrors = this.validationStrategy.getErrorsOnInputUpdate(
       inputName,
@@ -165,6 +180,7 @@ class Form extends React.Component<FormProps, FormState> {
     return {
       submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
       errors: this.state.errors,
+      isLoading: this.state.isLoading,
     };
   }
 

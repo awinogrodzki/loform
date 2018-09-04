@@ -197,22 +197,6 @@ describe('FormService', () => {
     });
   });
 
-  it('should throw error if we try to get values from \
-    input without key in front of square braces', () => {
-    const input = {
-      id: 'input1',
-      name: '[]',
-      value: 'value1',
-      required: true,
-    };
-
-    formService.registerInput(input);
-
-    expect(() => formService.getValuesFromInputs()).toThrowError(
-      'Input name needs a key in front of array or object',
-    );
-  });
-
   it('should extract errors from inputs', async () => {
     const mockValidators = [
       {
@@ -255,24 +239,35 @@ describe('FormService', () => {
       label: 'Fourth input',
       name: 'name3[testKey][]',
       value: '',
+      required: false,
+    };
+    const input5 = {
+      id: 'input5Id',
+      label: 'Fifth input',
+      name: 'name3[testKey][]',
+      value: '',
       required: true,
-      requiredMessage: 'input 4 required message',
+      requiredMessage: 'input 5 required message',
     };
 
     formService.registerInput(input);
     formService.registerInput(input2);
     formService.registerInput(input3);
     formService.registerInput(input4);
+    formService.registerInput(input5);
 
     const errors = await formService.getErrors();
 
     expect(errors).toEqual({
       name: ['message2', 'message3'],
       name2: ['message1'],
-      'name3[testKey][]': [
-        'input 3 required message',
-        'input 4 required message',
-      ],
+      name3: {
+        testKey: [
+          ['input 3 required message'],
+          undefined,
+          ['input 5 required message'],
+        ],
+      },
     });
   });
 
@@ -293,5 +288,51 @@ describe('FormService', () => {
     const errors = await formService.getErrors();
 
     expect(errors).toEqual({ name: ['error1', 'error2'] });
+  });
+
+  const inputNameDataProvider = [
+    {
+      inputName: 'test',
+      inputValue: 'value',
+      expectedValue: { test: 'value' },
+    },
+    {
+      inputName: 'test[]',
+      inputValue: 'value',
+      expectedValue: { test: ['value'] },
+    },
+    {
+      inputName: 'test[child]',
+      inputValue: 'value',
+      expectedValue: { test: { child: 'value' } },
+    },
+    {
+      inputName: 'test[child][]',
+      inputValue: 'value',
+      expectedValue: { test: { child: ['value'] } },
+    },
+    {
+      inputName: 'test[child][child2][]',
+      inputValue: 'value',
+      expectedValue: { test: { child: { child2: ['value'] } } },
+    },
+    {
+      inputName: 'test[child][child2]',
+      inputValue: 'value',
+      expectedValue: { test: { child: { child2: 'value' } } },
+    },
+    {
+      inputName: '[][]',
+      inputValue: 'value',
+      expectedValue: [['value']],
+    },
+  ];
+
+  inputNameDataProvider.forEach(({ inputName, inputValue, expectedValue }) => {
+    it('should map input value and name to object', () => {
+      expect(formService.getValueByInputName(inputName, inputValue)).toEqual(
+        expectedValue,
+      );
+    });
   });
 });

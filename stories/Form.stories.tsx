@@ -167,8 +167,9 @@ storiesOf('Form', module)
       onSubmit={action('onSubmit')}
       onError={action('onError')}
     >
-      {({ submit, errors }) => (
+      {({ submit, errors, isLoading }) => (
         <>
+          {isLoading && <span>Loading...</span>}
           {renderErrors(errors, 'username')}
           <TextInput
             className={classnames(styles.input, {
@@ -182,6 +183,7 @@ storiesOf('Form', module)
               {
                 errorMessage: 'Username should be "admin"',
                 validate: value =>
+                  !value ||
                   new Promise(resolve =>
                     setTimeout(() => resolve(value === 'admin'), 500),
                   ),

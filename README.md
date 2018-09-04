@@ -595,22 +595,57 @@ FormValues is an object representing all of the current form values. Example:
 
 #### FormErrors
 
-FormErrors is an object representing invalid inputs with error messages. Error messages are identified by input `name` prop. Example:
+FormErrors is an object representing invalid inputs with error messages. Error messages are identified by input `name` prop.
+
+For example, for a form below:
+
+```javascript
+<Form onSubmit={onSubmit}>
+  {({ submit, errors }) => (
+    <>
+      <TextInput
+        name="email"
+        validators={[emailValidator('Invalid email address')]}
+        required
+      />
+      <TextInput
+        name="phone"
+        validators={[phoneValidator('Incorrect phone format')]}
+      />
+      <TextInput
+        name="language[]"
+        validators={[customLanguageValidator('Incorrect language')]}
+        value="en"
+      />
+      <TextInput
+        name="language[]"
+        validators={[customLanguageValidator('Incorrect language')]}
+      />
+      <button onClick={() => submit()} />
+    </>
+  )}
+</Form>
+```
+
+we can receive error structure like this:
 
 ```javascript
 {
   email: [
+    'Input email is required',
     'Invalid email address'
   ],
   phone: [
-    'Phone number too long',
     'Incorrect phone format'
   ],
-  'language[]': [
-    'At least one language is required',
+  language: [
+    undefined,
+    ['Incorrect language']
   ]
 }
 ```
+
+**Notice `undefined` being the first element of the `language` array. This is because there are two inputs with `language[]` name, and each of them can be identified only by their index**
 
 **Note that if form is valid, FormErrors object has no properties.**
 
