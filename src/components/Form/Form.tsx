@@ -74,6 +74,10 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async updateErrorsOnMount() {
+    if (!this.validationStrategy.getErrorsOnFormMount) {
+      return;
+    }
+
     const errors = await this.getErrors();
     const newErrors = this.validationStrategy.getErrorsOnFormMount(errors);
 
@@ -131,6 +135,10 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async onBlurEvent(input: InputDescriptor) {
+    if (!this.validationStrategy.getErrorsOnInputBlur) {
+      return;
+    }
+
     const errors = await this.getErrors();
     const inputName = this.formService.getInputErrorKey(input);
 
@@ -154,6 +162,10 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async onUpdateEvent(input: InputDescriptor) {
+    if (!this.validationStrategy.getErrorsOnInputUpdate) {
+      return;
+    }
+
     const errors = await this.getErrors();
     const inputName = this.formService.getInputErrorKey(input);
     const newErrors = this.validationStrategy.getErrorsOnInputUpdate(

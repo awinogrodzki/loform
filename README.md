@@ -725,23 +725,23 @@ There are three strategies available, but you can easily create your own strateg
 
 ```typescript
 {
-  getErrorsOnFormMount: (errors: FormErrors) => FormErrors | null;
-  getErrorsOnInputBlur: (
+  getErrorsOnFormMount?: (errors: FormErrors) => FormErrors;
+  getErrorsOnInputBlur?: (
     inputName: string,
     errors: FormErrors,
     prevErrors: FormErrors,
-  ) => FormErrors | null;
-  getErrorsOnInputUpdate: (
+  ) => FormErrors;
+  getErrorsOnInputUpdate?: (
     inputName: string,
     errors: FormErrors,
     prevErrors: FormErrors,
-  ) => FormErrors | null;
+  ) => FormErrors;
 }
 ```
 
 You read about **FormErrors** [here](#formerrors)
 
-If you return `null`, errors won't be updated. If you return **FormErrors** object, it will be set as new form errors.
+If you don't define a specific method, errors won't be updated. If you return **FormErrors** object, it will be set as new form errors.
 
 Example usage:
 

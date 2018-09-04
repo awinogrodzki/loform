@@ -2,10 +2,6 @@ import { onlyOnSubmit } from './onlyOnSubmit';
 import { FormValidationStrategy, FormErrors } from '../../../types';
 
 export const onInputBlur: FormValidationStrategy = {
-  getErrorsOnFormMount: () => {
-    return {};
-  },
-
   getErrorsOnInputBlur: (
     inputName: string,
     errors: FormErrors,
@@ -26,6 +22,6 @@ export const onInputBlur: FormValidationStrategy = {
     errors: FormErrors,
     prevErrors: FormErrors,
   ) => {
-    return onlyOnSubmit.getErrorsOnInputUpdate(inputName, errors, prevErrors);
+    return onlyOnSubmit.getErrorsOnInputUpdate!(inputName, errors, prevErrors);
   },
 };

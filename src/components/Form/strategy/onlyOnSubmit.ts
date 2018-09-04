@@ -1,14 +1,6 @@
 import { FormValidationStrategy, FormErrors } from './../../../types';
 
 export const onlyOnSubmit: FormValidationStrategy = {
-  getErrorsOnFormMount: () => {
-    return {};
-  },
-
-  getErrorsOnInputBlur: () => {
-    return null;
-  },
-
   getErrorsOnInputUpdate: (
     inputName: string,
     errors: FormErrors,

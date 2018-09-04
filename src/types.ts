@@ -85,15 +85,15 @@ export interface FormErrors {
 }
 
 export interface FormValidationStrategy {
-  getErrorsOnFormMount: (errors: FormErrors) => FormErrors | null;
-  getErrorsOnInputBlur: (
+  getErrorsOnFormMount?: (errors: FormErrors) => FormErrors;
+  getErrorsOnInputBlur?: (
     inputName: string,
     errors: FormErrors,
     prevErrors: FormErrors,
-  ) => any;
-  getErrorsOnInputUpdate: (
+  ) => FormErrors;
+  getErrorsOnInputUpdate?: (
     inputName: string,
     errors: FormErrors,
     prevErrors: FormErrors,
-  ) => FormErrors | null;
+  ) => FormErrors;
 }
