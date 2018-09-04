@@ -161,6 +161,50 @@ storiesOf('Form', module)
   .add('registration with onInputChange form validation strategy', () => (
     <RegistrationForm validationStrategy={onInputChange} />
   ))
+  .add('with asynchronous (500ms) username validator', () => (
+    <Form
+      className={styles.form}
+      onSubmit={action('onSubmit')}
+      onError={action('onError')}
+    >
+      {({ submit, errors }) => (
+        <>
+          {renderErrors(errors, 'username')}
+          <TextInput
+            className={classnames(styles.input, {
+              [styles.hasErrors]: !!errors.name,
+            })}
+            name="username"
+            key="username"
+            required
+            placeholder="Username"
+            validators={[
+              {
+                errorMessage: 'Username should be "admin"',
+                validate: value =>
+                  new Promise(resolve =>
+                    setTimeout(() => resolve(value === 'admin'), 500),
+                  ),
+              },
+            ]}
+          />
+          {renderErrors(errors, 'password')}
+          <PasswordInput
+            className={classnames(styles.input, {
+              [styles.hasErrors]: !!errors.password,
+            })}
+            name="password"
+            key="password"
+            required
+            placeholder="Password"
+          />
+          <button className={styles.submit} onClick={() => submit()}>
+            Submit
+          </button>
+        </>
+      )}
+    </Form>
+  ))
   .add('random', () => (
     <Form
       className={styles.form}

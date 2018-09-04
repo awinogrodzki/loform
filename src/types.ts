@@ -52,7 +52,7 @@ export interface CheckboxInputProps extends InputProps {
 
 export interface InputValidator {
   errorMessage: string;
-  validate: (value: InputValue | undefined, formValues: FormValues) => boolean;
+  validate: (value: InputValue | undefined, formValues: FormValues) => boolean | Promise<boolean>;
 }
 
 export interface InputDescriptor {

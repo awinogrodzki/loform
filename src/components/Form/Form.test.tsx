@@ -6,7 +6,7 @@ import { FormService } from '../../services';
 import { InputDescriptor } from '../../types';
 
 describe('Form', () => {
-  it('should remove input key from errors if it is no longer invalid', () => {
+  it('should remove input key from errors if it is no longer invalid', (done) => {
     const render = jest.fn(() => <div />);
     const formService = new FormService();
     const eventEmitter = new FormEventEmitter();
@@ -32,23 +32,29 @@ describe('Form', () => {
     formService.registerInput(firstInput);
     eventEmitter.submit();
 
-    expect(render).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        errors: {
-          name1: ['error'],
-        },
-      }),
-    );
+    setImmediate(() => {
+      expect(render).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          errors: {
+            name1: ['error'],
+          },
+        }),
+      );
 
-    const updatedInput = { ...firstInput, value: 'test' };
+      const updatedInput = { ...firstInput, value: 'test' };
 
-    formService.updateInput(updatedInput);
-    eventEmitter.update(updatedInput);
+      formService.updateInput(updatedInput);
+      eventEmitter.update(updatedInput);
 
-    expect(render).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        errors: {},
-      }),
-    );
+      setImmediate(() => {
+        expect(render).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            errors: {},
+          }),
+        );
+
+        done();
+      });
+    });
   });
 });

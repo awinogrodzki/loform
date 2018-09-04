@@ -29,54 +29,46 @@ class FormService {
     return this.inputs;
   }
 
-  validateInputs() {
-    let isValid = true;
-
-    this.inputs.forEach(input => {
-      const errors = this.getErrorsFromInput(input);
-
-      if (errors.length) {
-        isValid = false;
-      }
-    });
-
-    return isValid;
-  }
-
-  getErrorsFromInput({
+  async getErrorsFromInput({
     name,
     value,
     required,
     requiredMessage,
     validators = [],
-  }: InputDescriptor): string[] {
+  }: InputDescriptor): Promise<string[]> {
     let errors: string[] = [];
 
     if (required && !value) {
       errors = [requiredMessage || `Input ${name} is required`];
     }
 
-    validators.forEach(validator => {
-      if (!validator.validate(value, this.getValuesFromInputs())) {
+    for (const validator of validators) {
+      let isValid = validator.validate(value, this.getValuesFromInputs());
+
+      if (isValid instanceof Promise) {
+        isValid = await isValid;
+      }
+
+      if (!isValid) {
         errors = [...errors, validator.errorMessage];
       }
-    });
+    }
 
     return errors;
   }
 
-  getErrors() {
+  async getErrors(): Promise<FormErrors> {
     const errors: FormErrors = {};
 
-    this.inputs.forEach(input => {
-      const inputErrors = this.getErrorsFromInput(input);
+    for (const input of Array.from(this.inputs.values())) {
+      const inputErrors = await this.getErrorsFromInput(input);
 
       if (inputErrors.length > 0) {
         const inputKey = this.getInputErrorKey(input);
 
         errors[inputKey] = [...(errors[inputKey] || []), ...inputErrors];
       }
-    });
+    }
 
     return errors;
   }
