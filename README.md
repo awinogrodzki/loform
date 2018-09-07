@@ -97,7 +97,7 @@ import React from 'react';
 import { Form, TextInput, PasswordInput, emailValidator } from '@loform/react';
 
 const renderErrors = (errors, inputName) =>
-  errors[inputName] &&
+  errors[inputName].length && // Since version 4.0 you will always receive array for a given field. If the field is valid, array of errors should be empty.
   errors[inputName].map((error, index) => (
     <span key={index} className="error">
       {error}
@@ -412,10 +412,11 @@ const formValues = formService.getValuesFromInputs();
 
 Our render function argument consists of following properties:
 
-| Name   | Description                      |
-| :----- | :------------------------------- |
-| submit | A function that submits our form |
-| errors | [FormErrors](#formerrors) object |
+| Name         | Description                                                                                                                      |
+| :----------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| submit       | A function that submits our form                                                                                                 |
+| errors       | [FormErrors](#formerrors) object                                                                                                 |
+| isValidating | A boolean indicating that form is being validated. Useful with async validators. You can read about it [here](#async-validators) |
 
 ### Inputs
 
@@ -568,14 +569,52 @@ Example:
 
 #### InputValidator
 
-InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first parameter and FormValues object as the second parameter. It must return _true_ if input is successfully validated and _false_ if otherwise.
+InputValidator is an object which contains errorMessage as a string and a validation function. Validate function takes validated field value as the first parameter and FormValues object as the second parameter. It must return `true` if input is successfully validated and `false` if otherwise.
 
 ```
 {
   errorMessage: string;
-  validate: (value: string, formValues: FormValues) => boolean;
+  validate: (value: string, formValues: FormValues) => Promise<boolean> | boolean;
 }
 ```
+
+##### Async validators
+
+Since version 4.0 you can return a promise in `validate` function. Promise should resolve to `boolean` value, indicating successful or unsuccessful validation.
+
+Example:
+
+```javascript
+const usernameAvailabilityValidator = {
+  errorMessage: 'Username is not available',
+  validate: value =>
+    new Promise(resolve => {
+      axios.get(someUrl, { params: { username: value } }).then(({ data }) => {
+        resolve(data.is_available);
+      });
+    }),
+};
+```
+
+If you want to inform users that your form is being validated, you can use `isValidating` boolean render function param. Example:
+
+```javascript
+<Form onSubmit={onSubmit}>
+  {({ submit, errors, isValidating }) => (
+    <>
+      {isValidating && 'Form is being validated...'}
+      <TextInput
+        name="username"
+        validators={[usernameAvailabilityValidator]}
+        required
+      />
+      <button onClick={() => submit()} />
+    </>
+  )}
+</Form>
+```
+
+You can see example of async validation [here](https://awinogrodzki.github.io/loform/)
 
 #### FormValues
 
@@ -613,11 +652,8 @@ For example, for a form below:
         name="phone"
         validators={[phoneValidator('Incorrect phone format')]}
       />
-      <TextInput
-        name="language[]"
-        validators={[customLanguageValidator('Incorrect language')]}
-        value="en"
-      />
+      <TextInput name="description" />
+      <TextInput name="language[]" value="en" />
       <TextInput
         name="language[]"
         validators={[customLanguageValidator('Incorrect language')]}
@@ -636,19 +672,18 @@ we can receive error structure like this:
     'Input email is required',
     'Invalid email address'
   ],
+  description: [],
   phone: [
     'Incorrect phone format'
   ],
   language: [
-    undefined,
+    [],
     ['Incorrect language']
   ]
 }
 ```
 
-**Notice `undefined` being the first element of the `language` array. This is because there are two inputs with `language[]` name, and each of them can be identified only by their index**
-
-**Note that if form is valid, FormErrors object has no properties.**
+**Note that valid fields are identified by empty array of errors**
 
 #### InputDescriptor
 
@@ -717,31 +752,37 @@ Check [FormEvent](#formevent) type
 
 ---
 
-Form can use different validation strategies. Validation Strategies are used to tell the form how to update `errors` that you receive as a parameter in render function, on form mount, input change and input blur events.
+Form can use different validation strategies. Validation Strategies are used to tell the form how to update `errors` for a single input, on form mount, input change and input blur events.
 
 You can see an example of different validation strategies for a registration form on [Storybook](https://awinogrodzki.github.io/loform/)
 
 There are three strategies available, but you can easily create your own strategy by implementing **FormValidationStrategy** interface:
 
 ```typescript
-{
-  getErrorsOnFormMount?: (errors: FormErrors) => FormErrors;
-  getErrorsOnInputBlur?: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
-  ) => FormErrors;
-  getErrorsOnInputUpdate?: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
-  ) => FormErrors;
+interface FormValidationStrategy {
+  getErrorsOnFormMount?: (errors: string[]) => string[];
+  getErrorsOnInputBlur?: (errors: string[], prevErrors: string[]) => string[];
+  getErrorsOnInputUpdate?: (errors: string[], prevErrors: string[]) => string[];
 }
 ```
 
 You read about **FormErrors** [here](#formerrors)
 
-If you don't define a specific method, errors won't be updated. If you return **FormErrors** object, it will be set as new form errors.
+The following is an implementation of `onlyOnSubmit` strategy, which, on input update, removes errors that were corrected since last submit:
+
+```javascript
+export const onlyOnSubmit = {
+  getErrorsOnInputUpdate: (errors, prevErrors) => {
+    if (!errors.length || !prevErrors.length) {
+      return [];
+    }
+
+    return prevErrors.filter(prevError => errors.includes(prevError));
+  },
+};
+```
+
+**Note that if you don't define a specific method, errors won't be updated.**
 
 Example usage:
 

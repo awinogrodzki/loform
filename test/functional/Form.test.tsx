@@ -3,9 +3,10 @@ import { Form, TextInput, emailValidator, Input } from '../../dist';
 import { mount } from 'enzyme';
 
 const event = value => ({ target: { value } });
+const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
 describe('Form', () => {
-  it('should submit form', done => {
+  it('should submit form', async () => {
     const onSubmit = jest.fn();
     const wrapper = mount(
       <Form onSubmit={onSubmit}>
@@ -21,18 +22,19 @@ describe('Form', () => {
     wrapper
       .find('[name="input"] input')
       .simulate('change', event('test value'));
+
+    await tick();
+
     wrapper.find('button').simulate('click');
 
-    setImmediate(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
-        input: 'test value',
-      });
+    await tick();
 
-      done();
+    expect(onSubmit).toHaveBeenCalledWith({
+      input: 'test value',
     });
   });
 
-  it('should show form errors', done => {
+  it('should show form errors', async () => {
     const onSubmit = jest.fn();
     const onError = jest.fn();
     const wrapper = mount(
@@ -48,16 +50,15 @@ describe('Form', () => {
 
     wrapper.find('button').simulate('click');
 
-    setImmediate(() => {
-      expect(onSubmit).not.toHaveBeenCalled();
-      expect(onError).toHaveBeenCalledWith({
-        input: [expect.any(String)],
-      });
-      done();
+    await tick();
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      input: [expect.any(String)],
     });
   });
 
-  it('should work with validators', done => {
+  it('should work with validators', async () => {
     const onSubmit = jest.fn();
     const onError = jest.fn();
     const wrapper = mount(
@@ -77,18 +78,20 @@ describe('Form', () => {
     wrapper
       .find('[name="email"] input')
       .simulate('change', { target: { value: 'notValidEmailAddress' } });
+
+    await tick();
+
     wrapper.find('button').simulate('click');
 
-    setImmediate(() => {
-      expect(onSubmit).not.toHaveBeenCalled();
-      expect(onError).toHaveBeenCalledWith({
-        email: ['Error message'],
-      });
-      done();
+    await tick();
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      email: ['Error message'],
     });
   });
 
-  it('should return correct values from inputs with nested names on submit', done => {
+  it('should return correct values from inputs with nested names on submit', async () => {
     const onSubmit = jest.fn();
     const wrapper = mount(
       <Form onSubmit={onSubmit}>
@@ -109,38 +112,42 @@ describe('Form', () => {
     wrapper
       .find('[data-test="firstInput"] input')
       .simulate('change', event('firstValue'));
+    await tick();
     wrapper
       .find('[data-test="secondInput"] input')
       .simulate('change', event('secondValue'));
+    await tick();
     wrapper
       .find('[data-test="thirdInput"] input')
       .simulate('change', event('thirdValue'));
+    await tick();
     wrapper
       .find('[name="nestedInput[firstKey]"] input')
       .simulate('change', event('fourthValue'));
+    await tick();
     wrapper
       .find('[name="nestedInput[secondKey]"] input')
       .simulate('change', event('fifthValue'));
+    await tick();
     wrapper
       .find('[name="nestedInput[thirdKey][]"] input')
       .simulate('change', event('sixthValue'));
+    await tick();
 
     wrapper.find('button').simulate('click');
+    await tick();
 
-    setImmediate(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
-        arrayInput: ['firstValue', 'secondValue', 'thirdValue'],
-        nestedInput: {
-          firstKey: 'fourthValue',
-          secondKey: 'fifthValue',
-          thirdKey: ['sixthValue'],
-        },
-      });
-      done();
+    expect(onSubmit).toHaveBeenCalledWith({
+      arrayInput: ['firstValue', 'secondValue', 'thirdValue'],
+      nestedInput: {
+        firstKey: 'fourthValue',
+        secondKey: 'fifthValue',
+        thirdKey: ['sixthValue'],
+      },
     });
   });
 
-  it('should return correct values from inputs with nested names on error', done => {
+  it('should return correct values from inputs with nested names on error', async () => {
     const onSubmit = jest.fn();
     const onError = jest.fn();
     const wrapper = mount(
@@ -180,6 +187,7 @@ describe('Form', () => {
               required
               requiredMessage="message6"
             />
+            <TextInput name="nestedInput[thirdKey][]" />
             <button onClick={() => submit()} />
           </>
         )}
@@ -188,19 +196,20 @@ describe('Form', () => {
 
     wrapper.find('button').simulate('click');
 
-    setImmediate(() => {
-      expect(onSubmit).not.toHaveBeenCalled();
-      expect(onError).toHaveBeenCalledWith({
-        'arrayInput[]': ['message1', 'message2', 'message3'],
-        'nestedInput[firstKey]': ['message4'],
-        'nestedInput[secondKey]': ['message5'],
-        'nestedInput[thirdKey][]': ['message6'],
-      });
-      done();
+    await tick();
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      arrayInput: [['message1'], ['message2'], ['message3']],
+      nestedInput: {
+        firstKey: ['message4'],
+        secondKey: ['message5'],
+        thirdKey: [['message6'], []],
+      },
     });
   });
 
-  it("should allow to control input value during it's lifecycle", done => {
+  it("should allow to control input value during it's lifecycle", async () => {
     const onSubmit = jest.fn();
     const SimpleForm = ({ testValue }: { testValue?: string }) => (
       <Form onSubmit={onSubmit}>
@@ -217,26 +226,31 @@ describe('Form', () => {
     wrapper
       .find('[name="input"] input')
       .simulate('change', event('test value'));
+
+    await tick();
+
     wrapper.find('button').simulate('click');
 
-    setImmediate(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
-        input: 'test value',
-      });
+    await tick();
 
-      wrapper.setProps({ testValue: 'controlled value' });
-      wrapper.find('button').simulate('click');
+    expect(onSubmit).toHaveBeenCalledWith({
+      input: 'test value',
+    });
 
-      setImmediate(() => {
-        expect(onSubmit).toHaveBeenLastCalledWith({
-          input: 'controlled value',
-        });
-        done();
-      });
+    wrapper.setProps({ testValue: 'controlled value' });
+
+    await tick();
+
+    wrapper.find('button').simulate('click');
+
+    await tick();
+
+    expect(onSubmit).toHaveBeenLastCalledWith({
+      input: 'controlled value',
     });
   });
 
-  it('should render basic input component', done => {
+  it('should render basic input component', async () => {
     const onSubmit = jest.fn();
     const SimpleForm = ({ testValue }: { testValue?: string }) => (
       <Form onSubmit={onSubmit}>
@@ -263,13 +277,15 @@ describe('Form', () => {
     expect(inputPattern).toBe('test');
 
     input.simulate('change', event('test value'));
+
+    await tick();
+
     wrapper.find('button').simulate('click');
 
-    setImmediate(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
-        input: 'test value',
-      });
-      done();
+    await tick();
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      input: 'test value',
     });
   });
 });

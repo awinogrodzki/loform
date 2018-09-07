@@ -4,7 +4,7 @@
 import { TextInput, PasswordInput, Form } from '@loform/react';
 
 const renderErrors = (errors, name) => {
-  if (!errors || !errors[name]) {
+  if (!errors || !errors[name] || !errors[name].length) {
     return null;
   }
 
@@ -19,18 +19,23 @@ const renderErrors = (errors, name) => {
   );
 };
 
-const RegistrationForm = () => (
+const hasErrors = (errors, name) => {
+  return errors[name] && errors[name].length;
+};
+
+const RegistrationForm = ({ validationStrategy }) => (
   <Form
     className={styles.form}
     onSubmit={action('onSubmit')}
     onError={action('onError')}
+    validationStrategy={validationStrategy}
   >
     {({ submit, errors }) => (
       <>
         {renderErrors(errors, 'email')}
         <TextInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.email,
+            [styles.hasErrors]: hasErrors(errors, 'email'),
           })}
           name="email"
           placeholder="Enter email address"
@@ -41,7 +46,7 @@ const RegistrationForm = () => (
         {renderErrors(errors, 'password')}
         <PasswordInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.password,
+            [styles.hasErrors]: hasErrors(errors, 'password'),
           })}
           name="password"
           placeholder="Enter password"
@@ -51,7 +56,7 @@ const RegistrationForm = () => (
         {renderErrors(errors, 'passwordRepeat')}
         <PasswordInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.passwordRepeat,
+            [styles.hasErrors]: hasErrors(errors, 'passwordRepeat'),
           })}
           name="passwordRepeat"
           placeholder="Repeat password"
@@ -66,6 +71,23 @@ const RegistrationForm = () => (
             },
           ]}
         />
+        {renderErrors(errors, 'agreement')}
+        <p>
+          <CheckboxInput
+            className={classnames(styles.checkbox, {
+              [styles.hasErrors]: hasErrors(errors, 'agreement'),
+            })}
+            name="agreement"
+            value={true}
+            validators={[
+              {
+                errorMessage: 'You need to accept Terms and Conditions',
+                validate: value => value,
+              },
+            ]}
+          />
+          I accept Terms and Conditions
+        </p>
         <button className={styles.submit} onClick={() => submit()}>
           Login
         </button>

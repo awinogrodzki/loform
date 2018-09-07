@@ -1,38 +1,29 @@
 import { onInputBlur } from './onInputBlur';
-import { FormErrors } from '../../../types';
 
 describe('onInputBlur FormValidationStrategy', () => {
-  it('should update only errors of input that was blured', () => {
-    const initialErrors: FormErrors = {};
+  it('should return all errors of input that was blurred, and corrected errors of updated inputs', () => {
+    const errors = new Map([
+      ['input1-id', ['error1', 'error3']],
+      ['input2-id', ['error5']],
+    ]);
+    const prevErrors = new Map([
+      ['input1-id', ['error2', 'error3']],
+      ['input2-id', ['error4']],
+    ]);
+    const expected = new Map([
+      ['input1-id', ['error1', 'error3']],
+      ['input2-id', []],
+    ]);
 
-    const errorsOnBlur: FormErrors = {
-      firstName: ['First error 1', 'First error 2'],
-      secondName: ['Second error 1'],
+    const input = {
+      id: 'input1-id',
+      name: 'name',
+      value: '',
+      required: false,
     };
-    const expectedErrors: FormErrors = {
-      firstName: ['First error 1', 'First error 2'],
-    };
 
-    expect(
-      onInputBlur.getErrorsOnInputBlur(
-        'firstName',
-        errorsOnBlur,
-        initialErrors,
-      ),
-    ).toEqual(expectedErrors);
-
-    expect(
-      onInputBlur.getErrorsOnInputBlur(
-        'secondName',
-        {
-          firstName: ['Different error'],
-          secondName: ['Another Error'],
-        },
-        expectedErrors,
-      ),
-    ).toEqual({
-      firstName: ['First error 1', 'First error 2'],
-      secondName: ['Another Error'],
-    });
+    expect(onInputBlur.getErrorsOnInputBlur(input, errors, prevErrors)).toEqual(
+      expected,
+    );
   });
 });

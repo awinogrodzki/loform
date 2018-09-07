@@ -1,3 +1,4 @@
+import { FormErrorsMap } from './../types';
 import { merge } from '../utils';
 import {
   FormValues,
@@ -57,17 +58,12 @@ class FormService {
     return errors;
   }
 
-  async getErrors(): Promise<FormErrors> {
-    let errors: FormErrors = {};
+  async getErrors(): Promise<FormErrorsMap> {
+    const errors: FormErrorsMap = new Map();
 
     for (const input of Array.from(this.inputs.values())) {
       const inputErrors = await this.getErrorsFromInput(input);
-      const inputFormErrors = this.getValueByInputName(
-        input.name,
-        inputErrors.length ? inputErrors : undefined,
-      );
-
-      errors = merge(errors, inputFormErrors);
+      errors.set(input.id, inputErrors);
     }
 
     return errors;
@@ -89,6 +85,19 @@ class FormService {
 
   getInputValue(input: InputDescriptor): FormValues {
     return this.getValueByInputName(input.name, input.value);
+  }
+
+  mapToFormErrors(errors: FormErrorsMap): FormErrors {
+    return Array.from(errors.entries()).reduce(
+      (formErrors: FormErrors, entry: [string, string[]]) => {
+        const id = entry[0];
+        const errors = entry[1];
+        const input = this.getInput(id)!;
+
+        return merge(formErrors, this.getValueByInputName(input.name, errors));
+      },
+      {},
+    );
   }
 
   getValueByInputName(name: string, value: FormValueType): FormValueType {

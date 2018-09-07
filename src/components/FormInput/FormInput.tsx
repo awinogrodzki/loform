@@ -130,6 +130,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       name,
       value,
       disabled,
+      debounce,
       validators,
       required,
       requiredMessage,

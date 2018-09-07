@@ -6,18 +6,18 @@
   onSubmit={action('onSubmit')}
   onError={action('onError')}
 >
-  {({ submit, errors, isLoading }) => (
+  {({ submit, errors, isValidating }) => (
     <>
-      {isLoading && <span>Loading...</span>}
+      {isValidating && <span>Validating...</span>}
       {renderErrors(errors, 'username')}
       <TextInput
         className={classnames(styles.input, {
-          [styles.hasErrors]: !!errors.name,
+          [styles.hasErrors]: hasErrors(errors, 'username'),
         })}
         name="username"
         key="username"
         required
-        debounce={500}
+        debounce={1000}
         placeholder="Username"
         validators={[
           {
@@ -32,7 +32,7 @@
       {renderErrors(errors, 'password')}
       <PasswordInput
         className={classnames(styles.input, {
-          [styles.hasErrors]: !!errors.password,
+          [styles.hasErrors]: hasErrors(errors, 'password'),
         })}
         name="password"
         key="password"

@@ -1,6 +1,18 @@
+import { InputDescriptor } from './../types';
 import FormService from './FormService';
 
 jest.mock('./FormEventEmitter');
+
+const inputFactory = (
+  id: string,
+  name: string,
+  value: string = '',
+): InputDescriptor => ({
+  id,
+  name,
+  value,
+  required: false,
+});
 
 describe('FormService', () => {
   let formService: FormService;
@@ -258,17 +270,15 @@ describe('FormService', () => {
 
     const errors = await formService.getErrors();
 
-    expect(errors).toEqual({
-      name: ['message2', 'message3'],
-      name2: ['message1'],
-      name3: {
-        testKey: [
-          ['input 3 required message'],
-          undefined,
-          ['input 5 required message'],
-        ],
-      },
-    });
+    expect(errors).toEqual(
+      new Map([
+        ['inputId', ['message2', 'message3']],
+        ['input2Id', ['message1']],
+        ['input3Id', ['input 3 required message']],
+        ['input4Id', []],
+        ['input5Id', ['input 5 required message']],
+      ]),
+    );
   });
 
   it('should validate input using asynchronous validator', async () => {
@@ -287,7 +297,7 @@ describe('FormService', () => {
 
     const errors = await formService.getErrors();
 
-    expect(errors).toEqual({ name: ['error1', 'error2'] });
+    expect(errors).toEqual(new Map([['inputId', ['error1', 'error2']]]));
   });
 
   const inputNameDataProvider = [
@@ -333,6 +343,37 @@ describe('FormService', () => {
       expect(formService.getValueByInputName(inputName, inputValue)).toEqual(
         expectedValue,
       );
+    });
+  });
+
+  it('should map errors map to form errors object', () => {
+    const errorsMap = new Map([
+      ['input1', ['error1', 'error2']],
+      ['input2', ['error3']],
+      ['input3', []],
+      ['input4', []],
+      ['input5', ['error4']],
+      ['input6', []],
+      ['input7', ['error5', 'error6']],
+    ]);
+
+    formService.registerInput(inputFactory('input1', 'name1'));
+    formService.registerInput(inputFactory('input2', 'name2'));
+    formService.registerInput(inputFactory('input3', 'name3'));
+    formService.registerInput(inputFactory('input4', 'name4[]'));
+    formService.registerInput(inputFactory('input5', 'name4[]'));
+    formService.registerInput(inputFactory('input6', 'name5[name6]'));
+    formService.registerInput(inputFactory('input7', 'name5[name7]'));
+
+    expect(formService.mapToFormErrors(errorsMap)).toEqual({
+      name1: ['error1', 'error2'],
+      name2: ['error3'],
+      name3: [],
+      name4: [[], ['error4']],
+      name5: {
+        name6: [],
+        name7: ['error5', 'error6'],
+      },
     });
   });
 });

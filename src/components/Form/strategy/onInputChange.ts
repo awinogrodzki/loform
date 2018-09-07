@@ -1,18 +1,22 @@
-import { FormErrors, FormValidationStrategy } from '../../../types';
+import { onInputBlur } from './onInputBlur';
+import {
+  FormErrorsMap,
+  FormValidationStrategy,
+  InputDescriptor,
+} from '../../../types';
 
 export const onInputChange: FormValidationStrategy = {
   getErrorsOnInputUpdate: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
+    input: InputDescriptor,
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
   ) => {
-    if (!errors[inputName] || !errors[inputName].length) {
-      const newErrors = { ...prevErrors };
-      delete newErrors[inputName];
+    const newErrors = onInputBlur.getErrorsOnInputBlur!(
+      input,
+      errors,
+      prevErrors,
+    );
 
-      return newErrors;
-    }
-
-    return { ...prevErrors, [inputName]: [...errors[inputName]] };
+    return newErrors;
   },
 };

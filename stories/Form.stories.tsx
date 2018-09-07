@@ -57,7 +57,7 @@ class Toggle extends React.Component {
 }
 
 const renderErrors = (errors: FormErrors, name: string) => {
-  if (!errors || !errors[name]) {
+  if (!errors || !errors[name] || !errors[name].length) {
     return null;
   }
 
@@ -70,6 +70,10 @@ const renderErrors = (errors: FormErrors, name: string) => {
       ))}
     </div>
   );
+};
+
+const hasErrors = (errors: FormErrors, name: string) => {
+  return errors[name] && errors[name].length;
 };
 
 const RegistrationForm = ({
@@ -88,7 +92,7 @@ const RegistrationForm = ({
         {renderErrors(errors, 'email')}
         <TextInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.email,
+            [styles.hasErrors]: hasErrors(errors, 'email'),
           })}
           name="email"
           placeholder="Enter email address"
@@ -99,7 +103,7 @@ const RegistrationForm = ({
         {renderErrors(errors, 'password')}
         <PasswordInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.password,
+            [styles.hasErrors]: hasErrors(errors, 'password'),
           })}
           name="password"
           placeholder="Enter password"
@@ -109,7 +113,7 @@ const RegistrationForm = ({
         {renderErrors(errors, 'passwordRepeat')}
         <PasswordInput
           className={classnames(styles.input, {
-            [styles.hasErrors]: !!errors.passwordRepeat,
+            [styles.hasErrors]: hasErrors(errors, 'passwordRepeat'),
           })}
           name="passwordRepeat"
           placeholder="Repeat password"
@@ -128,7 +132,7 @@ const RegistrationForm = ({
         <p>
           <CheckboxInput
             className={classnames(styles.checkbox, {
-              [styles.hasErrors]: !!errors.agreement,
+              [styles.hasErrors]: hasErrors(errors, 'agreement'),
             })}
             name="agreement"
             value={true}
@@ -170,18 +174,18 @@ storiesOf('Form', module)
         onSubmit={action('onSubmit')}
         onError={action('onError')}
       >
-        {({ submit, errors, isLoading }) => (
+        {({ submit, errors, isValidating }) => (
           <>
-            {isLoading && <span>Loading...</span>}
+            {isValidating && <span>Validating...</span>}
             {renderErrors(errors, 'username')}
             <TextInput
               className={classnames(styles.input, {
-                [styles.hasErrors]: !!errors.name,
+                [styles.hasErrors]: hasErrors(errors, 'name'),
               })}
               name="username"
               key="username"
               required
-              debounce={500}
+              debounce={1000}
               placeholder="Username"
               validators={[
                 {
@@ -196,7 +200,7 @@ storiesOf('Form', module)
             {renderErrors(errors, 'password')}
             <PasswordInput
               className={classnames(styles.input, {
-                [styles.hasErrors]: !!errors.password,
+                [styles.hasErrors]: hasErrors(errors, 'password'),
               })}
               name="password"
               key="password"
@@ -222,7 +226,7 @@ storiesOf('Form', module)
           {renderErrors(errors, 'name')}
           <TextInput
             className={classnames(styles.input, {
-              [styles.hasErrors]: !!errors.name,
+              [styles.hasErrors]: hasErrors(errors, 'name'),
             })}
             name="name"
             key="name"
@@ -233,7 +237,7 @@ storiesOf('Form', module)
           {renderErrors(errors, 'password')}
           <PasswordInput
             className={classnames(styles.input, {
-              [styles.hasErrors]: !!errors.password,
+              [styles.hasErrors]: hasErrors(errors, 'password'),
             })}
             name="password"
             key="password"
@@ -244,7 +248,7 @@ storiesOf('Form', module)
           {renderErrors(errors, 'country')}
           <SelectInput
             className={classnames(styles.input, {
-              [styles.hasErrors]: !!errors.country,
+              [styles.hasErrors]: hasErrors(errors, 'country'),
             })}
             name="country"
             key="country"
@@ -259,7 +263,7 @@ storiesOf('Form', module)
           {renderErrors(errors, 'language')}
           <RadioInput
             className={classnames(styles.radioInput, {
-              [styles.hasErrors]: !!errors.language,
+              [styles.hasErrors]: hasErrors(errors, 'language'),
             })}
             name="language"
             key="language"
@@ -288,7 +292,7 @@ storiesOf('Form', module)
           {renderErrors(errors, 'username')}
           <TextInput
             className={classnames(styles.input, {
-              [styles.hasErrors]: !!errors.username,
+              [styles.hasErrors]: hasErrors(errors, 'username'),
             })}
             name="username"
             placeholder="Enter username"
@@ -299,7 +303,7 @@ storiesOf('Form', module)
             {renderErrors(errors, 'pin')}
             <Input
               className={classnames(styles.input, {
-                [styles.hasErrors]: !!errors.pin,
+                [styles.hasErrors]: hasErrors(errors, 'pin'),
               })}
               name="pin"
               placeholder="Pin code"
@@ -312,7 +316,7 @@ storiesOf('Form', module)
           {renderErrors(errors, 'password')}
           <PasswordInput
             className={classnames(styles.input, {
-              [styles.hasErrors]: !!errors.password,
+              [styles.hasErrors]: hasErrors(errors, 'password'),
             })}
             name="password"
             placeholder="Enter password"

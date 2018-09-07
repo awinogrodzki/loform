@@ -71,7 +71,7 @@ export interface InputDescriptor {
 export interface RenderProps {
   submit: () => void;
   errors: FormErrors;
-  isLoading: boolean;
+  isValidating: boolean;
 }
 
 export type FormValueType = InputValue | InputValue[] | FormValues;
@@ -84,16 +84,21 @@ export interface FormErrors {
   [name: string]: string[];
 }
 
+export type FormErrorsMap = Map<string, string[]>;
+
+export type ValidationStrategy = (
+  errors: FormErrorsMap,
+  prevErrors: FormErrorsMap,
+) => FormErrorsMap;
+
+export type InputValidationStrategy = (
+  input: InputDescriptor,
+  errors: FormErrorsMap,
+  prevErrors: FormErrorsMap,
+) => FormErrorsMap;
+
 export interface FormValidationStrategy {
-  getErrorsOnFormMount?: (errors: FormErrors) => FormErrors;
-  getErrorsOnInputBlur?: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
-  ) => FormErrors;
-  getErrorsOnInputUpdate?: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
-  ) => FormErrors;
+  getErrorsOnFormMount?: ValidationStrategy;
+  getErrorsOnInputBlur?: InputValidationStrategy;
+  getErrorsOnInputUpdate?: InputValidationStrategy;
 }

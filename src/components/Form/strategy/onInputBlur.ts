@@ -1,27 +1,40 @@
 import { onlyOnSubmit } from './onlyOnSubmit';
-import { FormValidationStrategy, FormErrors } from '../../../types';
+import {
+  FormValidationStrategy,
+  FormErrorsMap,
+  InputDescriptor,
+} from '../../../types';
 
 export const onInputBlur: FormValidationStrategy = {
   getErrorsOnInputBlur: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
+    input: InputDescriptor,
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
   ) => {
-    if (!errors[inputName] || !errors[inputName].length) {
-      const newErrors = { ...prevErrors };
-      delete newErrors[inputName];
+    const newErrors = new Map();
 
-      return newErrors;
+    for (const [inputId, inputErrors] of Array.from(errors.entries())) {
+      if (inputId === input.id) {
+        newErrors.set(inputId, inputErrors);
+        continue;
+      }
+
+      newErrors.set(
+        inputId,
+        inputErrors.filter(error =>
+          (prevErrors.get(inputId) || []).includes(error),
+        ),
+      );
     }
 
-    return { ...prevErrors, [inputName]: [...errors[inputName]] };
+    return newErrors;
   },
 
   getErrorsOnInputUpdate: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
+    input: InputDescriptor,
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
   ) => {
-    return onlyOnSubmit.getErrorsOnInputUpdate!(inputName, errors, prevErrors);
+    return onlyOnSubmit.getErrorsOnInputUpdate!(input, errors, prevErrors);
   },
 };

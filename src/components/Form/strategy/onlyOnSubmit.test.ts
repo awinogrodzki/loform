@@ -1,26 +1,29 @@
 import { onlyOnSubmit } from './onlyOnSubmit';
-import { FormErrors } from '../../../types';
 
 describe('onlyOnSubmit FormValidationStrategy', () => {
-  it('should return errors that were not corrected since last submit', () => {
-    const errorsFromSubmit: FormErrors = {
-      firstName: ['First error 1', 'First error 2'],
-      secondName: [],
+  it('should return errors that were not corrected since last submit on input update', () => {
+    const errors = new Map([
+      ['input1-id', ['error1', 'error3']],
+      ['input2-id', ['error4']],
+    ]);
+    const prevErrors = new Map([
+      ['input1-id', ['error2', 'error3']],
+      ['input2-id', ['error4']],
+    ]);
+    const expected = new Map([
+      ['input1-id', ['error3']],
+      ['input2-id', ['error4']],
+    ]);
+
+    const input = {
+      id: 'input1-id',
+      name: 'name',
+      value: '',
+      required: false,
     };
 
-    const errorsOnUpdate: FormErrors = {
-      firstName: ['First error 1', 'First error 3'],
-      secondName: ['Second error 1'],
-    };
-
-    const errors = onlyOnSubmit.getErrorsOnInputUpdate(
-      'firstName',
-      errorsOnUpdate,
-      errorsFromSubmit,
-    );
-
-    expect(errors).toEqual({
-      firstName: ['First error 1'],
-    });
+    expect(
+      onlyOnSubmit.getErrorsOnInputUpdate(input, errors, prevErrors),
+    ).toEqual(expected);
   });
 });

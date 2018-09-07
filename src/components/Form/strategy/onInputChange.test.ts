@@ -1,38 +1,29 @@
 import { onInputChange } from './onInputChange';
-import { FormErrors } from '../../../types';
 
 describe('onInputChange FormValidationStrategy', () => {
-  it('should update only errors of input that was updated', () => {
-    const initialErrors: FormErrors = {};
+  it('should return all errors of input that was updated, and corrected errors of other inputs', () => {
+    const errors = new Map([
+      ['input1-id', ['error1', 'error3']],
+      ['input2-id', ['error5']],
+    ]);
+    const prevErrors = new Map([
+      ['input1-id', ['error2', 'error3']],
+      ['input2-id', ['error4']],
+    ]);
+    const expected = new Map([
+      ['input1-id', ['error1', 'error3']],
+      ['input2-id', []],
+    ]);
 
-    const errorsOnUpdate: FormErrors = {
-      firstName: ['First error 1', 'First error 2'],
-      secondName: ['Second error 1'],
-    };
-    const expectedErrors: FormErrors = {
-      firstName: ['First error 1', 'First error 2'],
+    const input = {
+      id: 'input1-id',
+      name: 'name',
+      value: '',
+      required: false,
     };
 
     expect(
-      onInputChange.getErrorsOnInputUpdate(
-        'firstName',
-        errorsOnUpdate,
-        initialErrors,
-      ),
-    ).toEqual(expectedErrors);
-
-    expect(
-      onInputChange.getErrorsOnInputUpdate(
-        'secondName',
-        {
-          firstName: ['Different error'],
-          secondName: ['Another Error'],
-        },
-        expectedErrors,
-      ),
-    ).toEqual({
-      firstName: ['First error 1', 'First error 2'],
-      secondName: ['Another Error'],
-    });
+      onInputChange.getErrorsOnInputUpdate(input, errors, prevErrors),
+    ).toEqual(expected);
   });
 });

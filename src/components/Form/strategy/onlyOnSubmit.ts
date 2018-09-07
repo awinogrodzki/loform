@@ -1,37 +1,25 @@
-import { FormValidationStrategy, FormErrors } from './../../../types';
+import {
+  FormValidationStrategy,
+  FormErrorsMap,
+  InputDescriptor,
+} from './../../../types';
 
 export const onlyOnSubmit: FormValidationStrategy = {
   getErrorsOnInputUpdate: (
-    inputName: string,
-    errors: FormErrors,
-    prevErrors: FormErrors,
+    input: InputDescriptor,
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
   ) => {
-    const keys = Object.keys(errors);
-    const newErrors = keys.reduce((currentErrors: FormErrors, key) => {
-      const errorsForKey = errors[key];
-      const prevErrorsForKey = prevErrors[key];
+    const newErrors = new Map();
 
-      if (!prevErrorsForKey || prevErrorsForKey.length === 0) {
-        return currentErrors;
-      }
-
-      if (!errorsForKey || errorsForKey.length === 0) {
-        return currentErrors;
-      }
-
-      const filteredErrors = prevErrorsForKey.filter(error =>
-        errorsForKey.includes(error),
+    for (const [inputId, inputErrors] of Array.from(errors.entries())) {
+      newErrors.set(
+        inputId,
+        inputErrors.filter(error =>
+          (prevErrors.get(inputId) || []).includes(error),
+        ),
       );
-
-      if (!filteredErrors.length) {
-        return currentErrors;
-      }
-
-      return {
-        ...currentErrors,
-        [key]: filteredErrors,
-      };
-    }, {});
+    }
 
     return newErrors;
   },

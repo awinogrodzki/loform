@@ -7,6 +7,9 @@ import {
   FormErrors,
   InputDescriptor,
   FormValidationStrategy,
+  FormErrorsMap,
+  ValidationStrategy,
+  InputValidationStrategy,
 } from '../../types';
 import { FormContext } from '../../context';
 import { onInputBlur } from './strategy';
@@ -22,8 +25,9 @@ export interface FormProps {
 }
 
 export interface FormState {
-  errors: FormErrors;
-  isLoading: boolean;
+  errors: FormErrorsMap;
+  isValidating: boolean;
+  formErrors: FormErrors;
 }
 
 class Form extends React.Component<FormProps, FormState> {
@@ -31,8 +35,9 @@ class Form extends React.Component<FormProps, FormState> {
   private formService: FormService;
   private validationStrategy: FormValidationStrategy;
   public state: FormState = {
-    errors: {},
-    isLoading: false,
+    formErrors: {},
+    errors: new Map(),
+    isValidating: false,
   };
 
   static propTypes = {
@@ -45,6 +50,7 @@ class Form extends React.Component<FormProps, FormState> {
     validationStrategy: PropTypes.shape({
       getErrorsOnFormMount: PropTypes.func,
       getErrorsOnInputUpdate: PropTypes.func,
+      getErrorsOnInputBlur: PropTypes.func,
     }),
   };
 
@@ -78,16 +84,9 @@ class Form extends React.Component<FormProps, FormState> {
       return;
     }
 
-    const errors = await this.getErrors();
-    const newErrors = this.validationStrategy.getErrorsOnFormMount(errors);
-
-    if (!newErrors) {
-      return;
-    }
-
-    this.setState({
-      errors: newErrors,
-    });
+    return this.updateErrorsWithStrategy(
+      this.validationStrategy.getErrorsOnFormMount,
+    );
   }
 
   componentWillUnmount() {
@@ -96,42 +95,86 @@ class Form extends React.Component<FormProps, FormState> {
     this.formEventEmitter.removeListener(FormEvent.Blur, this.onBlurEvent);
   }
 
-  async getErrors(): Promise<FormErrors> {
-    this.setState({ isLoading: true });
+  async updateErrorsForInputWithStrategy(
+    input: InputDescriptor,
+    strategy: InputValidationStrategy,
+  ): Promise<void> {
+    this.setState({ isValidating: true });
 
     try {
-      const errors = await this.formService.getErrors();
-      this.setState({ isLoading: false });
-      return errors;
+      const newErrors = strategy(
+        input,
+        await this.formService.getErrors(),
+        this.state.errors,
+      );
+
+      this.setState({
+        isValidating: false,
+        errors: newErrors,
+        formErrors: this.formService.mapToFormErrors(newErrors),
+      });
     } catch (e) {
-      this.setState({ isLoading: false });
+      this.setState({ isValidating: false });
+      throw e;
+    }
+  }
+
+  async updateErrorsWithStrategy(strategy: ValidationStrategy): Promise<void> {
+    this.setState({ isValidating: true });
+
+    try {
+      const prevErrors = this.state.errors;
+      const errors = await this.formService.getErrors();
+      const newErrors = strategy(errors, prevErrors);
+
+      this.setState({
+        isValidating: false,
+        errors: newErrors,
+        formErrors: this.formService.mapToFormErrors(newErrors),
+      });
+    } catch (e) {
+      this.setState({ isValidating: false });
       throw e;
     }
   }
 
   async submit() {
-    const errors = await this.getErrors();
-    const isValid = Object.keys(errors).length === 0;
+    this.setState({ isValidating: true });
 
-    if (!isValid) {
+    try {
+      const errors = await this.formService.getErrors();
+      const formErrors = this.formService.mapToFormErrors(errors);
+      const isValid =
+        Array.from(errors.values()).filter(item => item.length > 0).length ===
+        0;
+
+      if (!isValid) {
+        this.setState(
+          {
+            errors,
+            formErrors,
+            isValidating: false,
+          },
+          () => this.props.onError && this.props.onError(formErrors),
+        );
+
+        return;
+      }
+
+      const values = this.formService.getValuesFromInputs();
+
       this.setState(
         {
-          errors,
+          errors: new Map(),
+          formErrors: {},
+          isValidating: false,
         },
-        () => this.props.onError && this.props.onError(errors),
+        () => this.props.onSubmit(values),
       );
-
-      return;
+    } catch (e) {
+      this.setState({ isValidating: false });
+      throw e;
     }
-
-    const values = this.formService.getValuesFromInputs();
-
-    this.setState(
-      {
-        errors: {},
-      },
-      () => this.props.onSubmit(values),
-    );
   }
 
   async onBlurEvent(input: InputDescriptor) {
@@ -139,26 +182,14 @@ class Form extends React.Component<FormProps, FormState> {
       return;
     }
 
-    const errors = await this.getErrors();
-    const inputName = this.formService.getInputErrorKey(input);
-
-    const newErrors = this.validationStrategy.getErrorsOnInputBlur(
-      inputName,
-      errors,
-      this.state.errors,
+    return this.updateErrorsForInputWithStrategy(
+      input,
+      this.validationStrategy.getErrorsOnInputBlur,
     );
-
-    if (!newErrors) {
-      return;
-    }
-
-    this.setState({
-      errors: newErrors,
-    });
   }
 
-  onSubmitEvent() {
-    this.submit();
+  async onSubmitEvent() {
+    return this.submit();
   }
 
   async onUpdateEvent(input: InputDescriptor) {
@@ -166,21 +197,10 @@ class Form extends React.Component<FormProps, FormState> {
       return;
     }
 
-    const errors = await this.getErrors();
-    const inputName = this.formService.getInputErrorKey(input);
-    const newErrors = this.validationStrategy.getErrorsOnInputUpdate(
-      inputName,
-      errors,
-      this.state.errors,
+    return this.updateErrorsForInputWithStrategy(
+      input,
+      this.validationStrategy.getErrorsOnInputUpdate,
     );
-
-    if (!newErrors) {
-      return;
-    }
-
-    this.setState({
-      errors: newErrors,
-    });
   }
 
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -191,8 +211,8 @@ class Form extends React.Component<FormProps, FormState> {
   getRenderProps(): RenderProps {
     return {
       submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
-      errors: this.state.errors,
-      isLoading: this.state.isLoading,
+      errors: this.state.formErrors,
+      isValidating: this.state.isValidating,
     };
   }
 
