@@ -702,6 +702,7 @@ InputDescriptor is a representation of an input used by FormService and FormEven
   required: boolean;
   requiredMessage?: string;
   validators?: InputValidator[];
+  validateOnChange?: boolean;
 }
 ```
 
