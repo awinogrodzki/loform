@@ -17,6 +17,7 @@ const mockDescriptor = {
   required: false,
   requiredMessage: 'required message',
   validators: mockValidators,
+  validateOnChange: true,
 };
 
 describe('FormInput', () => {

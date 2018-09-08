@@ -10,10 +10,12 @@ const inputFactory = (
   id: string,
   name: string,
   value: string = '',
+  validateOnChange: boolean = true,
 ): InputDescriptor => ({
   id,
   name,
   value,
+  validateOnChange,
   required: false,
 });
 
@@ -238,6 +240,32 @@ describe('Form', () => {
     );
 
     await wrapper.instance().onBlurEvent(inputFactory('input-id', 'name'));
+
+    expect(render).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not update errors on input update if input's validation on change is disabled", async () => {
+    const submit = jest.fn();
+    const render = jest.fn();
+    const strategy: FormValidationStrategy = {
+      getErrorsOnInputUpdate: (_, e) => e,
+    };
+    const wrapper = shallow<Form>(
+      <Form
+        validationStrategy={strategy}
+        formService={service}
+        onSubmit={submit}
+      >
+        {render}
+      </Form>,
+      {
+        disableLifecycleMethods: true,
+      },
+    );
+
+    await wrapper
+      .instance()
+      .onUpdateEvent(inputFactory('input-id', 'name', 'value', false));
 
     expect(render).toHaveBeenCalledTimes(1);
   });

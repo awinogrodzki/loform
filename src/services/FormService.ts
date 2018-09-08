@@ -1,14 +1,21 @@
-import { FormErrorsMap } from './../types';
 import { merge } from '../utils';
 import {
   FormValues,
   InputDescriptor,
   FormValueType,
   FormErrors,
+  FormErrorsMap,
+  InputValue,
+  InputValidator,
 } from '../types';
+
+const getAsyncValidatorCacheKey = (inputId: string, value: string) => {
+  return inputId + '.' + JSON.stringify(value);
+};
 
 class FormService {
   private inputs: Map<string, InputDescriptor> = new Map();
+  private asyncValidatorCache: Map<InputValidator, boolean> = new Map();
 
   getInput(id: string): InputDescriptor | undefined {
     return this.inputs.get(id);
@@ -31,6 +38,7 @@ class FormService {
   }
 
   async getErrorsFromInput({
+    id,
     name,
     value,
     required,
@@ -44,10 +52,18 @@ class FormService {
     }
 
     for (const validator of validators) {
-      let isValid = validator.validate(value, this.getValuesFromInputs());
+      const fromCache = this.asyncValidatorCache.get(validator);
+      let isValid;
+
+      if (fromCache !== undefined) {
+        isValid = fromCache;
+      } else {
+        isValid = validator.validate(value, this.getValuesFromInputs());
+      }
 
       if (isValid instanceof Promise) {
         isValid = await isValid;
+        this.asyncValidatorCache.set(validator, isValid);
       }
 
       if (!isValid) {

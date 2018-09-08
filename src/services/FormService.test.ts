@@ -300,6 +300,27 @@ describe('FormService', () => {
     expect(errors).toEqual(new Map([['inputId', ['error1', 'error2']]]));
   });
 
+  it('should cache asynchronous validator result for a given input value', async () => {
+    const asyncValidate = jest.fn(async () => false);
+    const input = {
+      id: 'inputId',
+      name: 'name',
+      value: 'value1',
+      required: false,
+      validators: [
+        { errorMessage: 'error1', validate: () => false },
+        { errorMessage: 'error2', validate: asyncValidate },
+      ],
+    };
+
+    formService.registerInput(input);
+
+    await formService.getErrors();
+    await formService.getErrors();
+
+    expect(asyncValidate).toHaveBeenCalledTimes(1);
+  });
+
   const inputNameDataProvider = [
     {
       inputName: 'test',

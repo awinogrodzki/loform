@@ -83,6 +83,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       required: this.props.required || false,
       requiredMessage: this.props.requiredMessage,
       validators: this.props.validators,
+      validateOnChange: this.props.validateOnChange === false ? false : true,
     };
   }
 
@@ -131,6 +132,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       value,
       disabled,
       debounce,
+      validateOnChange,
       validators,
       required,
       requiredMessage,
