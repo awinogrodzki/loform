@@ -2,74 +2,66 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="3.5.0"></a>
-# [3.5.0](https://github.com/awinogrodzki/loform/compare/v3.4.5...v3.5.0) (2018-09-08)
+<a name="4.0.0"></a>
 
+# [4.0.0](https://github.com/awinogrodzki/loform/compare/v3.4.5...v4.0.0) (2018-09-08)
 
 ### Features
 
-* **Form:** added async validation ([f0f5254](https://github.com/awinogrodzki/loform/commit/f0f5254))
-* **Form:** added asynchronous validation ([c37a558](https://github.com/awinogrodzki/loform/commit/c37a558))
-* **Form:** added validateOnChange prop that disables validation on input update if set to false ([aa8ea3a](https://github.com/awinogrodzki/loform/commit/aa8ea3a))
-* **FormInput:** possibility to debounce input update event ([a394f3f](https://github.com/awinogrodzki/loform/commit/a394f3f))
-* **FormValidationStrategy:** updated strategy interface ([0c646c1](https://github.com/awinogrodzki/loform/commit/0c646c1))
+- **Form:** added async validation ([f0f5254](https://github.com/awinogrodzki/loform/commit/f0f5254))
+- **Form:** added asynchronous validation ([c37a558](https://github.com/awinogrodzki/loform/commit/c37a558))
+- **Form:** added validateOnChange prop that disables validation on input update if set to false ([aa8ea3a](https://github.com/awinogrodzki/loform/commit/aa8ea3a))
+- **FormInput:** possibility to debounce input update event ([a394f3f](https://github.com/awinogrodzki/loform/commit/a394f3f))
+- **FormValidationStrategy:** updated strategy interface ([0c646c1](https://github.com/awinogrodzki/loform/commit/0c646c1))
 
+### BREAKING CHANGES
 
+- **FormValidationStrategy:** form validation strategies are operating on FormErrorMap instead of FormErrors object
+- **FormErrors:** empty arrays are now identifying valid fields
 
 <a name="3.4.5"></a>
+
 ## [3.4.5](https://github.com/awinogrodzki/loform/compare/v3.4.4...v3.4.5) (2018-08-10)
 
-
-
 <a name="3.4.4"></a>
+
 ## [3.4.4](https://github.com/awinogrodzki/loform/compare/v3.4.3...v3.4.4) (2018-08-10)
 
-
 ### Bug Fixes
 
-* removed lodash-es from dependencies ([6baffd4](https://github.com/awinogrodzki/loform/commit/6baffd4))
-
-
+- removed lodash-es from dependencies ([6baffd4](https://github.com/awinogrodzki/loform/commit/6baffd4))
 
 <a name="3.4.3"></a>
+
 ## [3.4.3](https://github.com/awinogrodzki/loform/compare/v3.4.2...v3.4.3) (2018-08-05)
 
-
 ### Bug Fixes
 
-* **FormService:** Errors are identified by input name ([f1310ac](https://github.com/awinogrodzki/loform/commit/f1310ac))
-
-
+- **FormService:** Errors are identified by input name ([f1310ac](https://github.com/awinogrodzki/loform/commit/f1310ac))
 
 <a name="3.4.2"></a>
+
 ## [3.4.2](https://github.com/awinogrodzki/loform/compare/v3.4.1...v3.4.2) (2018-08-05)
 
-
 ### Bug Fixes
 
-* fixed default form validator ([5490ca6](https://github.com/awinogrodzki/loform/commit/5490ca6))
-
-
+- fixed default form validator ([5490ca6](https://github.com/awinogrodzki/loform/commit/5490ca6))
 
 <a name="3.4.1"></a>
-## [3.4.1](https://github.com/awinogrodzki/loform/compare/v3.4.0...v3.4.1) (2018-08-05)
 
+## [3.4.1](https://github.com/awinogrodzki/loform/compare/v3.4.0...v3.4.1) (2018-08-05)
 
 ### Bug Fixes
 
-* type fixes ([e0839af](https://github.com/awinogrodzki/loform/commit/e0839af))
-
-
+- type fixes ([e0839af](https://github.com/awinogrodzki/loform/commit/e0839af))
 
 <a name="3.4.0"></a>
-# [3.4.0](https://github.com/awinogrodzki/loform/compare/v3.3.0...v3.4.0) (2018-08-04)
 
+# [3.4.0](https://github.com/awinogrodzki/loform/compare/v3.3.0...v3.4.0) (2018-08-04)
 
 ### Features
 
-* added onInputBlur validation strategy and used it as default ([a83863c](https://github.com/awinogrodzki/loform/commit/a83863c))
-
-
+- added onInputBlur validation strategy and used it as default ([a83863c](https://github.com/awinogrodzki/loform/commit/a83863c))
 
 <a name="3.3.1"></a>
 
