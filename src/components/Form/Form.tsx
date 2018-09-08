@@ -193,7 +193,10 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   async onUpdateEvent(input: InputDescriptor) {
-    if (!this.validationStrategy.getErrorsOnInputUpdate) {
+    if (
+      !this.validationStrategy.getErrorsOnInputUpdate ||
+      !input.validateOnChange
+    ) {
       return;
     }
 

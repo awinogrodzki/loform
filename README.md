@@ -45,6 +45,7 @@ Below is a quote from the authors of [Formik](https://github.com/jaredpalmer/for
     - [SelectInput](#selectinput)
     - [RadioInput](#radioinput)
   - [Types](#types)
+    - [Async validators](#async-validators)
   - [Services](#services)
   - [Validation Strategies](#validation-strategies)
 - [Development](#development)
@@ -428,14 +429,15 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 
 ##### Props
 
-| Name            | Type       | Required | Description                                                                                            |
-| :-------------- | :--------- | :------- | :----------------------------------------------------------------------------------------------------- |
-| required        | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                            |
-| requiredMessage | `String`   | `false`  | Replaces default required error message                                                                |
-| validators      | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission |
-| onChange        | `Function` | `false`  | Function called on input value change with it's value                                                  |
-| onBlur          | `Function` | `false`  | Function called on input blur                                                                          |
-| debounce        | `Number`   | `false`  | Debounce input value (default: 0). Used mainly with async validators                                   |
+| Name             | Type       | Required | Description                                                                                                         |
+| :--------------- | :--------- | :------- | :------------------------------------------------------------------------------------------------------------------ |
+| required         | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                                         |
+| requiredMessage  | `String`   | `false`  | Replaces default required error message                                                                             |
+| validators       | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission              |
+| onChange         | `Function` | `false`  | Function called on input value change with it's value                                                               |
+| onBlur           | `Function` | `false`  | Function called on input blur                                                                                       |
+| debounce         | `Number`   | `false`  | Debounce input value (default: 0). Used primarily with async validators                                             |
+| validateOnChange | `Boolean`  | `false`  | Tells input if should validate on change. Default value is `true`. Can be set to `false` to optimize async requests |
 
 #### Input
 
@@ -607,6 +609,8 @@ If you want to inform users that your form is being validated, you can use `isVa
         name="username"
         validators={[usernameAvailabilityValidator]}
         required
+        validateOnChange={false} // You can disable validation on change to optimize number of requests to a server
+        debounce={1000} // Or you can debounce input change by number of miliseconds. Remember that this won't take effect if you set validateOnChange prop to false
       />
       <button onClick={() => submit()} />
     </>
@@ -759,25 +763,45 @@ You can see an example of different validation strategies for a registration for
 There are three strategies available, but you can easily create your own strategy by implementing **FormValidationStrategy** interface:
 
 ```typescript
+type FormErrorsMap = Map<string, string[]>;
+
 interface FormValidationStrategy {
-  getErrorsOnFormMount?: (errors: string[]) => string[];
-  getErrorsOnInputBlur?: (errors: string[], prevErrors: string[]) => string[];
-  getErrorsOnInputUpdate?: (errors: string[], prevErrors: string[]) => string[];
+  getErrorsOnFormMount?: (
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
+  ) => FormErrorsMap;
+  getErrorsOnInputBlur?: (
+    input: InputDescriptor,
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
+  ) => FormErrorsMap;
+  getErrorsOnInputUpdate?: (
+    input: InputDescriptor,
+    errors: FormErrorsMap,
+    prevErrors: FormErrorsMap,
+  ) => FormErrorsMap;
 }
 ```
 
-You read about **FormErrors** [here](#formerrors)
+`FormErrorsMap` is a javascript `Map` object, that contains array of errors as `strings` identified by input id as `string`. Input id is accessible using [InputDescriptor](#inputdescriptor)'s `id` property.
 
 The following is an implementation of `onlyOnSubmit` strategy, which, on input update, removes errors that were corrected since last submit:
 
 ```javascript
-export const onlyOnSubmit = {
-  getErrorsOnInputUpdate: (errors, prevErrors) => {
-    if (!errors.length || !prevErrors.length) {
-      return [];
+const onlyOnSubmit = {
+  getErrorsOnInputUpdate: (input, errors, prevErrors) => {
+    const newErrors = new Map();
+
+    for (const [inputId, inputErrors] of Array.from(errors.entries())) {
+      newErrors.set(
+        inputId,
+        inputErrors.filter(error =>
+          (prevErrors.get(inputId) || []).includes(error),
+        ),
+      );
     }
 
-    return prevErrors.filter(prevError => errors.includes(prevError));
+    return newErrors;
   },
 };
 ```

@@ -15,6 +15,7 @@ export interface InputProps {
 }
 
 export interface DecoratedInputProps {
+  validateOnChange?: boolean;
   validators?: InputValidator[];
   required?: boolean;
   requiredMessage?: string;
@@ -66,6 +67,7 @@ export interface InputDescriptor {
   required: boolean;
   requiredMessage?: string;
   validators?: InputValidator[];
+  validateOnChange?: boolean;
 }
 
 export interface RenderProps {

@@ -12,13 +12,13 @@
       {renderErrors(errors, 'username')}
       <TextInput
         className={classnames(styles.input, {
-          [styles.hasErrors]: hasErrors(errors, 'username'),
+          [styles.hasErrors]: hasErrors(errors, 'name'),
         })}
         name="username"
         key="username"
         required
-        debounce={1000}
         placeholder="Username"
+        validateOnChange={false}
         validators={[
           {
             errorMessage: 'Username should be "admin"',

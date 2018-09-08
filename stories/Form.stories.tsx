@@ -185,8 +185,8 @@ storiesOf('Form', module)
               name="username"
               key="username"
               required
-              debounce={1000}
               placeholder="Username"
+              validateOnChange={false}
               validators={[
                 {
                   errorMessage: 'Username should be "admin"',
