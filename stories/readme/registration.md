@@ -23,12 +23,11 @@ const hasErrors = (errors, name) => {
   return errors[name] && errors[name].length;
 };
 
-const RegistrationForm = ({ validationStrategy }) => (
+const RegistrationForm = () => (
   <Form
     className={styles.form}
     onSubmit={action('onSubmit')}
     onError={action('onError')}
-    validationStrategy={validationStrategy}
   >
     {({ submit, errors }) => (
       <>

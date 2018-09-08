@@ -98,6 +98,7 @@ import React from 'react';
 import { Form, TextInput, PasswordInput, emailValidator } from '@loform/react';
 
 const renderErrors = (errors, inputName) =>
+  errors[inputName] &&
   errors[inputName].length && // Since version 4.0 you will always receive array for a given field. If the field is valid, array of errors should be empty.
   errors[inputName].map((error, index) => (
     <span key={index} className="error">
@@ -429,15 +430,15 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 
 ##### Props
 
-| Name             | Type       | Required | Description                                                                                                         |
-| :--------------- | :--------- | :------- | :------------------------------------------------------------------------------------------------------------------ |
-| required         | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                                         |
-| requiredMessage  | `String`   | `false`  | Replaces default required error message                                                                             |
-| validators       | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission              |
-| onChange         | `Function` | `false`  | Function called on input value change with it's value                                                               |
-| onBlur           | `Function` | `false`  | Function called on input blur                                                                                       |
-| debounce         | `Number`   | `false`  | Debounce input value (default: 0). Used primarily with async validators                                             |
-| validateOnChange | `Boolean`  | `false`  | Tells input if should validate on change. Default value is `true`. Can be set to `false` to optimize async requests |
+| Name             | Type       | Required | Description                                                                                                             |
+| :--------------- | :--------- | :------- | :---------------------------------------------------------------------------------------------------------------------- |
+| required         | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                                             |
+| requiredMessage  | `String`   | `false`  | Replaces default required error message                                                                                 |
+| validators       | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission                  |
+| onChange         | `Function` | `false`  | Function called on input value change with it's value                                                                   |
+| onBlur           | `Function` | `false`  | Function called on input blur                                                                                           |
+| debounce         | `Number`   | `false`  | Debounce input value (default: 0). Used primarily with async validators                                                 |
+| validateOnChange | `Boolean`  | `false`  | Tells input if should validate on change. Default value is `true`. Can be set to `false` to optimize number of requests |
 
 #### Input
 
@@ -582,7 +583,7 @@ InputValidator is an object which contains errorMessage as a string and a valida
 
 ##### Async validators
 
-Since version 4.0 you can return a promise in `validate` function. Promise should resolve to `boolean` value, indicating successful or unsuccessful validation.
+Since version 4.0 you can return a promise in `validate` function. Promise should resolve to a `boolean` value, indicating successful or unsuccessful validation.
 
 Example:
 
@@ -756,7 +757,7 @@ Check [FormEvent](#formevent) type
 
 ---
 
-Form can use different validation strategies. Validation Strategies are used to tell the form how to update `errors` for a single input, on form mount, input change and input blur events.
+Form can use different validation strategies. Validation Strategies are used to tell the form how to update `errors` that you receive as a parameter in render function, on form mount, input change and input blur events.
 
 You can see an example of different validation strategies for a registration form on [Storybook](https://awinogrodzki.github.io/loform/)
 
