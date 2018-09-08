@@ -5,13 +5,8 @@ import {
   FormValueType,
   FormErrors,
   FormErrorsMap,
-  InputValue,
   InputValidator,
 } from '../types';
-
-const getAsyncValidatorCacheKey = (inputId: string, value: string) => {
-  return inputId + '.' + JSON.stringify(value);
-};
 
 class FormService {
   private inputs: Map<string, InputDescriptor> = new Map();

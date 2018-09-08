@@ -180,6 +180,8 @@ export const FormInputDecorator = function<T extends InputProps>(
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     value: PropTypes.any,
+    debounce: PropTypes.number,
+    validateOnChange: PropTypes.bool,
     onChange: PropTypes.func,
     validators: PropTypes.arrayOf(
       PropTypes.shape({
