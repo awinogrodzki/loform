@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/awinogrodzki/loform/compare/v4.0.0...v4.0.1) (2018-09-09)
+
+
+### Bug Fixes
+
+* **FormService:** removed async validator cache memory leak ([7c8b246](https://github.com/awinogrodzki/loform/commit/7c8b246))
+
+
+
 <a name="4.0.0"></a>
 
 # [4.0.0](https://github.com/awinogrodzki/loform/compare/v3.4.5...v4.0.0) (2018-09-08)
