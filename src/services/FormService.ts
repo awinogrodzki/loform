@@ -8,9 +8,12 @@ import {
   InputValidator,
 } from '../types';
 
+type ValidatorMap = Map<InputValidator, boolean>;
+type ValidatorCache = Map<string, ValidatorMap>;
+
 class FormService {
   private inputs: Map<string, InputDescriptor> = new Map();
-  private asyncValidatorCache: Map<InputValidator, boolean> = new Map();
+  private asyncValidatorCache: ValidatorCache = new Map();
 
   getInput(id: string): InputDescriptor | undefined {
     return this.inputs.get(id);
@@ -22,6 +25,7 @@ class FormService {
 
   updateInput(input: InputDescriptor) {
     this.inputs.set(input.id, input);
+    this.asyncValidatorCache.delete(input.id);
   }
 
   unregisterInputById(id: string) {
@@ -30,6 +34,26 @@ class FormService {
 
   getInputs() {
     return this.inputs;
+  }
+
+  getFromAsyncValidatorCache(
+    id: string,
+    validator: InputValidator,
+  ): boolean | undefined {
+    const validatorMap = this.asyncValidatorCache.get(id);
+
+    return validatorMap && validatorMap.get(validator);
+  }
+
+  saveToAsyncValidatorCache(
+    id: string,
+    validator: InputValidator,
+    value: boolean,
+  ) {
+    const map: ValidatorMap = this.asyncValidatorCache.get(id) || new Map();
+    map.set(validator, value);
+
+    this.asyncValidatorCache.set(id, map);
   }
 
   async getErrorsFromInput({
@@ -47,7 +71,7 @@ class FormService {
     }
 
     for (const validator of validators) {
-      const fromCache = this.asyncValidatorCache.get(validator);
+      const fromCache = this.getFromAsyncValidatorCache(id, validator);
       let isValid;
 
       if (fromCache !== undefined) {
@@ -58,7 +82,7 @@ class FormService {
 
       if (isValid instanceof Promise) {
         isValid = await isValid;
-        this.asyncValidatorCache.set(validator, isValid);
+        this.saveToAsyncValidatorCache(id, validator, isValid);
       }
 
       if (!isValid) {
