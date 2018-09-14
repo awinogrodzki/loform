@@ -104,6 +104,10 @@ class FormService {
     return errors;
   }
 
+  async getFormErrors(): Promise<FormErrors> {
+    return this.mapToFormErrors(await this.getErrors());
+  }
+
   getValuesFromInputs(): FormValues {
     let values: FormValues = {};
 
