@@ -14,18 +14,18 @@ export interface InputProps {
   onBlur?: (e: React.FocusEvent<any>) => any;
 }
 
-export interface DecoratedInputProps {
+export type GenericInputProps<T extends InputProps> = T & {
   validateOnChange?: boolean;
   validators?: InputValidator[];
   required?: boolean;
   requiredMessage?: string;
   debounce?: number;
-}
+};
 
-export interface FormInputProps extends InputProps, DecoratedInputProps {
+export interface FormInputProps extends GenericInputProps<any> {
   formService: FormService;
   formEventEmitter: FormEventEmitter;
-  children: <T>(inputProps: InputProps & T) => React.ReactElement<any>;
+  children: <T extends InputProps>(inputProps: T) => React.ReactElement<any>;
 }
 
 export type Diff<

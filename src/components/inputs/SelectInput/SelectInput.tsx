@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SelectInputProps, DecoratedInputProps } from '../../../types';
+import { SelectInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
 
 export const SelectInput: React.SFC<
@@ -33,4 +33,5 @@ export const SelectInput: React.SFC<
   </select>
 );
 
+SelectInput.displayName = 'SelectInput';
 export default FormInputDecorator(SelectInput);

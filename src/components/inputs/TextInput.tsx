@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputProps, DecoratedInputProps } from '../../types';
+import { InputProps } from '../../types';
 
 export const TextInput: React.SFC<
   InputProps & React.InputHTMLAttributes<HTMLInputElement>
@@ -29,4 +29,5 @@ export const TextInput: React.SFC<
   />
 );
 
+TextInput.displayName = 'TextInput';
 export default FormInputDecorator(TextInput);

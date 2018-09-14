@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import {
-  InputProps as ParentInputProps,
-  DecoratedInputProps,
-} from '../../types';
+import { InputProps as ParentInputProps } from '../../types';
 
 export interface InputProps extends ParentInputProps {
   type?: string;
@@ -37,4 +34,5 @@ export const Input: React.SFC<
   />
 );
 
+Input.displayName = 'Input';
 export default FormInputDecorator(Input);

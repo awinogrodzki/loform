@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  CheckboxInputProps,
-  DecoratedInputProps,
-  Overwrite,
-} from '../../types';
+import { CheckboxInputProps, Overwrite } from '../../types';
 import { FormInputDecorator } from '../FormInput';
 
 const CheckboxInput: React.SFC<
@@ -31,4 +27,5 @@ const CheckboxInput: React.SFC<
   );
 };
 
+CheckboxInput.displayName = 'CheckboxInput';
 export default FormInputDecorator(CheckboxInput);

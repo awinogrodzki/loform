@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../../components';
-import { RadioInputProps, DecoratedInputProps } from '../../../types';
+import { RadioInputProps } from '../../../types';
 
 const RadioInput: React.SFC<
   RadioInputProps & React.InputHTMLAttributes<HTMLInputElement>
@@ -45,4 +45,5 @@ const RadioInput: React.SFC<
   </div>
 );
 
+RadioInput.displayName = 'RadioInput';
 export default FormInputDecorator(RadioInput);

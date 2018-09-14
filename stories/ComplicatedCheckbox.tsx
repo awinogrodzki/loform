@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../src/components';
-import { InputProps, DecoratedInputProps } from '../src/types';
+import { InputProps } from '../src/types';
 
 export interface ComplicatedCheckboxProps extends InputProps {
   checked?: boolean;

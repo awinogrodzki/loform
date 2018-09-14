@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputProps, DecoratedInputProps } from '../../types';
+import { InputProps } from '../../types';
 
 export const PasswordInput: React.SFC<
   InputProps & React.InputHTMLAttributes<HTMLInputElement>
@@ -29,4 +29,5 @@ export const PasswordInput: React.SFC<
   />
 );
 
+PasswordInput.displayName = 'PasswordInput';
 export default FormInputDecorator(PasswordInput);

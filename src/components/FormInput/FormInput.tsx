@@ -5,7 +5,7 @@ import debounce = require('debounce');
 import {
   InputDescriptor,
   FormInputProps,
-  DecoratedInputProps,
+  GenericInputProps,
   InputProps,
   InputValue,
 } from '../../types';
@@ -159,7 +159,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 export const FormInputDecorator = function<T extends InputProps>(
   Component: React.ComponentClass<T> | React.StatelessComponent<T>,
 ) {
-  const DecoratedInput: React.SFC<T & DecoratedInputProps> = props => (
+  const GenericInput: React.SFC<GenericInputProps<T>> = props => (
     <FormContext.Consumer>
       {({ formService, formEventEmitter }) => (
         <FormInput
@@ -173,7 +173,9 @@ export const FormInputDecorator = function<T extends InputProps>(
     </FormContext.Consumer>
   );
 
-  DecoratedInput.propTypes = {
+  GenericInput.displayName =
+    Component.displayName || Component.name || 'GenericInput';
+  GenericInput.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     className: PropTypes.string,
@@ -191,9 +193,10 @@ export const FormInputDecorator = function<T extends InputProps>(
     ),
     required: PropTypes.bool,
     requiredMessage: PropTypes.string,
+    ...((Component as any).propTypes || {}),
   } as any;
 
-  return DecoratedInput;
+  return GenericInput;
 };
 
 export default FormInput;
