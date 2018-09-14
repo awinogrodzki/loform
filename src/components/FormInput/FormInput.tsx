@@ -157,7 +157,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 }
 
 export const FormInputDecorator = function<T extends InputProps>(
-  Component: React.ComponentClass<T> | React.StatelessComponent<T>,
+  Component: React.ComponentType<T>,
 ) {
   const GenericInput: React.SFC<GenericInputProps<T>> = props => (
     <FormContext.Consumer>
