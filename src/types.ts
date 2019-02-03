@@ -18,12 +18,12 @@ export type GenericInputProps<T extends InputProps> = T & {
   validateOnChange?: boolean;
   validators?: InputValidator[];
   required?: boolean;
+  controlled?: boolean;
   requiredMessage?: string;
   debounce?: number;
 };
 
 export interface FormInputProps extends GenericInputProps<any> {
-  controlled?: boolean;
   formService: FormService;
   formEventEmitter: FormEventEmitter;
   children: <T extends InputProps>(inputProps: T) => React.ReactElement<any>;
