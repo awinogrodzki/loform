@@ -56,6 +56,37 @@ class Toggle extends React.Component {
   }
 }
 
+class ControlledInput extends React.Component {
+  public state: {
+    name: string;
+  } = {
+    name: '',
+  };
+
+  render() {
+    return (
+      <div>
+        <button
+          onClick={() =>
+            this.setState({ name: `User ${Math.random() * 10000}` })
+          }
+        >
+          Random name
+        </button>
+        Name: {this.state.name}
+        <TextInput
+          name="name"
+          value={this.state.name}
+          placeholder="Enter name"
+          onChange={(value: any) =>
+            this.setState({ name: value }, () => console.log('change'))
+          }
+        />
+      </div>
+    );
+  }
+}
+
 const renderErrors = (errors: FormErrors, name: string) => {
   if (!errors || !errors[name] || !errors[name].length) {
     return null;
@@ -347,6 +378,22 @@ storiesOf('Form', module)
           </p>
           <button className={styles.submit} onClick={() => submit()}>
             Try me
+          </button>
+        </>
+      )}
+    </Form>
+  ))
+  .add('controlled input', () => (
+    <Form
+      className={styles.form}
+      onSubmit={action('onSubmit')}
+      onError={action('onError')}
+    >
+      {({ submit }) => (
+        <>
+          <ControlledInput />
+          <button className={styles.submit} onClick={() => submit()}>
+            Submit
           </button>
         </>
       )}

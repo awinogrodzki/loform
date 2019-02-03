@@ -62,15 +62,19 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       return;
     }
 
-    if (input.value === this.state.value) {
+    if (input.value === this.getValue()) {
       return;
     }
 
     this.updateInputDescriptor();
   }
 
+  getValue() {
+    return this.props.controlled ? this.props.value : this.state.value;
+  }
+
   updateInputDescriptor() {
-    const descriptor = this.getDescriptorFromProps(this.state.value);
+    const descriptor = this.getDescriptorFromProps(this.getValue());
     this.props.formService.updateInput(descriptor);
     this.props.formEventEmitter.update(descriptor);
   }
@@ -89,7 +93,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
   componentDidMount() {
     this.props.formService.registerInput(
-      this.getDescriptorFromProps(this.state.value),
+      this.getDescriptorFromProps(this.getValue()),
     );
   }
 
@@ -113,7 +117,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
   onBlur(e: React.FocusEvent<any>) {
     this.props.formEventEmitter.blur(
-      this.getDescriptorFromProps(this.state.value),
+      this.getDescriptorFromProps(this.getValue()),
     );
 
     if (this.props.onBlur) {
@@ -139,6 +143,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       onChange,
       children,
       onBlur,
+      controlled = false,
       ...rest
     } = this.props;
 
@@ -150,7 +155,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       className,
       onBlur: this.onBlur,
       id: this.id,
-      value: this.state.value,
+      value: this.getValue(),
       onChange: this.onInputChange,
     });
   }

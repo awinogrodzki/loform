@@ -101,4 +101,28 @@ describe('FormInput', () => {
     wrapper.setProps({ value: undefined });
     expect(wrapper.state('value')).toBe(undefined);
   });
+
+  it('should give the input a value from prop if it is controlled', () => {
+    let change: (value: string) => any;
+
+    const renderProps = jest.fn(({ onChange }) => {
+      change = onChange;
+      return <div />;
+    });
+
+    const wrapper = mount(
+      <FormInput
+        {...mockDescriptor}
+        controlled={true}
+        value="controlled value"
+        formService={formService}
+        formEventEmitter={formEventEmitter}
+      >
+        {renderProps}
+      </FormInput>,
+    );
+
+    change!('any value');
+    expect(wrapper.prop('value')).toBe('controlled value');
+  });
 });

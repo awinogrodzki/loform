@@ -432,6 +432,7 @@ All inputs extend functionality provided by FormInput component. Checkout [here]
 
 | Name             | Type       | Required | Description                                                                                                             |
 | :--------------- | :--------- | :------- | :---------------------------------------------------------------------------------------------------------------------- |
+| controlled       | `Boolean`  | `false`  | If true, the input value is controlled by the user                                                                      |
 | required         | `Boolean`  | `false`  | If true, displays error when user is trying to submit form with empty input                                             |
 | requiredMessage  | `String`   | `false`  | Replaces default required error message                                                                                 |
 | validators       | `Array`    | `false`  | Array of [InputValidator](#inputvalidator) that input should be validated against upon form submission                  |

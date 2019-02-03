@@ -23,6 +23,7 @@ export type GenericInputProps<T extends InputProps> = T & {
 };
 
 export interface FormInputProps extends GenericInputProps<any> {
+  controlled?: boolean;
   formService: FormService;
   formEventEmitter: FormEventEmitter;
   children: <T extends InputProps>(inputProps: T) => React.ReactElement<any>;
