@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/awinogrodzki/loform/compare/v4.1.0...v4.2.0) (2019-02-03)
+
+
+### Features
+
+* **FormInput:** added controlled prop in order to be able to control input value ([d4776a3](https://github.com/awinogrodzki/loform/commit/d4776a3))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/awinogrodzki/loform/compare/v4.0.2...v4.1.0) (2018-09-14)
 
