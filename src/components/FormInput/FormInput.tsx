@@ -129,7 +129,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
   }
 
   onClear() {
-    this.setState({ value: '' });
+    this.setState({ value: this.props.value });
   }
 
   render() {
