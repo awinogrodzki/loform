@@ -9,6 +9,7 @@ export enum FormEvent {
   Update = 'update',
   Submit = 'submit',
   Blur = 'blur',
+  Clear = 'clear',
 }
 
 class FormEventEmitter {
@@ -36,6 +37,10 @@ class FormEventEmitter {
 
   submit() {
     this.emitter.emit(FormEvent.Submit);
+  }
+
+  clear() {
+    this.emitter.emit(FormEvent.Clear);
   }
 }
 

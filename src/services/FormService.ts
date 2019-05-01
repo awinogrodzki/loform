@@ -32,6 +32,15 @@ class FormService {
     this.inputs.delete(id);
   }
 
+  clearInputs() {
+    this.inputs = new Map(
+      Array.from(this.inputs.entries()).map(([id, input]) => [
+        id,
+        { ...input, value: '' },
+      ] as [string, InputDescriptor]),
+    );
+  }
+
   getInputs() {
     return this.inputs;
   }

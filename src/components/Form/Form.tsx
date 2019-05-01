@@ -15,6 +15,7 @@ import { FormContext } from '../../context';
 import { onInputBlur } from './strategy';
 
 export interface FormProps {
+  clearOnSubmit?: boolean;
   className?: string;
   formService?: FormService;
   formEventEmitter?: FormEventEmitter;
@@ -40,7 +41,12 @@ class Form extends React.Component<FormProps, FormState> {
     isValidating: false,
   };
 
+  static defaultProps: Partial<FormProps> = {
+    clearOnSubmit: false,
+  };
+
   static propTypes = {
+    clearOnSubmit: PropTypes.bool,
     className: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     onError: PropTypes.func,
@@ -171,6 +177,11 @@ class Form extends React.Component<FormProps, FormState> {
         },
         () => this.props.onSubmit(values),
       );
+
+      if (this.props.clearOnSubmit) {
+        this.formService.clearInputs();
+        this.formEventEmitter.clear();
+      }
     } catch (e) {
       this.setState({ isValidating: false });
       throw e;

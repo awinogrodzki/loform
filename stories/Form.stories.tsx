@@ -77,6 +77,7 @@ class ControlledInput extends React.Component {
         <TextInput
           name="name"
           value={this.state.name}
+          controlled={true}
           placeholder="Enter name"
           onChange={(value: any) =>
             this.setState({ name: value }, () => console.log('change'))
@@ -109,10 +110,13 @@ const hasErrors = (errors: FormErrors, name: string) => {
 
 const RegistrationForm = ({
   validationStrategy,
+  clearOnSubmit = false,
 }: {
   validationStrategy: FormValidationStrategy;
+  clearOnSubmit?: boolean;
 }) => (
   <Form
+    clearOnSubmit={clearOnSubmit}
     className={styles.form}
     onSubmit={action('onSubmit')}
     onError={action('onError')}
@@ -196,6 +200,9 @@ storiesOf('Form', module)
   ))
   .add('registration with onInputChange form validation strategy', () => (
     <RegistrationForm validationStrategy={onInputChange} />
+  ))
+  .add('registration with clearOnSubmit prop set to true', () => (
+    <RegistrationForm validationStrategy={onInputBlur} clearOnSubmit={true} />
   ))
   .add(
     'with asynchronous (500ms) username validator',

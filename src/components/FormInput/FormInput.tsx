@@ -10,6 +10,7 @@ import {
   InputValue,
 } from '../../types';
 import { FormContext } from '../../context';
+import { FormEvent } from '../../services';
 
 export interface FormInputState {
   value?: InputValue;
@@ -39,6 +40,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       this.props.debounce,
     );
     this.onBlur = this.onBlur.bind(this);
+    this.onClear = this.onClear.bind(this);
   }
 
   static getDerivedStateFromProps(
@@ -95,6 +97,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     this.props.formService.registerInput(
       this.getDescriptorFromProps(this.getValue()),
     );
+    this.props.formEventEmitter.addListener(FormEvent.Clear, this.onClear);
   }
 
   componentWillUnmount() {
@@ -123,6 +126,10 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
+  }
+
+  onClear() {
+    this.setState({ value: '' });
   }
 
   render() {
@@ -172,7 +179,7 @@ export const FormInputDecorator = function<T extends InputProps>(
           formEventEmitter={formEventEmitter}
           {...props}
         >
-          {inputProps => <Component {...inputProps} />}
+          {(inputProps) => <Component {...inputProps as unknown as T} />}
         </FormInput>
       )}
     </FormContext.Consumer>
