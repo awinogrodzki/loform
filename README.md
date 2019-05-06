@@ -755,8 +755,10 @@ See example usage of [FormEventEmitter](#advanced-form)
 
 Documentation is in development and incomplete. For all FormEventEmitter methods reference use TypeScript declaration files.
 
+- clear()
 - submit()
-- update(input: InputDescriptor)
+- update(input: [InputDescriptor](#inputdescriptor))
+- blur(input: [InputDescriptor](#inputdescriptor))
 - addListener(event: FormEvent, callback: (...args: any[]) => any)
   - callback for FormEvent.Update event receives [InputDescriptor](#inputdescriptor) as a parameter
 - removeListener(event: FormEvent, callback: (...args: any[]) => any)
