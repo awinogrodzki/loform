@@ -29,7 +29,7 @@ const RegistrationForm = () => (
     onSubmit={action('onSubmit')}
     onError={action('onError')}
   >
-    {({ submit, errors }) => (
+    {({ submit, errors, clear }) => (
       <>
         {renderErrors(errors, 'email')}
         <TextInput
@@ -89,6 +89,9 @@ const RegistrationForm = () => (
         </p>
         <button className={styles.submit} onClick={() => submit()}>
           Login
+        </button>
+        <button className={styles.clear} onClick={() => clear()}>
+          Clear
         </button>
       </>
     )}

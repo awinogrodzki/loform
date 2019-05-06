@@ -75,10 +75,12 @@ class Form extends React.Component<FormProps, FormState> {
     this.onSubmitEvent = this.onSubmitEvent.bind(this);
     this.onUpdateEvent = this.onUpdateEvent.bind(this);
     this.onBlurEvent = this.onBlurEvent.bind(this);
+    this.onClearEvent = this.onClearEvent.bind(this);
 
     this.formEventEmitter.addListener(FormEvent.Update, this.onUpdateEvent);
     this.formEventEmitter.addListener(FormEvent.Submit, this.onSubmitEvent);
     this.formEventEmitter.addListener(FormEvent.Blur, this.onBlurEvent);
+    this.formEventEmitter.addListener(FormEvent.Clear, this.onClearEvent);
   }
 
   componentDidMount() {
@@ -96,6 +98,7 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   componentWillUnmount() {
+    this.formEventEmitter.removeListener(FormEvent.Clear, this.onClearEvent);
     this.formEventEmitter.removeListener(FormEvent.Update, this.onUpdateEvent);
     this.formEventEmitter.removeListener(FormEvent.Submit, this.onSubmitEvent);
     this.formEventEmitter.removeListener(FormEvent.Blur, this.onBlurEvent);
@@ -179,9 +182,9 @@ class Form extends React.Component<FormProps, FormState> {
       );
 
       if (this.props.clearOnSubmit) {
-        this.formService.clearInputs();
         this.formEventEmitter.clear();
       }
+
     } catch (e) {
       this.setState({ isValidating: false });
       throw e;
@@ -217,6 +220,10 @@ class Form extends React.Component<FormProps, FormState> {
     );
   }
 
+  async onClearEvent() {
+    this.formService.clearInputs();
+  }
+
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -224,6 +231,7 @@ class Form extends React.Component<FormProps, FormState> {
 
   getRenderProps(): RenderProps {
     return {
+      clear: this.formEventEmitter.clear.bind(this.formEventEmitter),
       submit: this.formEventEmitter.submit.bind(this.formEventEmitter),
       errors: this.state.formErrors,
       isValidating: this.state.isValidating,
