@@ -72,6 +72,7 @@ export interface InputDescriptor {
 }
 
 export interface RenderProps {
+  clear: () => void;
   submit: () => void;
   errors: FormErrors;
   isValidating: boolean;

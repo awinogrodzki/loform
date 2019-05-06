@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import Form from './Form';
-import { FormService } from '../../services';
+import { FormService, FormEventEmitter } from '../../services';
 import { FormValidationStrategy, InputDescriptor } from '../../types';
 
 jest.mock('../../services');
@@ -21,9 +21,12 @@ const inputFactory = (
 
 describe('Form', () => {
   let service: jest.Mocked<FormService>;
+  let emitter: jest.Mocked<FormEventEmitter>;
 
   beforeEach(() => {
     service = new FormService() as jest.Mocked<FormService>;
+    emitter = new FormEventEmitter() as jest.Mocked<FormEventEmitter>;
+
     service.getErrors.mockImplementation(() => new Map());
     service.mapToFormErrors.mockImplementation(() => ({}));
     service.getValuesFromInputs.mockImplementation(() => ({}));
@@ -383,5 +386,43 @@ describe('Form', () => {
     expect(render.mock.calls[2][0]).toEqual(
       expect.objectContaining({ isValidating: false }),
     );
+  });
+
+  it('should clear inputs on submit if clearOnSubmit prop is true', async () => {
+    const submit = jest.fn();
+    const render = jest.fn();
+    const wrapper = shallow<Form>(
+      <Form
+        formService={service}
+        clearOnSubmit={true}
+        formEventEmitter={emitter}
+        onSubmit={submit}
+      >
+        {render}
+      </Form>,
+    );
+
+    await wrapper.instance().onSubmitEvent();
+
+    expect(emitter.clear).toHaveBeenCalled();
+  });
+
+  it('should clear inputs on clear event', async () => {
+    const submit = jest.fn();
+    const render = jest.fn();
+    const wrapper = shallow<Form>(
+      <Form
+        formService={service}
+        clearOnSubmit={true}
+        formEventEmitter={emitter}
+        onSubmit={submit}
+      >
+        {render}
+      </Form>,
+    );
+
+    await wrapper.instance().onClearEvent();
+
+    expect(service.clearInputs).toHaveBeenCalled();
   });
 });

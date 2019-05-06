@@ -409,6 +409,8 @@ const formValues = formService.getValuesFromInputs();
 
     {/* You can submit form by calling form.submit() */}
     <button onClick={() => form.submit()}>Submit</button>
+    {/* Clear form by calling form.clear() */}
+    <button onClick={() => form.clear()}>Clear</button>
   )}
 </Form>
 ```
@@ -417,6 +419,7 @@ Our render function argument consists of following properties:
 
 | Name         | Description                                                                                                                      |
 | :----------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| clear        | A function that clears form inputs                                                                                               |
 | submit       | A function that submits our form                                                                                                 |
 | errors       | [FormErrors](#formerrors) object                                                                                                 |
 | isValidating | A boolean indicating that form is being validated. Useful with async validators. You can read about it [here](#async-validators) |
