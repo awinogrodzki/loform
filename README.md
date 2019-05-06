@@ -760,7 +760,7 @@ Documentation is in development and incomplete. For all FormEventEmitter methods
 - update(input: [InputDescriptor](#inputdescriptor))
 - blur(input: [InputDescriptor](#inputdescriptor))
 - addListener(event: FormEvent, callback: (...args: any[]) => any)
-  - callback for FormEvent.Update event receives [InputDescriptor](#inputdescriptor) as a parameter
+  - callback for FormEvent.Update and FormEvent.Blur event receives [InputDescriptor](#inputdescriptor) as a parameter
 - removeListener(event: FormEvent, callback: (...args: any[]) => any)
 
 Check [FormEvent](#formevent) type
