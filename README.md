@@ -713,9 +713,11 @@ InputDescriptor is a representation of an input used by FormService and FormEven
 
 #### FormEvent
 
-FormEvent is an enum that can contain two values: "submit" or "update".
+FormEvent is an enum that can contain following values: `"submit"`, `"update"`, `"blur"`, `"clear"`.
 
-If you are using TypeScript, you will need to use FormEvent.Submit or FormEvent.Update enum value.
+If you are using TypeScript, you will need to use `FormEvent.Submit`, `FormEvent.Update`, `FormEvent.Clear` or `FormEvent.Blur` enum value.
+
+Please note that `Form.Update` and `Form.Blur` event handlers receive [InputDescriptor](#inputdescriptor) as an argument.
 
 ```javascript
 import { FormEvent } from '@loform/react';
@@ -724,7 +726,9 @@ import { FormEvent } from '@loform/react';
 and later in code:
 
 ```javascript
-formEventEmitter.addListener(FormEvent.Submit, callback);
+const onUpdate = inputDescriptor => console.log(inputDescriptor);
+
+formEventEmitter.addListener(FormEvent.Update, onUpdate);
 ```
 
 ### Services
