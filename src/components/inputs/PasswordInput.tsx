@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputProps } from '../../types';
+import { InputProps, Overwrite } from '../../types';
 
 export const PasswordInput: React.SFC<
-  InputProps & React.InputHTMLAttributes<HTMLInputElement>
+  Overwrite<React.InputHTMLAttributes<HTMLInputElement>, InputProps<string>>
 > = ({
   id,
   disabled,

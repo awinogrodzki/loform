@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../components';
-import { InputProps as ParentInputProps } from '../../types';
+import { InputProps as ParentInputProps, Overwrite } from '../../types';
 
-export interface InputProps extends ParentInputProps {
+interface InputProps extends ParentInputProps<string> {
   type?: string;
 }
 
 export const Input: React.SFC<
-  InputProps & React.InputHTMLAttributes<HTMLInputElement>
+  Overwrite<React.InputHTMLAttributes<HTMLInputElement>, InputProps>
 > = ({
   id,
   className,

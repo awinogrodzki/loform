@@ -3,15 +3,15 @@ import FormEventEmitter from './services/FormEventEmitter';
 
 export type InputValue = any;
 
-export interface InputProps {
+export interface InputProps<V = InputValue> {
   id?: string;
   className?: string;
   name: string;
   placeholder?: string;
   disabled?: boolean;
-  value?: InputValue;
-  onChange?: (value?: InputValue) => any;
-  onBlur?: (e: React.FocusEvent<any>) => any;
+  value?: V;
+  onChange?: (value?: V) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export type GenericInputProps<T extends InputProps> = T & {
@@ -26,7 +26,9 @@ export type GenericInputProps<T extends InputProps> = T & {
 export interface FormInputProps extends GenericInputProps<any> {
   formService: FormService;
   formEventEmitter: FormEventEmitter;
-  children: <T extends InputProps>(inputProps: T) => React.ReactElement<any>;
+  children: <T extends InputProps>(inputProps: T) => React.ReactNode;
+  id?: string;
+  debounce?: number;
 }
 
 export type Diff<
@@ -49,9 +51,7 @@ export interface RadioInputProps extends InputProps {
   options?: Option[];
 }
 
-export interface CheckboxInputProps extends InputProps {
-  value?: boolean;
-}
+export type CheckboxInputProps = InputProps<boolean>;
 
 export interface InputValidator {
   errorMessage: string;
