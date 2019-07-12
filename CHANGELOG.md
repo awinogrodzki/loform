@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.4.1"></a>
+## [4.4.1](https://github.com/awinogrodzki/loform/compare/v4.4.0...v4.4.1) (2019-07-12)
+
+
+### Bug Fixes
+
+* **Input:** improve input value type ([9b0e441](https://github.com/awinogrodzki/loform/commit/9b0e441))
+
+
+
 <a name="4.4.0"></a>
 # [4.4.0](https://github.com/awinogrodzki/loform/compare/v4.3.1...v4.4.0) (2019-05-06)
 
