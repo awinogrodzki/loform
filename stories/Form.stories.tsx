@@ -79,7 +79,7 @@ class ControlledInput extends React.Component {
           value={this.state.name}
           controlled={true}
           placeholder="Enter name"
-          onChange={(value: any) =>
+          onChange={value =>
             this.setState({ name: value }, () => console.log('change'))
           }
         />

@@ -7,4 +7,5 @@ npm-debug.log
 yarn-error.log
 stats.json
 .out
+.history
 dist
