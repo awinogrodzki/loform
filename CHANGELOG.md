@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.5.0"></a>
+# [4.5.0](https://github.com/awinogrodzki/loform/compare/v4.4.1...v4.5.0) (2019-07-14)
+
+
+### Features
+
+* update react, react-dom to v16.5.0 and typescript to v3.5.3; fixed memory leak in FormInput onClear method ([b30eca8](https://github.com/awinogrodzki/loform/commit/b30eca8))
+
+
+
 <a name="4.4.1"></a>
 ## [4.4.1](https://github.com/awinogrodzki/loform/compare/v4.4.0...v4.4.1) (2019-07-12)
 
