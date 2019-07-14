@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.5.1"></a>
+## [4.5.1](https://github.com/awinogrodzki/loform/compare/v4.5.0...v4.5.1) (2019-07-14)
+
+
+### Bug Fixes
+
+* **FormInput:** asynchronous update with empty debounce fix ([9cc944e](https://github.com/awinogrodzki/loform/commit/9cc944e))
+
+
+
 <a name="4.5.0"></a>
 # [4.5.0](https://github.com/awinogrodzki/loform/compare/v4.4.1...v4.5.0) (2019-07-14)
 
