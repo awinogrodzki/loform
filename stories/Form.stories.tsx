@@ -409,3 +409,14 @@ storiesOf('Form', module)
       )}
     </Form>
   ));
+  // .add('debounced input', () => (
+  //   <Form
+  //     className={styles.form}
+  //     onSubmit={action('onSubmit')}
+  //     onError={action('onError')}
+  //   >
+  //     {({ submit }) => (
+  //       <TextInput name="name" debounce={500} onChange={action('onChange')} />
+  //     )}
+  //   </Form>
+  // ));

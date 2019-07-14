@@ -35,12 +35,15 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
     this.id = props.id || uuid();
     this.onInputChange = this.onInputChange.bind(this);
+    this.updateInputDescriptor = this.updateInputDescriptor.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onClear = this.onClear.bind(this);
+
     this.updateInputDescriptor = debounce(
       this.updateInputDescriptor,
       this.props.debounce,
+      true,
     );
-    this.onBlur = this.onBlur.bind(this);
-    this.onClear = this.onClear.bind(this);
   }
 
   static getDerivedStateFromProps(
@@ -77,6 +80,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
   updateInputDescriptor() {
     const descriptor = this.getDescriptorFromProps(this.getValue());
+
     this.props.formService.updateInput(descriptor);
     this.props.formEventEmitter.update(descriptor);
   }
