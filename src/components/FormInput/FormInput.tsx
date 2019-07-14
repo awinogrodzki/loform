@@ -102,6 +102,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 
   componentWillUnmount() {
     this.props.formService.unregisterInputById(this.id);
+    this.props.formEventEmitter.removeListener(FormEvent.Clear, this.onClear);
   }
 
   updateInputState(value?: InputValue) {
@@ -132,7 +133,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
     this.setState({ value: this.props.value });
   }
 
-  render() {
+  render(): React.ReactNode {
     const {
       id,
       formService,
@@ -171,7 +172,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
 export const FormInputDecorator = function<T extends InputProps>(
   Component: React.ComponentType<T>,
 ) {
-  const GenericInput: React.SFC<GenericInputProps<T>> = props => (
+  const GenericInput: React.FunctionComponent<GenericInputProps<T>> = props => (
     <FormContext.Consumer>
       {({ formService, formEventEmitter }) => (
         <FormInput

@@ -6,8 +6,8 @@ interface InputProps extends ParentInputProps<string> {
   type?: string;
 }
 
-export const Input: React.SFC<
-  Overwrite<React.InputHTMLAttributes<HTMLInputElement>, InputProps>
+export const Input: React.FunctionComponent<
+  Overwrite<JSX.IntrinsicElements['input'], InputProps>
 > = ({
   id,
   className,

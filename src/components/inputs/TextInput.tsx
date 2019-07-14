@@ -2,8 +2,8 @@ import * as React from 'react';
 import { FormInputDecorator } from '../../components';
 import { InputProps, Overwrite } from '../../types';
 
-export const TextInput: React.SFC<
-  Overwrite<React.InputHTMLAttributes<HTMLInputElement>, InputProps<string>>
+export const TextInput: React.FunctionComponent<
+  Overwrite<JSX.IntrinsicElements['input'], InputProps<string>>
 > = ({
   id,
   className,

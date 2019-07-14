@@ -2,8 +2,8 @@ import * as React from 'react';
 import { SelectInputProps } from '../../../types';
 import { FormInputDecorator } from '../../../components';
 
-export const SelectInput: React.SFC<
-  SelectInputProps & React.InputHTMLAttributes<HTMLSelectElement>
+export const SelectInput: React.FunctionComponent<
+  SelectInputProps & JSX.IntrinsicElements['select']
 > = ({
   id,
   className,

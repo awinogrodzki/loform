@@ -2,8 +2,8 @@ import * as React from 'react';
 import { CheckboxInputProps, Overwrite } from '../../types';
 import { FormInputDecorator } from '../FormInput';
 
-const CheckboxInput: React.SFC<
-  Overwrite<React.InputHTMLAttributes<HTMLInputElement>, CheckboxInputProps>
+const CheckboxInput: React.FunctionComponent<
+  Overwrite<JSX.IntrinsicElements['input'], CheckboxInputProps>
 > = ({
   id,
   name,

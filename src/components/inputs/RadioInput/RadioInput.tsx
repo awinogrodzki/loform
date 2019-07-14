@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormInputDecorator } from '../../../components';
-import { RadioInputProps } from '../../../types';
+import { RadioInputProps, Overwrite } from '../../../types';
 
-const RadioInput: React.SFC<
-  RadioInputProps & React.InputHTMLAttributes<HTMLInputElement>
+const RadioInput: React.FunctionComponent<
+  Overwrite<JSX.IntrinsicElements['input'], RadioInputProps>
 > = ({
   id,
   name,
