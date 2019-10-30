@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.1"></a>
+## [4.6.1](https://github.com/awinogrodzki/loform/compare/v4.6.0...v4.6.1) (2019-10-30)
+
+
+
 <a name="4.5.1"></a>
 ## [4.5.1](https://github.com/awinogrodzki/loform/compare/v4.5.0...v4.5.1) (2019-07-14)
 
