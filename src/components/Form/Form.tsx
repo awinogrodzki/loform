@@ -227,6 +227,8 @@ class Form extends React.Component<FormProps, FormState> {
   onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     e.stopPropagation();
+
+    this.submit();
   }
 
   getRenderProps(): RenderProps {
