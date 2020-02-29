@@ -1,3 +1,4 @@
+import * as React from 'react';
 import FormService from './services/FormService';
 import FormEventEmitter from './services/FormEventEmitter';
 
@@ -85,7 +86,7 @@ export interface FormValues {
 }
 
 export interface FormErrors {
-  [name: string]: string[];
+  [name: string]: string[] | string[][] | { [key: string]: string[] };
 }
 
 export type FormErrorsMap = Map<string, string[]>;
