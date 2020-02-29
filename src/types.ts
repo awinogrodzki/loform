@@ -86,7 +86,15 @@ export interface FormValues {
 }
 
 export interface FormErrors {
-  [name: string]: string[] | string[][] | { [key: string]: string[] };
+  [name: string]: string[];
+}
+
+export interface ArrayInputFormErrors {
+  [name: string]: string[][];
+}
+
+export interface ObjectInputFormErrors {
+  [name: string]: { [key: string]: string[] };
 }
 
 export type FormErrorsMap = Map<string, string[]>;
