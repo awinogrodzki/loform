@@ -67,7 +67,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
       return;
     }
 
-    if (input.value === this.getValue()) {
+    if (input.value === this.getValue() && input.validators === this.props.validators) {
       return;
     }
 
