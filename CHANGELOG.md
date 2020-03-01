@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.6"></a>
+## [4.6.6](https://github.com/awinogrodzki/loform/compare/v4.6.5...v4.6.6) (2020-03-01)
+
+
+### Bug Fixes
+
+* **FormInputDecorator:** update descriptor on validators change ([14bc68b](https://github.com/awinogrodzki/loform/commit/14bc68b))
+
+
+
 <a name="4.6.1"></a>
 ## [4.6.1](https://github.com/awinogrodzki/loform/compare/v4.6.0...v4.6.1) (2019-10-30)
 
