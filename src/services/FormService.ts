@@ -142,6 +142,10 @@ class FormService {
         const errors = entry[1];
         const input = this.getInput(id)!;
 
+        if (!input) {
+          return formErrors;
+        }
+
         return merge(formErrors, this.getValueByInputName(input.name, errors));
       },
       {},
