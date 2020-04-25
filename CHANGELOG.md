@@ -1,6 +1,8 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [4.6.8](https://github.com/awinogrodzki/loform/compare/v4.6.7...v4.6.8) (2020-04-25)
 
 <a name="4.6.7"></a>
 ## [4.6.7](https://github.com/awinogrodzki/loform/compare/v4.6.6...v4.6.7) (2020-04-25)
