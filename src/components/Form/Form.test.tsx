@@ -27,10 +27,10 @@ describe('Form', () => {
     service = new FormService() as jest.Mocked<FormService>;
     emitter = new FormEventEmitter() as jest.Mocked<FormEventEmitter>;
 
-    service.getErrors.mockImplementation(() => new Map());
+    service.getErrors.mockImplementation(() => Promise.resolve(new Map()));
     service.mapToFormErrors.mockImplementation(() => ({}));
     service.getValuesFromInputs.mockImplementation(() => ({}));
-    service.getErrorsFromInput.mockImplementation(() => []);
+    service.getErrorsFromInput.mockImplementation(() => Promise.resolve([]));
   });
 
   it('should submit form', async () => {
@@ -72,7 +72,7 @@ describe('Form', () => {
       },
     );
 
-    service.getErrors.mockImplementationOnce(() => errors);
+    service.getErrors.mockImplementationOnce(() => Promise.resolve(errors));
     service.mapToFormErrors.mockImplementationOnce(() => ({
       name: ['modified errors'],
     }));
@@ -133,12 +133,12 @@ describe('Form', () => {
     const input = inputFactory('input-id', 'name');
     const errors = new Map([['input-id', ['error2']]]);
     const prevErrors = new Map([['input-id', ['error']]]);
-    service.getErrors.mockImplementationOnce(() => prevErrors);
+    service.getErrors.mockImplementationOnce(() => Promise.resolve(prevErrors));
     service.mapToFormErrors.mockImplementationOnce(() => ({
       name: ['error'],
     }));
     await wrapper.instance().updateErrorsOnMount();
-    service.getErrors.mockImplementationOnce(() => errors);
+    service.getErrors.mockImplementationOnce(() => Promise.resolve(errors));
     service.mapToFormErrors.mockImplementationOnce(() => ({
       name: ['error2', 'error'],
     }));
@@ -202,13 +202,13 @@ describe('Form', () => {
       },
     );
 
-    service.getErrors.mockImplementationOnce(() => prevErrors);
+    service.getErrors.mockImplementationOnce(() => Promise.resolve(prevErrors));
     service.mapToFormErrors.mockImplementationOnce(() => ({
       name: ['error'],
     }));
     await wrapper.instance().updateErrorsOnMount();
 
-    service.getErrors.mockImplementationOnce(() => errors);
+    service.getErrors.mockImplementationOnce(() => Promise.resolve(errors));
     service.mapToFormErrors.mockImplementationOnce(() => ({
       name: ['error2', 'error'],
     }));
@@ -287,7 +287,7 @@ describe('Form', () => {
     );
 
     service.getErrors.mockImplementationOnce(
-      () => new Map([['input-id', ['error']]]),
+      () => Promise.resolve(new Map([['input-id', ['error']]])),
     );
     service.mapToFormErrors.mockImplementationOnce(() => ({
       name1: ['error1'],

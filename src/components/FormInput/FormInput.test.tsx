@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { FormInput } from './FormInput';
 import { FormService, FormEventEmitter } from '../../services';
 
-jest.mock('debounce', () => fn => fn);
+jest.mock('debounce', () => (fn: any) => fn);
 jest.mock('../../services');
 
 const mockValidators = [

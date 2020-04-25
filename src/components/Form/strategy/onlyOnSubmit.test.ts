@@ -23,7 +23,7 @@ describe('onlyOnSubmit FormValidationStrategy', () => {
     };
 
     expect(
-      onlyOnSubmit.getErrorsOnInputUpdate(input, errors, prevErrors),
+      onlyOnSubmit.getErrorsOnInputUpdate!(input, errors, prevErrors),
     ).toEqual(expected);
   });
 });

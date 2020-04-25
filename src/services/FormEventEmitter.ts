@@ -1,5 +1,5 @@
-import * as EventEmitter from 'events';
 import { InputDescriptor } from '../types';
+import { EventEmitter } from 'events';
 
 export interface FormEventEmitterOptions {
   maxListeners?: number;

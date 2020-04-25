@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./",
+    "declarationDir": "./dist",
     "noImplicitAny": true,
     "strict": true,
     "outDir": "./dist",

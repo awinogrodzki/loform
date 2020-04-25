@@ -23,7 +23,7 @@ describe('onInputChange FormValidationStrategy', () => {
     };
 
     expect(
-      onInputChange.getErrorsOnInputUpdate(input, errors, prevErrors),
+      onInputChange.getErrorsOnInputUpdate!(input, errors, prevErrors),
     ).toEqual(expected);
   });
 });

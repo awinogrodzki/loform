@@ -22,7 +22,7 @@ describe('onInputBlur FormValidationStrategy', () => {
       required: false,
     };
 
-    expect(onInputBlur.getErrorsOnInputBlur(input, errors, prevErrors)).toEqual(
+    expect(onInputBlur.getErrorsOnInputBlur!(input, errors, prevErrors)).toEqual(
       expected,
     );
   });

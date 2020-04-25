@@ -89,7 +89,7 @@ export interface FormErrors {
   [name: string]: FormErrorsValue;
 }
 
-export type FormErrorsValue = Errors & ErrorsArray & ErrorObject;
+export type FormErrorsValue = Errors | ErrorsArray | ErrorObject;
 export type Errors = string[];
 export type ErrorsArray = Errors[];
 export type ErrorObject = { [key: string]: Errors };

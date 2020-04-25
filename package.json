@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "stats": "NODE_ENV=production webpack --bail --config webpack.config.js --json > stats.json",
+    "build-ts": "rm -rf ./dist && NODE_ENV=production tsc",
     "build": "rm -rf ./dist && NODE_ENV=production webpack --bail --config webpack.config.js --progress -p",
     "build:dev": "rm -rf ./dist && webpack --bail --config webpack.config.js --watch",
     "lint": "tslint --project tsconfig.json --exclude 'src/translations/*' 'src/**/*.ts?(x)'",
@@ -25,8 +26,8 @@
     "release": "standard-version",
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook -o .out",
-    "prerelease": "npm run build && npm run test:functional",
-    "prepublishOnly": "npm run build && npm run test:functional",
+    "prerelease": "npm run build-ts && npm run test:functional",
+    "prepublishOnly": "npm run build-ts && npm run test:functional",
     "deploy-storybook": "npm run build:storybook && storybook-to-ghpages --existing-output-dir=.out"
   },
   "author": "Amadeusz Winogrodzki <amadeusz.winogrodzki@gmail.com>",
@@ -37,53 +38,52 @@
   "license": "MIT",
   "dependencies": {
     "debounce": "^1.2.0",
-    "prop-types": "^15.6.1",
-    "uuid": "^3.2.1"
+    "prop-types": "^15.7.2",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.8",
-    "@storybook/react": "^3.4.8",
-    "@storybook/storybook-deployer": "^2.3.0",
-    "@types/classnames": "^2.2.2",
-    "@types/debounce": "^1.0.0",
-    "@types/enzyme": "^3.10.2",
-    "@types/jest": "^21.1.1",
-    "@types/node": "^9.4.7",
-    "@types/prop-types": "^15.5.2",
-    "@types/react": "^16.8.23",
-    "@types/react-dom": "^16.8.4",
-    "@types/storybook__addon-actions": "^3.0.1",
-    "@types/storybook__react": "^3.0.3",
-    "@types/uuid": "^3.4.3",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/react": "^5.3.18",
+    "@storybook/storybook-deployer": "^2.8.5",
+    "@types/classnames": "^2.2.10",
+    "@types/debounce": "^1.2.0",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.2",
+    "@types/react": "^16.9.34",
+    "@types/storybook__addon-actions": "^5.2.1",
+    "@types/storybook__react": "^5.2.1",
+    "@types/uuid": "^7.0.3",
     "classnames": "^2.2.6",
-    "css-loader": "^0.28.4",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "jest": "^22.4.0",
-    "jest-cli": "^22.4.0",
+    "css-loader": "^3.5.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^25.4.0",
+    "jest-cli": "^25.4.0",
     "postcss-cssnext": "^3.1.0",
-    "postcss-import": "^11.0.0",
-    "postcss-loader": "^2.0.6",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
     "pre-commit": "^1.2.2",
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0",
-    "react-test-renderer": "^16.0.0",
-    "source-map-loader": "^0.2.1",
-    "standard-version": "^4.2.0",
-    "storybook-readme": "^3.3.0",
-    "style-loader": "^0.19.0",
-    "ts-jest": "^23.1.2",
-    "ts-loader": "3.5.0",
-    "tslint": "^5.10.0",
-    "tslint-config-airbnb": "^5.9.2",
-    "tslint-react": "^3.6.0",
-    "typescript": "^3.5.3",
-    "webpack": "^3.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
+    "source-map-loader": "^0.2.4",
+    "standard-version": "^7.1.0",
+    "storybook-readme": "^5.0.8",
+    "style-loader": "^1.2.0",
+    "ts-jest": "^25.4.0",
+    "ts-loader": "7.0.1",
+    "tslint": "^6.1.1",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-react": "^5.0.0",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
     "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "engines": {
     "node": ">=8.1.0",
@@ -92,7 +92,7 @@
   "jest": {
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "tsconfig.test.json"
+        "tsConfig": "tsconfig.test.json"
       }
     },
     "modulePaths": [
@@ -106,15 +106,12 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],
-    "transform": {
-      "^.+\\.(j|t)sx?$": "ts-jest"
-    },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
     "moduleFileExtensions": [
-      "ts",
-      "tsx",
       "js",
-      "json"
+      "json",
+      "ts",
+      "tsx"
     ],
     "setupFiles": [
       "<rootDir>/test/setup.ts"
@@ -122,7 +119,9 @@
     "transformIgnorePatterns": [
       "<rootDir>/node_modules"
     ],
-    "testURL": "http://localhost"
+    "testURL": "http://localhost",
+    "preset": "ts-jest/presets/js-with-ts",
+    "testMatch": null
   },
   "pre-commit": [
     "lint",
