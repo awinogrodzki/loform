@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.6.7"></a>
+## [4.6.7](https://github.com/awinogrodzki/loform/compare/v4.6.6...v4.6.7) (2020-04-25)
+
+
+### Bug Fixes
+
+* return empty form errors if input has been unregistered ([c3d0fbc](https://github.com/awinogrodzki/loform/commit/c3d0fbc))
+
+
+
 <a name="4.6.6"></a>
 ## [4.6.6](https://github.com/awinogrodzki/loform/compare/v4.6.5...v4.6.6) (2020-03-01)
 
