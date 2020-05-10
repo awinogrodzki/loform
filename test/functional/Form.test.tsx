@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Form, TextInput, emailValidator, Input } from '../../dist';
 import { mount } from 'enzyme';
 
-const event = value => ({ target: { value } });
+const event = (value: any) => ({ target: { value } });
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
 describe('Form', () => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import * as uuid from 'uuid/v4';
+import { v4 } from 'uuid';
 import debounce = require('debounce');
 import {
   InputDescriptor,
@@ -33,7 +33,7 @@ export class FormInput extends React.PureComponent<FormInputProps> {
   constructor(props: FormInputProps) {
     super(props);
 
-    this.id = props.id || uuid();
+    this.id = props.id || v4();
     this.onInputChange = this.onInputChange.bind(this);
     this.updateInputDescriptor = this.updateInputDescriptor.bind(this);
     this.onBlur = this.onBlur.bind(this);
